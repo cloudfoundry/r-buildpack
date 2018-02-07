@@ -5,9 +5,57 @@
 package supply_test
 
 import (
+	libbuildpack "github.com/cloudfoundry/libbuildpack"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
 )
+
+// MockManifest is a mock of Manifest interface
+type MockManifest struct {
+	ctrl     *gomock.Controller
+	recorder *MockManifestMockRecorder
+}
+
+// MockManifestMockRecorder is the mock recorder for MockManifest
+type MockManifestMockRecorder struct {
+	mock *MockManifest
+}
+
+// NewMockManifest creates a new mock instance
+func NewMockManifest(ctrl *gomock.Controller) *MockManifest {
+	mock := &MockManifest{ctrl: ctrl}
+	mock.recorder = &MockManifestMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use
+func (m *MockManifest) EXPECT() *MockManifestMockRecorder {
+	return m.recorder
+}
+
+// AllDependencyVersions mocks base method
+func (m *MockManifest) AllDependencyVersions(arg0 string) []string {
+	ret := m.ctrl.Call(m, "AllDependencyVersions", arg0)
+	ret0, _ := ret[0].([]string)
+	return ret0
+}
+
+// AllDependencyVersions indicates an expected call of AllDependencyVersions
+func (mr *MockManifestMockRecorder) AllDependencyVersions(arg0 interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllDependencyVersions", reflect.TypeOf((*MockManifest)(nil).AllDependencyVersions), arg0)
+}
+
+// InstallDependency mocks base method
+func (m *MockManifest) InstallDependency(arg0 libbuildpack.Dependency, arg1 string) error {
+	ret := m.ctrl.Call(m, "InstallDependency", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// InstallDependency indicates an expected call of InstallDependency
+func (mr *MockManifestMockRecorder) InstallDependency(arg0, arg1 interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstallDependency", reflect.TypeOf((*MockManifest)(nil).InstallDependency), arg0, arg1)
+}
 
 // MockStager is a mock of Stager interface
 type MockStager struct {
@@ -42,4 +90,28 @@ func (m *MockStager) DepDir() string {
 // DepDir indicates an expected call of DepDir
 func (mr *MockStagerMockRecorder) DepDir() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DepDir", reflect.TypeOf((*MockStager)(nil).DepDir))
+}
+
+// DepsIdx mocks base method
+func (m *MockStager) DepsIdx() string {
+	ret := m.ctrl.Call(m, "DepsIdx")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// DepsIdx indicates an expected call of DepsIdx
+func (mr *MockStagerMockRecorder) DepsIdx() *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DepsIdx", reflect.TypeOf((*MockStager)(nil).DepsIdx))
+}
+
+// LinkDirectoryInDepDir mocks base method
+func (m *MockStager) LinkDirectoryInDepDir(arg0, arg1 string) error {
+	ret := m.ctrl.Call(m, "LinkDirectoryInDepDir", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// LinkDirectoryInDepDir indicates an expected call of LinkDirectoryInDepDir
+func (mr *MockStagerMockRecorder) LinkDirectoryInDepDir(arg0, arg1 interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LinkDirectoryInDepDir", reflect.TypeOf((*MockStager)(nil).LinkDirectoryInDepDir), arg0, arg1)
 }

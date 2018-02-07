@@ -28,6 +28,9 @@ var _ = Describe("CF R Buildpack", func() {
 		It("Logs R buildpack version", func() {
 			Expect(app.Push()).ToNot(Succeed())
 			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
+
+			Eventually(app.Stdout.String).Should(ContainSubstring("R program running"))
+			Eventually(app.Stdout.String).Should(ContainSubstring("[1] 16"))
 		})
 	})
 })
