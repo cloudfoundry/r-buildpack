@@ -28,6 +28,11 @@ func main() {
 		os.Exit(11)
 	}
 
+	if err = manifest.ApplyOverride(stager.DepsDir()); err != nil {
+		logger.Error("Unable to apply override.yml files: %s", err)
+		os.Exit(17)
+	}
+
 	if err = stager.SetStagingEnvironment(); err != nil {
 		logger.Error("Unable to setup environment variables: %s", err.Error())
 		os.Exit(13)
