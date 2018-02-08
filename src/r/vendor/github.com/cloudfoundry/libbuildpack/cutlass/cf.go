@@ -39,29 +39,31 @@ type cfInstance struct {
 }
 
 type App struct {
-	Name       string
-	Path       string
-	Stack      string
-	Buildpacks []string
-	Memory     string
-	Disk       string
-	Stdout     *bytes.Buffer
-	appGUID    string
-	env        map[string]string
-	logCmd     *exec.Cmd
+	Name         string
+	Path         string
+	Stack        string
+	Buildpacks   []string
+	Memory       string
+	Disk         string
+	StartCommand string
+	Stdout       *bytes.Buffer
+	appGUID      string
+	env          map[string]string
+	logCmd       *exec.Cmd
 }
 
 func New(fixture string) *App {
 	return &App{
-		Name:       filepath.Base(fixture) + "-" + RandStringRunes(20),
-		Path:       fixture,
-		Stack:      "",
-		Buildpacks: []string{},
-		Memory:     DefaultMemory,
-		Disk:       DefaultDisk,
-		appGUID:    "",
-		env:        map[string]string{},
-		logCmd:     nil,
+		Name:         filepath.Base(fixture) + "-" + RandStringRunes(20),
+		Path:         fixture,
+		Stack:        "",
+		Buildpacks:   []string{},
+		Memory:       DefaultMemory,
+		Disk:         DefaultDisk,
+		StartCommand: "",
+		appGUID:      "",
+		env:          map[string]string{},
+		logCmd:       nil,
 	}
 }
 
@@ -79,6 +81,30 @@ func ApiVersion() (string, error) {
 		return "", err
 	}
 	return info.ApiVersion, nil
+}
+
+func Stacks() ([]string, error) {
+	cmd := exec.Command("cf", "curl", "/v2/stacks")
+	cmd.Stderr = DefaultStdoutStderr
+	bytes, err := cmd.Output()
+	if err != nil {
+		return nil, err
+	}
+	var info struct {
+		Resources []struct {
+			Entity struct {
+				Name string `json:"name"`
+			} `json:"entity"`
+		} `json:"resources"`
+	}
+	if err := json.Unmarshal(bytes, &info); err != nil {
+		return nil, err
+	}
+	var out []string
+	for _, r := range info.Resources {
+		out = append(out, r.Entity.Name)
+	}
+	return out, nil
 }
 
 func DeleteOrphanedRoutes() error {
@@ -222,7 +248,7 @@ func (a *App) InstanceStates() ([]string, error) {
 	return states, nil
 }
 
-func (a *App) Push() error {
+func (a *App) PushNoStart() error {
 	args := []string{"push", a.Name, "--no-start", "-p", a.Path}
 	if a.Stack != "" {
 		args = append(args, "-s", a.Stack)
@@ -238,6 +264,12 @@ func (a *App) Push() error {
 	}
 	if a.Disk != "" {
 		args = append(args, "-k", a.Disk)
+	}
+	if a.StartCommand != "" {
+		args = append(args, "-c", a.StartCommand)
+	}
+	if a.StartCommand != "" {
+		args = append(args, "-c", a.StartCommand)
 	}
 	command := exec.Command("cf", args...)
 	command.Stdout = DefaultStdoutStderr
@@ -265,6 +297,15 @@ func (a *App) Push() error {
 		}
 	}
 
+	return nil
+}
+
+func (a *App) Push() error {
+	if err := a.PushNoStart(); err != nil {
+		return err
+	}
+
+	var args []string
 	if len(a.Buildpacks) > 1 {
 		args = []string{"v3-push", a.Name, "-p", a.Path}
 		for _, buildpack := range a.Buildpacks {
@@ -273,7 +314,7 @@ func (a *App) Push() error {
 	} else {
 		args = []string{"start", a.Name}
 	}
-	command = exec.Command("cf", args...)
+	command := exec.Command("cf", args...)
 	command.Stdout = DefaultStdoutStderr
 	command.Stderr = DefaultStdoutStderr
 	if err := command.Run(); err != nil {
@@ -293,9 +334,13 @@ func (a *App) GetUrl(path string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	schema, found := os.LookupEnv("CUTLASS_SCHEMA")
+	if !found {
+		schema = "http"
+	}
 	host := gjson.Get(string(data), "routes.0.host").String()
 	domain := gjson.Get(string(data), "routes.0.domain.name").String()
-	return fmt.Sprintf("http://%s.%s%s", host, domain, path), nil
+	return fmt.Sprintf("%s://%s.%s%s", schema, host, domain, path), nil
 }
 
 func (a *App) Get(path string, headers map[string]string) (string, map[string][]string, error) {

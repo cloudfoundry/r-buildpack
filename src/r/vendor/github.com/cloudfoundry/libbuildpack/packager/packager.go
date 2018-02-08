@@ -15,10 +15,57 @@ import (
 	"os/exec"
 	"path/filepath"
 
+	"github.com/cloudfoundry/libbuildpack"
 	yaml "gopkg.in/yaml.v2"
 )
 
 var CacheDir = filepath.Join(os.Getenv("HOME"), ".buildpack-packager", "cache")
+
+func CompileExtensionPackage(bpDir, version string, cached bool) (string, error) {
+	bpDir, err := filepath.Abs(bpDir)
+	if err != nil {
+		return "", err
+	}
+	dir, err := copyDirectory(bpDir)
+	if err != nil {
+		return "", err
+	}
+
+	err = ioutil.WriteFile(filepath.Join(dir, "VERSION"), []byte(version), 0644)
+	if err != nil {
+		return "", err
+	}
+
+	isCached := "--uncached"
+	if cached {
+		isCached = "--cached"
+	}
+	cmd := exec.Command("bundle", "exec", "buildpack-packager", isCached)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Env = append(os.Environ(), "BUNDLE_GEMFILE=cf.Gemfile")
+	cmd.Dir = dir
+	if err := cmd.Run(); err != nil {
+		return "", err
+	}
+
+	var manifest struct {
+		Language string `yaml:"language"`
+	}
+	if err := libbuildpack.NewYAML().Load(filepath.Join(bpDir, "manifest.yml"), &manifest); err != nil {
+		return "", err
+	}
+
+	zipFile := fmt.Sprintf("%s_buildpack-v%s.zip", manifest.Language, version)
+	if cached {
+		zipFile = fmt.Sprintf("%s_buildpack-cached-v%s.zip", manifest.Language, version)
+	}
+	if err := libbuildpack.CopyFile(filepath.Join(dir, zipFile), filepath.Join(bpDir, zipFile)); err != nil {
+		return "", err
+	}
+
+	return filepath.Join(dir, zipFile), nil
+}
 
 func Package(bpDir, cacheDir, version string, cached bool) (string, error) {
 	bpDir, err := filepath.Abs(bpDir)
@@ -60,23 +107,33 @@ func Package(bpDir, cacheDir, version string, cached bool) (string, error) {
 	}
 
 	if cached {
+		var m map[string]interface{}
+		if err := libbuildpack.NewYAML().Load(filepath.Join(dir, "manifest.yml"), &m); err != nil {
+			return "", err
+		}
 		if err := os.MkdirAll(cacheDir, 0755); err != nil {
 			log.Fatalf("error: %v", err)
 		}
-		for _, d := range manifest.Dependencies {
-			dest := filepath.Join("dependencies", fmt.Sprintf("%x", md5.Sum([]byte(d.URI))), filepath.Base(d.URI))
+		for idx, d := range manifest.Dependencies {
+			file := filepath.Join("dependencies", fmt.Sprintf("%x", md5.Sum([]byte(d.URI))), filepath.Base(d.URI))
+			if err := setFileOnDep(m, idx, file); err != nil {
+				return "", err
+			}
 
-			if _, err := os.Stat(filepath.Join(cacheDir, dest)); err != nil {
-				if err := downloadFromURI(d.URI, filepath.Join(cacheDir, dest)); err != nil {
+			if _, err := os.Stat(filepath.Join(cacheDir, file)); err != nil {
+				if err := downloadFromURI(d.URI, filepath.Join(cacheDir, file)); err != nil {
 					return "", err
 				}
 			}
 
-			if err := checkSha256(filepath.Join(cacheDir, dest), d.SHA256); err != nil {
+			if err := checkSha256(filepath.Join(cacheDir, file), d.SHA256); err != nil {
 				return "", err
 			}
 
-			files = append(files, File{dest, filepath.Join(cacheDir, dest)})
+			files = append(files, File{file, filepath.Join(cacheDir, file)})
+		}
+		if err := libbuildpack.NewYAML().Write(filepath.Join(dir, "manifest.yml"), m); err != nil {
+			return "", err
 		}
 	}
 
@@ -89,6 +146,19 @@ func Package(bpDir, cacheDir, version string, cached bool) (string, error) {
 	ZipFiles(zipFile, files)
 
 	return zipFile, err
+}
+
+func setFileOnDep(m map[string]interface{}, idx int, file string) error {
+	if deps, ok := m["dependencies"].([]interface{}); ok {
+		if dep, ok := deps[idx].(map[interface{}]interface{}); ok {
+			dep["file"] = file
+		} else {
+			return fmt.Errorf("Could not cast deps[idx] to map[interface{}]interface{}")
+		}
+	} else {
+		return fmt.Errorf("Could not cast dependencies to []interface{}")
+	}
+	return nil
 }
 
 func downloadFromURI(uri, fileName string) error {
@@ -207,8 +277,11 @@ func copyDirectory(srcDir string) (string, error) {
 			return err
 		}
 		path, err = filepath.Rel(srcDir, path)
+		if err != nil {
+			return err
+		}
 
-		if filepath.Base(path) == ".git" {
+		if path == ".git" || path == "tests" {
 			return filepath.SkipDir
 		}
 
