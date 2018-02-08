@@ -15,8 +15,6 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-//go:generate mockgen -source=finalize.go --destination=mocks_test.go --package=finalize_test
-
 var _ = Describe("Compile", func() {
 	var (
 		err       error

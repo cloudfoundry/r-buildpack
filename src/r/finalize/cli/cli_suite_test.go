@@ -9,5 +9,5 @@ import (
 
 func TestCli(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Supply Cli Suite")
+	RunSpecs(t, "Finalize Cli Suite")
 }
