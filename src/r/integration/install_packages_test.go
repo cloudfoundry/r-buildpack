@@ -18,10 +18,13 @@ var _ = Describe("CF R Buildpack", func() {
 		app = nil
 	})
 
-	Context("with a simple R app", func() {
+	Context("with the stringr package", func() {
 
 		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple"))
+			app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple_packages"))
+			app.Disk = "1028M"
+			app.Memory = "1028M"
+
 		})
 
 		It("Logs R buildpack version", func() {
@@ -29,7 +32,7 @@ var _ = Describe("CF R Buildpack", func() {
 			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 
 			Eventually(app.Stdout.String).Should(ContainSubstring("R program running"))
-			Eventually(app.Stdout.String).Should(ContainSubstring("[1] 16"))
+			Eventually(app.Stdout.String).Should(ContainSubstring("HELLO WORLD"))
 		})
 	})
 })

@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"path/filepath"
 	"r/supply"
 	"time"
 
@@ -33,12 +34,19 @@ func main() {
 		os.Exit(17)
 	}
 
+	if err := os.MkdirAll(filepath.Join(stager.DepDir(), "bin"), 0755); err != nil {
+		logger.Error("Unable to create bin directory: %s", err.Error())
+		os.Exit(13)
+	}
+
 	if err = stager.SetStagingEnvironment(); err != nil {
 		logger.Error("Unable to setup environment variables: %s", err.Error())
 		os.Exit(13)
 	}
 
-	supplier := supply.New(stager, manifest, logger)
+	command := &libbuildpack.Command{}
+
+	supplier := supply.New(stager, command, manifest, logger)
 
 	if err := supplier.Run(); err != nil {
 		os.Exit(14)

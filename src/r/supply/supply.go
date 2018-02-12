@@ -2,8 +2,12 @@ package supply
 
 import (
 	"bytes"
+	"fmt"
+	"io"
 	"io/ioutil"
+	"os"
 	"path/filepath"
+	"regexp"
 
 	"github.com/cloudfoundry/libbuildpack"
 )
@@ -14,20 +18,41 @@ type Manifest interface {
 }
 
 type Stager interface {
+	BuildDir() string
 	DepDir() string
+	DepsDir() string
 	DepsIdx() string
 	LinkDirectoryInDepDir(string, string) error
+}
+
+type Command interface {
+	Execute(string, io.Writer, io.Writer, string, ...string) error
 }
 
 type Supplier struct {
 	Stager   Stager
 	Manifest Manifest
+	Command  Command
 	Log      *libbuildpack.Logger
 }
 
-func New(stager Stager, manifest Manifest, logger *libbuildpack.Logger) *Supplier {
+type Packages struct {
+	Packages []Source `yaml:"packages"`
+}
+
+type Source struct {
+	CranMirror string    `yaml:"cran_mirror"`
+	Packages   []Package `yaml:"packages"`
+}
+
+type Package struct {
+	Name string `yaml:"name"`
+}
+
+func New(stager Stager, command Command, manifest Manifest, logger *libbuildpack.Logger) *Supplier {
 	return &Supplier{
 		Stager:   stager,
+		Command:  command,
 		Manifest: manifest,
 		Log:      logger,
 	}
@@ -46,9 +71,44 @@ func (s *Supplier) Run() error {
 		return err
 	}
 
+	yaml := libbuildpack.NewYAML()
+	path_to_ryml := filepath.Join(s.Stager.BuildDir(), "r.yml")
+	packages_to_install := Packages{}
+	if err := yaml.Load(path_to_ryml, &packages_to_install); err != nil {
+		return fmt.Errorf("Couldn't load r.yml: %s", err)
+	}
+
+	if err := s.InstallPackages(packages_to_install); err != nil {
+		s.Log.Error("Error installing packages: %v", err)
+		return err
+	}
+
 	return nil
 }
 
+func (s *Supplier) InstallPackages(packages_to_install Packages) error {
+	// Set DEPS_DIR because R needs it to know its R_HOME
+	err := os.Setenv("DEPS_DIR", s.Stager.DepsDir())
+	if err != nil {
+		return fmt.Errorf("Error setting DEPS_DIR to %s: %s", s.Stager.DepsDir(), err)
+	}
+
+	isAlphaOrDot := regexp.MustCompile(`^[A-Za-z0-9.]+$`).MatchString
+	for _, src := range packages_to_install.Packages {
+		for _, pckg := range src.Packages {
+			if !isAlphaOrDot(pckg.Name) {
+				return fmt.Errorf("Invalid package name (%s). Only letters, numbers, and periods are allowed.")
+			}
+			err = s.Command.Execute(s.Stager.BuildDir(), s.Log.Output(), s.Log.Output(), "R", "--vanilla", "-e", fmt.Sprintf("install.packages(\"%s\",repos=\"%s\",dependencies=TRUE)", pckg.Name, src.CranMirror))
+			if err != nil {
+				return fmt.Errorf("Error while installing %s from %s: %s", pckg.Name, src.CranMirror, err)
+			}
+		}
+	}
+	return nil
+}
+
+// R> .libPaths()
 func (s *Supplier) RewriteRHome() error {
 	path := filepath.Join(s.Stager.DepDir(), "r", "bin", "R")
 	body, err := ioutil.ReadFile(path)

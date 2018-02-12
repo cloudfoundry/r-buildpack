@@ -7,6 +7,7 @@ package supply_test
 import (
 	libbuildpack "github.com/cloudfoundry/libbuildpack"
 	gomock "github.com/golang/mock/gomock"
+	io "io"
 	reflect "reflect"
 )
 
@@ -80,6 +81,18 @@ func (m *MockStager) EXPECT() *MockStagerMockRecorder {
 	return m.recorder
 }
 
+// BuildDir mocks base method
+func (m *MockStager) BuildDir() string {
+	ret := m.ctrl.Call(m, "BuildDir")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// BuildDir indicates an expected call of BuildDir
+func (mr *MockStagerMockRecorder) BuildDir() *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BuildDir", reflect.TypeOf((*MockStager)(nil).BuildDir))
+}
+
 // DepDir mocks base method
 func (m *MockStager) DepDir() string {
 	ret := m.ctrl.Call(m, "DepDir")
@@ -90,6 +103,18 @@ func (m *MockStager) DepDir() string {
 // DepDir indicates an expected call of DepDir
 func (mr *MockStagerMockRecorder) DepDir() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DepDir", reflect.TypeOf((*MockStager)(nil).DepDir))
+}
+
+// DepsDir mocks base method
+func (m *MockStager) DepsDir() string {
+	ret := m.ctrl.Call(m, "DepsDir")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// DepsDir indicates an expected call of DepsDir
+func (mr *MockStagerMockRecorder) DepsDir() *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DepsDir", reflect.TypeOf((*MockStager)(nil).DepsDir))
 }
 
 // DepsIdx mocks base method
@@ -114,4 +139,44 @@ func (m *MockStager) LinkDirectoryInDepDir(arg0, arg1 string) error {
 // LinkDirectoryInDepDir indicates an expected call of LinkDirectoryInDepDir
 func (mr *MockStagerMockRecorder) LinkDirectoryInDepDir(arg0, arg1 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LinkDirectoryInDepDir", reflect.TypeOf((*MockStager)(nil).LinkDirectoryInDepDir), arg0, arg1)
+}
+
+// MockCommand is a mock of Command interface
+type MockCommand struct {
+	ctrl     *gomock.Controller
+	recorder *MockCommandMockRecorder
+}
+
+// MockCommandMockRecorder is the mock recorder for MockCommand
+type MockCommandMockRecorder struct {
+	mock *MockCommand
+}
+
+// NewMockCommand creates a new mock instance
+func NewMockCommand(ctrl *gomock.Controller) *MockCommand {
+	mock := &MockCommand{ctrl: ctrl}
+	mock.recorder = &MockCommandMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use
+func (m *MockCommand) EXPECT() *MockCommandMockRecorder {
+	return m.recorder
+}
+
+// Execute mocks base method
+func (m *MockCommand) Execute(arg0 string, arg1, arg2 io.Writer, arg3 string, arg4 ...string) error {
+	varargs := []interface{}{arg0, arg1, arg2, arg3}
+	for _, a := range arg4 {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "Execute", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Execute indicates an expected call of Execute
+func (mr *MockCommandMockRecorder) Execute(arg0, arg1, arg2, arg3 interface{}, arg4 ...interface{}) *gomock.Call {
+	varargs := append([]interface{}{arg0, arg1, arg2, arg3}, arg4...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Execute", reflect.TypeOf((*MockCommand)(nil).Execute), varargs...)
 }

@@ -25,6 +25,7 @@ var _ = Describe("Supply", func() {
 		mockCtrl     *gomock.Controller
 		mockStager   *MockStager
 		mockManifest *MockManifest
+		mockCommand  *MockCommand
 		buffer       *bytes.Buffer
 	)
 
@@ -36,10 +37,11 @@ var _ = Describe("Supply", func() {
 		mockCtrl = gomock.NewController(GinkgoT())
 		mockStager = NewMockStager(mockCtrl)
 		mockManifest = NewMockManifest(mockCtrl)
+		mockCommand = NewMockCommand(mockCtrl)
 		depDir, err = ioutil.TempDir("", "r.depdir")
 		Expect(err).ToNot(HaveOccurred())
 		mockStager.EXPECT().DepDir().AnyTimes().Return(depDir)
-		supplier = supply.New(mockStager, mockManifest, logger)
+		supplier = supply.New(mockStager, mockCommand, mockManifest, logger)
 	})
 
 	AfterEach(func() {
@@ -58,6 +60,36 @@ var _ = Describe("Supply", func() {
 		})
 	})
 
+	Describe("InstallPackages", func() {
+		Context("There's a reasonable package name", func() {
+			It("Suceeds", func() {
+				mockStager.EXPECT().DepsDir().Return("/deps/dir")
+				mockStager.EXPECT().BuildDir().Return("/build/dir")
+				mockCommand.EXPECT().Execute(gomock.Any(), gomock.Any(), gomock.Any(), "R", "--vanilla", "-e", gomock.Any()).Return(nil)
+				Expect(supplier.InstallPackages(
+					supply.Packages{
+						[]supply.Source{
+							supply.Source{
+								CranMirror:   "https://good.cran.mirror",
+								PackageNames: []string{"good.PACKAGE.name1"},
+							},
+						}})).To(Succeed())
+			})
+		})
+		Context("There's a malformed package name", func() {
+			It("Returns an error", func() {
+				mockStager.EXPECT().DepsDir().Return("/deps/dir")
+				Expect(supplier.InstallPackages(
+					supply.Packages{
+						[]supply.Source{
+							supply.Source{
+								CranMirror:   "https://good.cran.mirror",
+								PackageNames: []string{`bad"package"name`},
+							},
+						}})).ToNot(Succeed())
+			})
+		})
+	})
 	Describe("RewriteRHome", func() {
 		BeforeEach(func() {
 			Expect(os.MkdirAll(filepath.Join(depDir, "r", "bin"), 0755)).To(Succeed())
