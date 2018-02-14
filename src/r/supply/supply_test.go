@@ -70,9 +70,10 @@ var _ = Describe("Supply", func() {
 					supply.Packages{
 						[]supply.Source{
 							supply.Source{
-								CranMirror:   "https://good.cran.mirror",
-								PackageNames: []string{"good.PACKAGE.name1"},
-							},
+								CranMirror: "https://good.cran.mirror",
+								Packages: []supply.Package{
+									supply.Package{Name: "good.PACKAGE.name1"},
+								}},
 						}})).To(Succeed())
 			})
 		})
@@ -83,9 +84,10 @@ var _ = Describe("Supply", func() {
 					supply.Packages{
 						[]supply.Source{
 							supply.Source{
-								CranMirror:   "https://good.cran.mirror",
-								PackageNames: []string{`bad"package"name`},
-							},
+								CranMirror: "https://good.cran.mirror",
+								Packages: []supply.Package{
+									supply.Package{Name: `bad"package"name`},
+								}},
 						}})).ToNot(Succeed())
 			})
 		})
