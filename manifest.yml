@@ -5,8 +5,8 @@ dependency_deprecation_dates: []
 dependencies:
 - name: r
   version: 3.4.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/manual-binaries/r/r-3.4.3-linux-x64-fb4c227b.tgz
-  sha256: fb4c227ba6c50c34905e7927de77897ca602fed21cd538d66b05ef40551d1808
+  uri: https://buildpacks.cloudfoundry.org/dependencies/manual-binaries/r/r-3.4.3-linux-x64-2419944f.tgz
+  sha256: 2419944f5697fd166eabad7f38de484c5ed5eaef6663a8b5ecf7f35755892453
   cf_stacks:
   - cflinuxfs2
 pre_package: scripts/build.sh

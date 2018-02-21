@@ -3,11 +3,12 @@ package supply
 import (
 	"bytes"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/cloudfoundry/libbuildpack"
 )
@@ -26,7 +27,7 @@ type Stager interface {
 }
 
 type Command interface {
-	Execute(string, io.Writer, io.Writer, string, ...string) error
+	Run(cmd *exec.Cmd) error
 }
 
 type Supplier struct {
@@ -75,6 +76,7 @@ func (s *Supplier) Run() error {
 	path_to_ryml := filepath.Join(s.Stager.BuildDir(), "r.yml")
 	packages_to_install := Packages{}
 	if err := yaml.Load(path_to_ryml, &packages_to_install); err != nil {
+		s.Log.Error("Couldn't load r.yml: %s", err)
 		return fmt.Errorf("Couldn't load r.yml: %s", err)
 	}
 
@@ -87,22 +89,24 @@ func (s *Supplier) Run() error {
 }
 
 func (s *Supplier) InstallPackages(packages_to_install Packages) error {
-	// Set DEPS_DIR because R needs it to know its R_HOME
-	err := os.Setenv("DEPS_DIR", s.Stager.DepsDir())
-	if err != nil {
-		return fmt.Errorf("Error setting DEPS_DIR to %s: %s", s.Stager.DepsDir(), err)
-	}
-
 	isAlphaOrDot := regexp.MustCompile(`^[A-Za-z0-9.]+$`).MatchString
 	for _, src := range packages_to_install.Packages {
+		packages := []string{}
 		for _, pckg := range src.Packages {
 			if !isAlphaOrDot(pckg.Name) {
 				return fmt.Errorf("Invalid package name (%s). Only letters, numbers, and periods are allowed.")
 			}
-			err = s.Command.Execute(s.Stager.BuildDir(), s.Log.Output(), s.Log.Output(), "R", "--vanilla", "-e", fmt.Sprintf("install.packages(\"%s\",repos=\"%s\",dependencies=TRUE)", pckg.Name, src.CranMirror))
-			if err != nil {
-				return fmt.Errorf("Error while installing %s from %s: %s", pckg.Name, src.CranMirror, err)
-			}
+			packages = append(packages, pckg.Name)
+		}
+		packageArg := strings.Join(packages, `", "`)
+		cmd := exec.Command("R", "--vanilla", "-e", fmt.Sprintf("install.packages(c(\"%s\"), repos=\"%s\", dependencies=TRUE)\n", packageArg, src.CranMirror))
+		cmd.Stdout = s.Log.Output()
+		cmd.Stderr = s.Log.Output()
+		cmd.Dir = s.Stager.BuildDir()
+		// Set DEPS_DIR because R needs it to know its R_HOME
+		cmd.Env = append(os.Environ(), "DEPS_DIR="+s.Stager.DepsDir())
+		if err := s.Command.Run(cmd); err != nil {
+			return fmt.Errorf("Error while installing packages: %s", err)
 		}
 	}
 	return nil

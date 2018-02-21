@@ -7,7 +7,7 @@ package supply_test
 import (
 	libbuildpack "github.com/cloudfoundry/libbuildpack"
 	gomock "github.com/golang/mock/gomock"
-	io "io"
+	exec "os/exec"
 	reflect "reflect"
 )
 
@@ -164,19 +164,14 @@ func (m *MockCommand) EXPECT() *MockCommandMockRecorder {
 	return m.recorder
 }
 
-// Execute mocks base method
-func (m *MockCommand) Execute(arg0 string, arg1, arg2 io.Writer, arg3 string, arg4 ...string) error {
-	varargs := []interface{}{arg0, arg1, arg2, arg3}
-	for _, a := range arg4 {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "Execute", varargs...)
+// Run mocks base method
+func (m *MockCommand) Run(cmd *exec.Cmd) error {
+	ret := m.ctrl.Call(m, "Run", cmd)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// Execute indicates an expected call of Execute
-func (mr *MockCommandMockRecorder) Execute(arg0, arg1, arg2, arg3 interface{}, arg4 ...interface{}) *gomock.Call {
-	varargs := append([]interface{}{arg0, arg1, arg2, arg3}, arg4...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Execute", reflect.TypeOf((*MockCommand)(nil).Execute), varargs...)
+// Run indicates an expected call of Run
+func (mr *MockCommandMockRecorder) Run(cmd interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Run", reflect.TypeOf((*MockCommand)(nil).Run), cmd)
 }

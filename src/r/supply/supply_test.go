@@ -3,6 +3,7 @@ package supply_test
 import (
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"r/supply"
 
@@ -65,7 +66,16 @@ var _ = Describe("Supply", func() {
 			It("Suceeds", func() {
 				mockStager.EXPECT().DepsDir().Return("/deps/dir")
 				mockStager.EXPECT().BuildDir().Return("/build/dir")
-				mockCommand.EXPECT().Execute(gomock.Any(), gomock.Any(), gomock.Any(), "R", "--vanilla", "-e", gomock.Any()).Return(nil)
+				mockCommand.EXPECT().Run(gomock.Any()).Do(func(cmd *exec.Cmd) {
+					Expect(cmd.Args).To(Equal([]string{
+						"R",
+						"--vanilla",
+						"-e",
+						"install.packages(c(\"good.PACKAGE.name1\"), repos=\"https://good.cran.mirror\", dependencies=TRUE)\n",
+					}))
+					Expect(cmd.Dir).To(Equal("/build/dir"))
+					Expect(cmd.Env).To(ContainElement("DEPS_DIR=/deps/dir"))
+				})
 				Expect(supplier.InstallPackages(
 					supply.Packages{
 						[]supply.Source{
@@ -79,7 +89,6 @@ var _ = Describe("Supply", func() {
 		})
 		Context("There's a malformed package name", func() {
 			It("Returns an error", func() {
-				mockStager.EXPECT().DepsDir().Return("/deps/dir")
 				Expect(supplier.InstallPackages(
 					supply.Packages{
 						[]supply.Source{

@@ -1,0 +1,1 @@
+web: R CMD Rserve --vanilla --RS-conf $HOME/rserv.conf
