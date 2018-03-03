@@ -1,3 +1,10 @@
+v0.0.2 Mar 02, 2018
+====================
+
+* Include r 3.4.3 with rserve and forecast pre-installed
+  Do not install the packages before using them in fixtures
+  (https://www.pivotaltracker.com/story/show/155449812)
+
 v0.0.1 Feb 22, 2018
 ====================
 
