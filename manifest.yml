@@ -11,8 +11,8 @@ dependencies:
   - cflinuxfs2
 - name: r
   version: 3.4.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-ee7bcdbb.tgz
-  sha256: ee7bcdbb257ea98af70a39c0808bb1b475057c1ee518942d3cb2c7e5e5bd4bf4
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-29c02b46.tgz
+  sha256: 29c02b462110307cb6294abc5f1cfbf628dab536d65fb2c5032d6773ab0dd407
   cf_stacks:
   - cflinuxfs2
 - name: r
