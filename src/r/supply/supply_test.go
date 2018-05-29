@@ -20,14 +20,15 @@ import (
 
 var _ = Describe("Supply", func() {
 	var (
-		depDir       string
-		supplier     *supply.Supplier
-		logger       *libbuildpack.Logger
-		mockCtrl     *gomock.Controller
-		mockStager   *MockStager
-		mockManifest *MockManifest
-		mockCommand  *MockCommand
-		buffer       *bytes.Buffer
+		depDir        string
+		supplier      *supply.Supplier
+		logger        *libbuildpack.Logger
+		mockCtrl      *gomock.Controller
+		mockStager    *MockStager
+		mockManifest  *MockManifest
+		mockInstaller *MockInstaller
+		mockCommand   *MockCommand
+		buffer        *bytes.Buffer
 	)
 
 	BeforeEach(func() {
@@ -38,11 +39,12 @@ var _ = Describe("Supply", func() {
 		mockCtrl = gomock.NewController(GinkgoT())
 		mockStager = NewMockStager(mockCtrl)
 		mockManifest = NewMockManifest(mockCtrl)
+		mockInstaller = NewMockInstaller(mockCtrl)
 		mockCommand = NewMockCommand(mockCtrl)
 		depDir, err = ioutil.TempDir("", "r.depdir")
 		Expect(err).ToNot(HaveOccurred())
 		mockStager.EXPECT().DepDir().AnyTimes().Return(depDir)
-		supplier = supply.New(mockStager, mockCommand, mockManifest, logger)
+		supplier = supply.New(mockStager, mockCommand, mockManifest, mockInstaller, logger)
 	})
 
 	AfterEach(func() {
@@ -53,7 +55,7 @@ var _ = Describe("Supply", func() {
 	Describe("InstallR", func() {
 		It("installs and links r", func() {
 			mockManifest.EXPECT().AllDependencyVersions("r").Return([]string{"3.4.3"})
-			mockManifest.EXPECT().InstallDependency(libbuildpack.Dependency{Name: "r", Version: "3.4.3"}, filepath.Join(depDir, "r"))
+			mockInstaller.EXPECT().InstallDependency(libbuildpack.Dependency{Name: "r", Version: "3.4.3"}, filepath.Join(depDir, "r"))
 			mockStager.EXPECT().LinkDirectoryInDepDir(filepath.Join(depDir, "r", "bin"), "bin")
 			mockStager.EXPECT().LinkDirectoryInDepDir(filepath.Join(depDir, "r", "lib"), "lib")
 

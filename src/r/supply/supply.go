@@ -15,6 +15,9 @@ import (
 
 type Manifest interface {
 	AllDependencyVersions(string) []string
+}
+
+type Installer interface {
 	InstallDependency(libbuildpack.Dependency, string) error
 }
 
@@ -31,10 +34,11 @@ type Command interface {
 }
 
 type Supplier struct {
-	Stager   Stager
-	Manifest Manifest
-	Command  Command
-	Log      *libbuildpack.Logger
+	Stager    Stager
+	Manifest  Manifest
+	Installer Installer
+	Command   Command
+	Log       *libbuildpack.Logger
 }
 
 type Packages struct {
@@ -50,12 +54,13 @@ type Package struct {
 	Name string `yaml:"name"`
 }
 
-func New(stager Stager, command Command, manifest Manifest, logger *libbuildpack.Logger) *Supplier {
+func New(stager Stager, command Command, manifest Manifest, installer Installer, logger *libbuildpack.Logger) *Supplier {
 	return &Supplier{
-		Stager:   stager,
-		Command:  command,
-		Manifest: manifest,
-		Log:      logger,
+		Stager:    stager,
+		Command:   command,
+		Manifest:  manifest,
+		Installer: installer,
+		Log:       logger,
 	}
 }
 
@@ -132,7 +137,7 @@ func (s *Supplier) InstallR() error {
 		return err
 	}
 
-	if err := s.Manifest.InstallDependency(libbuildpack.Dependency{Name: "r", Version: ver}, filepath.Join(s.Stager.DepDir(), "r")); err != nil {
+	if err := s.Installer.InstallDependency(libbuildpack.Dependency{Name: "r", Version: ver}, filepath.Join(s.Stager.DepDir(), "r")); err != nil {
 		return err
 	}
 
