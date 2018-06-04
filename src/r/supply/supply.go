@@ -104,6 +104,16 @@ func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 			packages = append(packages, pckg.Name)
 		}
 		packageArg := strings.Join(packages, `", "`)
+		if src.CranMirror == "" {
+			rPackagesPath := filepath.Join(s.Stager.BuildDir(), "rPackages")
+			fileExists, fileError := libbuildpack.FileExists(rPackagesPath)
+			if fileError != nil {
+				return fileError
+			} else if !fileExists {
+				return fmt.Errorf("No source found for installing packages: %s", packageArg)
+			}
+			src.CranMirror = fmt.Sprintf("%s/%s", "file://", rPackagesPath)
+		}
 		cmd := exec.Command("R", "--vanilla", "-e", fmt.Sprintf("install.packages(c(\"%s\"), repos=\"%s\", dependencies=TRUE)\n", packageArg, src.CranMirror))
 		cmd.Stdout = s.Log.Output()
 		cmd.Stderr = s.Log.Output()
