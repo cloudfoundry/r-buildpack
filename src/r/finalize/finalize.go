@@ -1,9 +1,10 @@
 package finalize
 
 import (
-	"github.com/cloudfoundry/libbuildpack"
 	"os"
 	"path/filepath"
+
+	"github.com/cloudfoundry/libbuildpack"
 )
 
 type Finalizer struct {
@@ -12,19 +13,20 @@ type Finalizer struct {
 	Log      *libbuildpack.Logger
 }
 
-func Run(sf *Finalizer) error {
+func Run(f *Finalizer) error {
 	//Delete vendored packages to optimize disk space
-	if err := sf.CleanupVendorDir(); err != nil {
-		sf.Log.Error("Error cleaning up vendored packages R: %v", err)
+	if err := f.CleanupVendorDir(); err != nil {
+		f.Log.Error("Error cleaning up vendored packages R: %v", err)
 		return err
 	}
 	return nil
 }
 
-func (sf *Finalizer) CleanupVendorDir() error {
-	rPackagesPath := filepath.Join(sf.BuildDir, "rPackages")
-	if exists, _ := libbuildpack.FileExists(rPackagesPath); exists {
-		return os.RemoveAll(rPackagesPath)
+func (f *Finalizer) CleanupVendorDir() error {
+	vendorPath := filepath.Join(f.BuildDir, "vendor")
+	if exists, _ := libbuildpack.FileExists(vendorPath); exists {
+		f.Log.Info("Cleaning up vendored packages")
+		return os.RemoveAll(vendorPath)
 	}
 	return nil
 }
