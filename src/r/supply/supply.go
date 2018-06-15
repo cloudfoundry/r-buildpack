@@ -48,6 +48,7 @@ type Packages struct {
 type Source struct {
 	CranMirror string    `yaml:"cran_mirror"`
 	Packages   []Package `yaml:"packages"`
+	Ncpus      int       `yaml:"num_threads"`
 }
 
 type Package struct {
@@ -114,7 +115,7 @@ func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 			}
 			src.CranMirror = fmt.Sprintf("%s/%s", "file://", vendorPath)
 		}
-		cmd := exec.Command("R", "--vanilla", "-e", fmt.Sprintf("install.packages(c(\"%s\"), repos=\"%s\", dependencies=TRUE)\n", packageArg, src.CranMirror))
+		cmd := exec.Command("R", "--vanilla", "-e", fmt.Sprintf("install.packages(c(\"%s\"), repos=\"%s\", dependencies=TRUE, Ncpus=%d)\n", packageArg, src.CranMirror, src.Ncpus))
 		cmd.Stdout = s.Log.Output()
 		cmd.Stderr = s.Log.Output()
 		cmd.Dir = s.Stager.BuildDir()

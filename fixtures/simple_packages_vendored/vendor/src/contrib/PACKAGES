@@ -1,8 +1,16 @@
+Package: jsonlite
+Version: 1.5
+Depends: methods
+Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp, sp
+License: MIT + file LICENSE
+MD5sum: 2a81c261a702fccbbd5d2b32df108f76
+NeedsCompilation: yes
+
 Package: stringr
-Version: 1.3.0
+Version: 1.3.1
 Depends: R (>= 3.1)
-Imports: glue, magrittr, stringi (>= 1.1.6)
+Imports: glue (>= 1.2.0), magrittr, stringi (>= 1.1.7)
 Suggests: covr, htmltools, htmlwidgets, knitr, rmarkdown, testthat
 License: GPL-2 | file LICENSE
-MD5sum: bc8ff21800ddcb9c03e71881a323752b
+MD5sum: 2b52caf5b5873afaf5e5a48a6513805f
 NeedsCompilation: no

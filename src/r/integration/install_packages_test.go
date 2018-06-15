@@ -50,6 +50,16 @@ var _ = Describe("CF R Buildpack", func() {
 			Eventually(app.Stdout.String).Should(ContainSubstring("STRINGR INSTALLED SUCCESSFULLY"))
 			Eventually(app.Stdout.String).Should(ContainSubstring("Cleaning up vendored packages"))
 		})
+
+		It("Installs stringr and jsonlite parallely", func() {
+			Expect(app.Push()).ToNot(Succeed())
+			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
+
+			Eventually(app.Stdout.String).Should(ContainSubstring("STRINGR INSTALLED SUCCESSFULLY"))
+			Eventually(app.Stdout.String).Should(ContainSubstring("Ncpus=2"))
+			Eventually(app.Stdout.String).Should(MatchRegexp(`begin installing package.+\n.*begin installing package`))
+                })
+
 	})
 
 	Context("with the source missing for stringr package", func() {
