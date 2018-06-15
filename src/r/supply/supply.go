@@ -105,7 +105,7 @@ func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 		}
 		packageArg := strings.Join(packages, `", "`)
 		if src.CranMirror == "" {
-			vendorPath := filepath.Join(s.Stager.BuildDir(), "vendor")
+			vendorPath := filepath.Join(s.Stager.BuildDir(), "vendor_r")
 			fileExists, fileError := libbuildpack.FileExists(vendorPath)
 			if fileError != nil {
 				return fileError
