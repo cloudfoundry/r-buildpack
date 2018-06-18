@@ -23,7 +23,7 @@ func Run(f *Finalizer) error {
 }
 
 func (f *Finalizer) CleanupVendorDir() error {
-	vendorPath := filepath.Join(f.BuildDir, "vendor")
+	vendorPath := filepath.Join(f.BuildDir, "vendor_r")
 	if exists, _ := libbuildpack.FileExists(vendorPath); exists {
 		f.Log.Info("Cleaning up vendored packages")
 		return os.RemoveAll(vendorPath)
