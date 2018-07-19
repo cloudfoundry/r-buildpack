@@ -56,6 +56,7 @@ var _ = Describe("CF R Buildpack", func() {
 			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 
 			Eventually(app.Stdout.String).Should(ContainSubstring("STRINGR INSTALLED SUCCESSFULLY"))
+			Eventually(app.Stdout.String).Should(ContainSubstring("{\"jsonlite\":\"installed\""))
 			Eventually(app.Stdout.String).Should(ContainSubstring("Ncpus=2"))
 			Eventually(app.Stdout.String).Should(MatchRegexp(`begin installing package.+\n.*begin installing package`))
                 })
