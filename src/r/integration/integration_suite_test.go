@@ -34,7 +34,7 @@ func init() {
 var _ = SynchronizedBeforeSuite(func() []byte {
 	// Run once
 	if buildpackVersion == "" {
-		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(os.Getenv("CF_STACK"))
+		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(os.Getenv("CF_STACK"), ApiHasStackAssociation())
 		Expect(err).NotTo(HaveOccurred())
 
 		data, err := json.Marshal(packagedBuildpack)
@@ -95,10 +95,21 @@ func ApiGreaterThan(version string) bool {
 }
 
 func ApiHasTask() bool {
-	return ApiGreaterThan("2.75.0")
+	supported, err := cutlass.ApiGreaterThan("2.75.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
 }
+
 func ApiHasMultiBuildpack() bool {
-	return ApiGreaterThan("2.90.0")
+	supported, err := cutlass.ApiGreaterThan("2.90.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
+}
+
+func ApiHasStackAssociation() bool {
+	supported, err := cutlass.ApiGreaterThan("2.113.0")
+	Expect(err).NotTo(HaveOccurred())
+	return supported
 }
 
 func AssertUsesProxyDuringStagingIfPresent(fixtureName string) {
