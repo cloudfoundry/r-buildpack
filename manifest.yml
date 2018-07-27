@@ -29,14 +29,14 @@ dependencies:
   - cflinuxfs2
 - name: r
   version: 3.5.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.1-cflinuxfs2-fdf27859.tgz
-  sha256: fdf27859304534237b77c8ef09c6d8e386b2ae164f19c751d9a1d9f3141a08b8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.1-cflinuxfs2-ae58ecaa.tgz
+  sha256: ae58ecaa9733c0ae3a332704b5c0337c4b81817a98e54a374881d35ef603ded6
   cf_stacks:
   - cflinuxfs2
 - name: r
   version: 3.5.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.1-cflinuxfs3-e6c85cfd.tgz
-  sha256: e6c85cfd7798c3c4cfad441fec029faadd7bb9769d689738303ce3e6de9a3609
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.1-cflinuxfs3-78604cd8.tgz
+  sha256: 78604cd8c8bd20b5e04441316e3ebc5dcf28dc25042e80cacb438215150c65a4
   cf_stacks:
   - cflinuxfs3
 pre_package: scripts/build.sh
