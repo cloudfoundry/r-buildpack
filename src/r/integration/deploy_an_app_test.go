@@ -19,17 +19,36 @@ var _ = Describe("CF R Buildpack", func() {
 	})
 
 	Context("with a simple R app", func() {
-
 		BeforeEach(func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple"))
+			Expect(app.PushNoStart()).To(Succeed())
 		})
 
 		It("Logs R buildpack version", func() {
-			Expect(app.Push()).ToNot(Succeed())
+			RunCF("set-health-check", app.Name, "process")
+			Expect(app.Restart()).To(Succeed())
 			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 
 			Eventually(app.Stdout.String).Should(ContainSubstring("R program running"))
 			Eventually(app.Stdout.String).Should(ContainSubstring("[1] 16"))
+		})
+	})
+
+	Context("with a simple R app that requires fortran", func() {
+		BeforeEach(func() {
+			app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple_fortran_required"))
+			Expect(app.PushNoStart()).To(Succeed())
+		})
+
+		It("Logs R buildpack version and does not warn about package installation status", func() {
+			RunCF("set-health-check", app.Name, "process")
+			Expect(app.Restart()).To(Succeed())
+			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
+
+			Eventually(app.Stdout.String).Should(ContainSubstring("R program running with fortran"))
+			Eventually(app.Stdout.String).Should(ContainSubstring("[1] 64"))
+
+			Expect(app.Stdout.String()).ShouldNot(MatchRegexp("installation of package .* had non-zero exit status"))
 		})
 	})
 })

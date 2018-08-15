@@ -173,3 +173,10 @@ func AssertNoInternetTraffic(fixtureName string) {
 		Expect(traffic).To(BeEmpty())
 	})
 }
+
+func RunCF(args ...string) error {
+	command := exec.Command("cf", args...)
+	command.Stdout = GinkgoWriter
+	command.Stderr = GinkgoWriter
+	return command.Run()
+}
