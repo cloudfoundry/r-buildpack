@@ -51,4 +51,19 @@ var _ = Describe("CF R Buildpack", func() {
 			Expect(app.Stdout.String()).ShouldNot(MatchRegexp("installation of package .* had non-zero exit status"))
 		})
 	})
+
+	Context("with an R app that requires shiny", func() {
+		BeforeEach(func() {
+			app = cutlass.New(filepath.Join(bpDir, "fixtures", "shiny"))
+			Expect(app.PushNoStart()).To(Succeed())
+		})
+
+		It("runs without needing to download shiny", func() {
+			RunCF("set-health-check", app.Name, "process")
+			Expect(app.Restart()).To(Succeed())
+			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
+
+			Eventually(app.Stdout.String).Should(ContainSubstring("library(shiny)"))
+		})
+	})
 })
