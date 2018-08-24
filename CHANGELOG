@@ -1,3 +1,17 @@
+v0.0.5 Aug 24, 2018
+====================
+
+* Fortran is available for packages that require it
+  (https://www.pivotaltracker.com/story/show/159083278)
+
+* All versions of r rebuilt with Shiny.
+  (https://www.pivotaltracker.com/story/show/159172951)
+
+* All versions of r built for cflinuxfs3.
+
+* Add r 3.5.1
+  (https://www.pivotaltracker.com/story/show/159252592)
+
 v0.0.4 Jun 19, 2018
 ====================
 
