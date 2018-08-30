@@ -73,7 +73,7 @@ var _ = Describe("Supply", func() {
 						"R",
 						"--vanilla",
 						"-e",
-						"install.packages(c(\"good.PACKAGE.name1\"), repos=\"https://good.cran.mirror\", dependencies=TRUE)\n",
+						"install.packages(c(\"good.PACKAGE.name1\"), repos=\"https://good.cran.mirror\", dependencies=TRUE, Ncpus=0)\n",
 					}))
 					Expect(cmd.Dir).To(Equal("/build/dir"))
 					Expect(cmd.Env).To(ContainElement("DEPS_DIR=/deps/dir"))
