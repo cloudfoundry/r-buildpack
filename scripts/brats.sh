@@ -9,5 +9,8 @@ GINKGO_NODES=${GINKGO_NODES:-3}
 GINKGO_ATTEMPTS=${GINKGO_ATTEMPTS:-1}
 export CF_STACK=${CF_STACK:-cflinuxfs2}
 
-cd $ROOT/src/r/brats
-ginkgo -r --flakeAttempts=$GINKGO_ATTEMPTS -nodes $GINKGO_NODES
+#cd src/*/brats
+#ginkgo -r --flakeAttempts=$GINKGO_ATTEMPTS -nodes $GINKGO_NODES
+
+echo "There are no brats tests to run"
+
