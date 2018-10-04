@@ -1,3 +1,13 @@
+v1.0.0 Oct 04, 2018
+====================
+
+* Add plumber as built-in R package
+  - Update shiny integration test to run working server
+  (https://www.pivotaltracker.com/story/show/160093403)
+
+* Merge pull request #3 from venkatk-25/parallel_pkg_install
+  Enable parallel install of packages to speed up staging
+
 v0.0.5 Aug 24, 2018
 ====================
 

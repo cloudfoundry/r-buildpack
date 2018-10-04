@@ -1,4 +1,4 @@
-# Cloud Foundry Experimental R Buildpack
+# Cloud Foundry R Buildpack
 
 [![CF Slack](https://www.google.com/s2/favicons?domain=www.slack.com) Join us on Slack](https://cloudfoundry.slack.com/messages/buildpacks/)
 
@@ -7,7 +7,7 @@ A Cloud Foundry [buildpack](http://docs.cloudfoundry.org/buildpacks/) for apps r
 
 ### Buildpack User Documentation
 
-TODO
+Official buildpack documentation can be found at [R buildpack docs](https://docs.cloudfoundry.org/buildpacks/r/index.html).
 
 ### Building the Buildpack
 
@@ -83,7 +83,3 @@ Open an issue on this project
 ### Active Development
 
 The project backlog is on [Pivotal Tracker](https://www.pivotaltracker.com/projects/1042066)
-
-## Disclaimer
-
-This buildpack is experimental and not yet intended for production use.
