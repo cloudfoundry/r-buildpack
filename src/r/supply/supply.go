@@ -100,7 +100,7 @@ func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 		packages := []string{}
 		for _, pckg := range src.Packages {
 			if !isAlphaOrDot(pckg.Name) {
-				return fmt.Errorf("Invalid package name (%s). Only letters, numbers, and periods are allowed.")
+				return fmt.Errorf("Invalid package name (%s). Only letters, numbers, and periods are allowed.", pckg.Name)
 			}
 			packages = append(packages, pckg.Name)
 		}
