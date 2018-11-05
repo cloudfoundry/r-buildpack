@@ -47,9 +47,10 @@ var _ = Describe("CF R Buildpack", func() {
 			Expect(app.Restart()).To(Succeed())
 			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 
+
 			Eventually(app.Stdout.String).Should(ContainSubstring("R program running with fortran"))
 			Eventually(app.Stdout.String).Should(ContainSubstring("[1] 64"))
-
+			Eventually(app.Stdout.String).Should(ContainSubstring("package ‘hexbin’ successfully unpacked and MD5 sums checked"))
 			Expect(app.Stdout.String()).ShouldNot(MatchRegexp("installation of package .* had non-zero exit status"))
 		})
 	})
