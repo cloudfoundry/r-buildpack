@@ -21,6 +21,7 @@ var _ = Describe("CF R Buildpack", func() {
 	Context("with a simple R app", func() {
 		BeforeEach(func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple"))
+			app.Disk = "1G"
 			Expect(app.PushNoStart()).To(Succeed())
 		})
 
@@ -37,6 +38,7 @@ var _ = Describe("CF R Buildpack", func() {
 	Context("with a simple R app that requires fortran", func() {
 		BeforeEach(func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple_fortran_required"))
+			app.Disk = "1G"
 			Expect(app.PushNoStart()).To(Succeed())
 		})
 
@@ -55,6 +57,7 @@ var _ = Describe("CF R Buildpack", func() {
 	Context("with an R app that requires shiny", func() {
 		BeforeEach(func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "shiny"))
+			app.Disk = "1G"
 			Expect(app.PushNoStart()).To(Succeed())
 		})
 
@@ -69,6 +72,7 @@ var _ = Describe("CF R Buildpack", func() {
 	Context("with an R app that requires plumber", func() {
 		BeforeEach(func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "plumber"))
+			app.Disk = "1G"
 			Expect(app.PushNoStart()).To(Succeed())
 		})
 

@@ -41,6 +41,7 @@ var _ = Describe("CF R Buildpack", func() {
 	Describe("R as a final buildpack", func() {
 		BeforeEach(func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "rserve"))
+			app.Disk = "1G"
 		})
 
 		It("rserve websocket can be reached", func() {
