@@ -1,3 +1,9 @@
+v1.0.1 Nov 07, 2018
+====================
+
+* adds f951 and f95 fortran compilers for various CRAN packages eg: hexbin
+  (https://www.pivotaltracker.com/story/show/161681667)
+
 v1.0.0 Oct 04, 2018
 ====================
 
