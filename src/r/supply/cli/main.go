@@ -3,10 +3,10 @@ package main
 import (
 	"os"
 	"path/filepath"
-	"r/supply"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack"
+	"github.com/cloudfoundry/r-buildpack/src/r/supply"
 )
 
 func main() {

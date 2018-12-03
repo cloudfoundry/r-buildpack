@@ -1,17 +1,15 @@
 package supply_test
 
 import (
+	"bytes"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
-	"r/supply"
-
-	"bytes"
 
 	"github.com/cloudfoundry/libbuildpack"
+	"github.com/cloudfoundry/r-buildpack/src/r/supply"
 	"github.com/golang/mock/gomock"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

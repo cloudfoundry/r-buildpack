@@ -2,10 +2,10 @@ package main
 
 import (
 	"os"
-	"r/finalize"
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack"
+	"github.com/cloudfoundry/r-buildpack/src/r/finalize"
 )
 
 func main() {
