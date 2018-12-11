@@ -36,6 +36,7 @@ func (m *MockManifest) EXPECT() *MockManifestMockRecorder {
 
 // AllDependencyVersions mocks base method
 func (m *MockManifest) AllDependencyVersions(arg0 string) []string {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AllDependencyVersions", arg0)
 	ret0, _ := ret[0].([]string)
 	return ret0
@@ -43,6 +44,7 @@ func (m *MockManifest) AllDependencyVersions(arg0 string) []string {
 
 // AllDependencyVersions indicates an expected call of AllDependencyVersions
 func (mr *MockManifestMockRecorder) AllDependencyVersions(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllDependencyVersions", reflect.TypeOf((*MockManifest)(nil).AllDependencyVersions), arg0)
 }
 
@@ -71,6 +73,7 @@ func (m *MockInstaller) EXPECT() *MockInstallerMockRecorder {
 
 // InstallDependency mocks base method
 func (m *MockInstaller) InstallDependency(arg0 libbuildpack.Dependency, arg1 string) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "InstallDependency", arg0, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -78,6 +81,7 @@ func (m *MockInstaller) InstallDependency(arg0 libbuildpack.Dependency, arg1 str
 
 // InstallDependency indicates an expected call of InstallDependency
 func (mr *MockInstallerMockRecorder) InstallDependency(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstallDependency", reflect.TypeOf((*MockInstaller)(nil).InstallDependency), arg0, arg1)
 }
 
@@ -106,6 +110,7 @@ func (m *MockStager) EXPECT() *MockStagerMockRecorder {
 
 // BuildDir mocks base method
 func (m *MockStager) BuildDir() string {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BuildDir")
 	ret0, _ := ret[0].(string)
 	return ret0
@@ -113,11 +118,13 @@ func (m *MockStager) BuildDir() string {
 
 // BuildDir indicates an expected call of BuildDir
 func (mr *MockStagerMockRecorder) BuildDir() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BuildDir", reflect.TypeOf((*MockStager)(nil).BuildDir))
 }
 
 // DepDir mocks base method
 func (m *MockStager) DepDir() string {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DepDir")
 	ret0, _ := ret[0].(string)
 	return ret0
@@ -125,11 +132,13 @@ func (m *MockStager) DepDir() string {
 
 // DepDir indicates an expected call of DepDir
 func (mr *MockStagerMockRecorder) DepDir() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DepDir", reflect.TypeOf((*MockStager)(nil).DepDir))
 }
 
 // DepsDir mocks base method
 func (m *MockStager) DepsDir() string {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DepsDir")
 	ret0, _ := ret[0].(string)
 	return ret0
@@ -137,11 +146,13 @@ func (m *MockStager) DepsDir() string {
 
 // DepsDir indicates an expected call of DepsDir
 func (mr *MockStagerMockRecorder) DepsDir() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DepsDir", reflect.TypeOf((*MockStager)(nil).DepsDir))
 }
 
 // DepsIdx mocks base method
 func (m *MockStager) DepsIdx() string {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DepsIdx")
 	ret0, _ := ret[0].(string)
 	return ret0
@@ -149,11 +160,13 @@ func (m *MockStager) DepsIdx() string {
 
 // DepsIdx indicates an expected call of DepsIdx
 func (mr *MockStagerMockRecorder) DepsIdx() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DepsIdx", reflect.TypeOf((*MockStager)(nil).DepsIdx))
 }
 
 // LinkDirectoryInDepDir mocks base method
 func (m *MockStager) LinkDirectoryInDepDir(arg0, arg1 string) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "LinkDirectoryInDepDir", arg0, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -161,6 +174,7 @@ func (m *MockStager) LinkDirectoryInDepDir(arg0, arg1 string) error {
 
 // LinkDirectoryInDepDir indicates an expected call of LinkDirectoryInDepDir
 func (mr *MockStagerMockRecorder) LinkDirectoryInDepDir(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LinkDirectoryInDepDir", reflect.TypeOf((*MockStager)(nil).LinkDirectoryInDepDir), arg0, arg1)
 }
 
@@ -189,6 +203,7 @@ func (m *MockCommand) EXPECT() *MockCommandMockRecorder {
 
 // Run mocks base method
 func (m *MockCommand) Run(cmd *exec.Cmd) error {
+	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Run", cmd)
 	ret0, _ := ret[0].(error)
 	return ret0
@@ -196,5 +211,6 @@ func (m *MockCommand) Run(cmd *exec.Cmd) error {
 
 // Run indicates an expected call of Run
 func (mr *MockCommandMockRecorder) Run(cmd interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Run", reflect.TypeOf((*MockCommand)(nil).Run), cmd)
 }
