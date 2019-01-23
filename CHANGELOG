@@ -1,3 +1,22 @@
+v1.0.4 Jan 23, 2019
+====================
+
+* Use built version of go 1.11.4 in online unbuilt/URL buildpack
+  (https://www.pivotaltracker.com/story/show/163089977)
+
+* Rebuild r 3.5.2
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/163322390)
+
+* Rebuild r 3.4.4
+  for stack(s) cflinuxfs2, cflinuxfs3
+  (https://www.pivotaltracker.com/story/show/163322391)
+
+* Vendor with go modules
+  - This helps with building source in the URL case
+  (https://www.pivotaltracker.com/story/show/162654926)
+
+
 v1.0.3 Dec 31, 2018
 ====================
 
