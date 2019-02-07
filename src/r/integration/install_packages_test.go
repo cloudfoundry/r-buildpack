@@ -85,12 +85,10 @@ var _ = Describe("CF R Buildpack", func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "install_uses_rscript"))
 			app.Memory = "2G"
 			app.Disk = "2G"
-			Expect(app.PushNoStart()).To(Succeed())
 		})
 
 		It("Logs R buildpack version", func() {
-			RunCF("set-health-check", app.Name, "process")
-			Expect(app.Restart()).To(Succeed())
+			Expect(app.Push()).ToNot(Succeed())
 			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 
 			Eventually(app.Stdout.String).Should(ContainSubstring("R program running"))
