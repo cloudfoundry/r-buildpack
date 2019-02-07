@@ -120,7 +120,7 @@ func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 		cmd.Stderr = s.Log.Output()
 		cmd.Dir = s.Stager.BuildDir()
 		// Set DEPS_DIR because R needs it to know its R_HOME
-		cmd.Env = append(os.Environ(), "DEPS_DIR="+s.Stager.DepsDir())
+		cmd.Env = append(os.Environ(), "DEPS_DIR="+s.Stager.DepsDir(), "RHOME="+s.Stager.DepDir())
 		if err := s.Command.Run(cmd); err != nil {
 			return fmt.Errorf("Error while installing packages: %s", err)
 		}
