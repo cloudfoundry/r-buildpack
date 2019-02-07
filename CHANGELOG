@@ -1,3 +1,12 @@
+v1.0.5 Feb 07, 2019
+====================
+
+* Fixed bug where Rscript did not point to the R binary during staging
+  (https://www.pivotaltracker.com/story/show/163699387)
+
+* Update go to 1.11.5 for install_go
+  (https://www.pivotaltracker.com/story/show/163701450)
+
 v1.0.4 Jan 23, 2019
 ====================
 
