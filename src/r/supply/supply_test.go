@@ -92,7 +92,6 @@ var _ = Describe("Supply", func() {
 		Context("There's a reasonable package name", func() {
 			It("Suceeds", func() {
 				mockStager.EXPECT().DepsDir().Return("/deps/dir")
-				mockStager.EXPECT().BuildDir().Return("/build/dir")
 				mockCommand.EXPECT().Run(gomock.Any()).Do(func(cmd *exec.Cmd) {
 					Expect(cmd.Args).To(Equal([]string{
 						"R",
@@ -100,16 +99,16 @@ var _ = Describe("Supply", func() {
 						"-e",
 						"install.packages(c(\"good.PACKAGE.name1\"), repos=\"https://good.cran.mirror\", dependencies=TRUE, Ncpus=0)\n",
 					}))
-					Expect(cmd.Dir).To(Equal("/build/dir"))
+					Expect(cmd.Dir).To(Equal(buildDir))
 					Expect(cmd.Env).To(ContainElement("DEPS_DIR=/deps/dir"))
 				})
 				Expect(supplier.InstallPackages(
 					supply.Packages{
 						[]supply.Source{
-							supply.Source{
+							{
 								CranMirror: "https://good.cran.mirror",
 								Packages: []supply.Package{
-									supply.Package{Name: "good.PACKAGE.name1"},
+									{Name: "good.PACKAGE.name1"},
 								}},
 						}})).To(Succeed())
 			})
@@ -119,10 +118,10 @@ var _ = Describe("Supply", func() {
 				Expect(supplier.InstallPackages(
 					supply.Packages{
 						[]supply.Source{
-							supply.Source{
+							{
 								CranMirror: "https://good.cran.mirror",
 								Packages: []supply.Package{
-									supply.Package{Name: `bad"package"name`},
+									{Name: `bad"package"name`},
 								}},
 						}})).ToNot(Succeed())
 			})
