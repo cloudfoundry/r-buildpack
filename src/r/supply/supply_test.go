@@ -2,6 +2,7 @@ package supply_test
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -19,6 +20,7 @@ import (
 var _ = Describe("Supply", func() {
 	var (
 		depDir        string
+		buildDir      string
 		supplier      *supply.Supplier
 		logger        *libbuildpack.Logger
 		mockCtrl      *gomock.Controller
@@ -39,9 +41,16 @@ var _ = Describe("Supply", func() {
 		mockManifest = NewMockManifest(mockCtrl)
 		mockInstaller = NewMockInstaller(mockCtrl)
 		mockCommand = NewMockCommand(mockCtrl)
+
 		depDir, err = ioutil.TempDir("", "r.depdir")
 		Expect(err).ToNot(HaveOccurred())
+
+		buildDir, err = ioutil.TempDir("", "r.builddir")
+		Expect(err).ToNot(HaveOccurred())
+
 		mockStager.EXPECT().DepDir().AnyTimes().Return(depDir)
+		mockStager.EXPECT().BuildDir().AnyTimes().Return(buildDir)
+
 		supplier = supply.New(mockStager, mockCommand, mockManifest, mockInstaller, logger)
 	})
 
@@ -51,13 +60,31 @@ var _ = Describe("Supply", func() {
 	})
 
 	Describe("InstallR", func() {
-		It("installs and links r", func() {
-			mockManifest.EXPECT().AllDependencyVersions("r").Return([]string{"3.4.3"})
-			mockInstaller.EXPECT().InstallDependency(libbuildpack.Dependency{Name: "r", Version: "3.4.3"}, filepath.Join(depDir, "r"))
-			mockStager.EXPECT().LinkDirectoryInDepDir(filepath.Join(depDir, "r", "bin"), "bin")
-			mockStager.EXPECT().LinkDirectoryInDepDir(filepath.Join(depDir, "r", "lib"), "lib")
+		Context("A version of R is specified in buildpacks.yml", func() {
+			const version string = "1.2.3"
 
-			Expect(supplier.InstallR()).To(Succeed())
+			It("Installs that version of R", func() {
+				buildpackYAMLString := fmt.Sprintf("r:\n  version: %s", version)
+				Expect(ioutil.WriteFile(filepath.Join(buildDir, "buildpack.yml"), []byte(buildpackYAMLString), 0666)).To(Succeed())
+
+				mockManifest.EXPECT().AllDependencyVersions("r").Return([]string{version, "3.4.3"})
+				mockInstaller.EXPECT().InstallDependency(libbuildpack.Dependency{Name: "r", Version: version}, filepath.Join(depDir, "r"))
+				mockStager.EXPECT().LinkDirectoryInDepDir(filepath.Join(depDir, "r", "bin"), "bin")
+				mockStager.EXPECT().LinkDirectoryInDepDir(filepath.Join(depDir, "r", "lib"), "lib")
+
+				Expect(supplier.InstallR()).To(Succeed())
+			})
+		})
+
+		Context("A version of R is NOT specified in buildpacks.yml", func() {
+			It("Installs that default version of R", func() {
+				mockManifest.EXPECT().AllDependencyVersions("r").Return([]string{"1.2.3", "3.4.3"})
+				mockInstaller.EXPECT().InstallDependency(libbuildpack.Dependency{Name: "r", Version: "3.4.3"}, filepath.Join(depDir, "r"))
+				mockStager.EXPECT().LinkDirectoryInDepDir(filepath.Join(depDir, "r", "bin"), "bin")
+				mockStager.EXPECT().LinkDirectoryInDepDir(filepath.Join(depDir, "r", "lib"), "lib")
+
+				Expect(supplier.InstallR()).To(Succeed())
+			})
 		})
 	})
 

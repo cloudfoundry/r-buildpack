@@ -3,6 +3,7 @@ package supply
 import (
 	"bytes"
 	"fmt"
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -142,8 +143,35 @@ func (s *Supplier) RewriteRHome() error {
 }
 
 func (s *Supplier) InstallR() error {
+
+	config := struct {
+		R struct{
+			Version string `yaml:"version"`
+		} `yaml:"r"`
+	}{}
+	buildpackYAMLPath := filepath.Join(s.Stager.BuildDir(), "buildpack.yml")
+
+	exists, err := libbuildpack.FileExists(buildpackYAMLPath)
+	if err != nil {
+		return err
+	}
+
+	constraint := "x"
+	if exists {
+		buf, err := ioutil.ReadFile(buildpackYAMLPath)
+		if err != nil {
+			return err
+		}
+
+		if err := yaml.Unmarshal(buf, &config); err != nil {
+			return err
+		}
+
+		constraint = config.R.Version
+	}
+
 	versions := s.Manifest.AllDependencyVersions("r")
-	ver, err := libbuildpack.FindMatchingVersion("x", versions)
+	ver, err := libbuildpack.FindMatchingVersion(constraint, versions)
 	if err != nil {
 		return err
 	}
