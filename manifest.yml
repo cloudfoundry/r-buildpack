@@ -28,22 +28,6 @@ dependencies:
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.4.4.tar.gz
   source_sha256: b3e97d2fab7256d1c655c4075934725ba1cd7cb9237240a11bb22ccdad960337
 - name: r
-  version: 3.5.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.1-cflinuxfs2-08168dea.tgz
-  sha256: 08168dea4bc4fd64d33b2043645c8a4c865227906321c00b118f581ae42ba16a
-  cf_stacks:
-  - cflinuxfs2
-  source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.1.tar.gz
-  source_sha256: 0463bff5eea0f3d93fa071f79c18d0993878fd4f2e18ae6cf22c1639d11457ed
-- name: r
-  version: 3.5.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.1-cflinuxfs3-d4af4a38.tgz
-  sha256: d4af4a38a7e86dcea752d79ee0ddf9e70b3d7610b7f06e43adb60cefc66e2c0e
-  cf_stacks:
-  - cflinuxfs3
-  source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.1.tar.gz
-  source_sha256: 0463bff5eea0f3d93fa071f79c18d0993878fd4f2e18ae6cf22c1639d11457ed
-- name: r
   version: 3.5.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.2-cflinuxfs2-e0bfb080.tgz
   sha256: e0bfb0807d52a74ed910bfd1fabad6355543656d934e0ef975b9ad0378c085a3
@@ -59,6 +43,22 @@ dependencies:
   - cflinuxfs3
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.2.tar.gz
   source_sha256: e53d8c3cf20f2b8d7a9c1631b6f6a22874506fb392034758b3bb341c586c5b62
+- name: r
+  version: 3.5.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs2-a995814c.tgz
+  sha256: a995814cdc3783d215e50d7e027d861f0059467b7816402327cadbac61256136
+  cf_stacks:
+  - cflinuxfs2
+  source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.3.tar.gz
+  source_sha256: 2bfa37b7bd709f003d6b8a172ddfb6d03ddd2d672d6096439523039f7a8e678c
+- name: r
+  version: 3.5.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-94342c56.tgz
+  sha256: 94342c56b0402b105f9035058520f93690a3ff1d246dffb25886f1bd8d6efed9
+  cf_stacks:
+  - cflinuxfs3
+  source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.3.tar.gz
+  source_sha256: 2bfa37b7bd709f003d6b8a172ddfb6d03ddd2d672d6096439523039f7a8e678c
 pre_package: scripts/build.sh
 include_files:
 - CHANGELOG
