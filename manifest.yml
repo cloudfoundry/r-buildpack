@@ -45,16 +45,16 @@ dependencies:
   source_sha256: e53d8c3cf20f2b8d7a9c1631b6f6a22874506fb392034758b3bb341c586c5b62
 - name: r
   version: 3.5.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs2-f78d9912.tgz
-  sha256: f78d991296291a8964e06718790081eeee849a476df63c0e17672b64f92290f1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs2-afd6e346.tgz
+  sha256: afd6e3462c112e275551409041478ed7f4f4e0fc682c37c1d70629db817b8dfc
   cf_stacks:
   - cflinuxfs2
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.3.tar.gz
   source_sha256: 2bfa37b7bd709f003d6b8a172ddfb6d03ddd2d672d6096439523039f7a8e678c
 - name: r
   version: 3.5.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-996b69da.tgz
-  sha256: 996b69dae3265cb21255b09f374a99957c5ff0d235e19011214e19cef1d7db59
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-7f510750.tgz
+  sha256: 7f510750de30c9741c9f260d37411418e85f303a333482eccf448c9bc3dd2434
   cf_stacks:
   - cflinuxfs3
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.3.tar.gz
