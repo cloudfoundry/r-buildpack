@@ -1,3 +1,4 @@
 pkg
+!vendor/**
 .bin
 r_buildpack-*.zip
