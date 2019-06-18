@@ -1,7 +1,11 @@
 ---
 language: r
 default_versions: []
-dependency_deprecation_dates: []
+dependency_deprecation_dates:
+- version_line: 3.4.x
+  name: r
+  date: 2018-04-23
+  link: https://developer.r-project.org/
 dependencies:
 - name: r
   version: 3.4.3
@@ -13,8 +17,8 @@ dependencies:
   source_sha256: 7a3cb831de5b4151e1f890113ed207527b7d4b16df9ec6b35e0964170007f426
 - name: r
   version: 3.4.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-cflinuxfs2-21771fab.tgz
-  sha256: 21771fab10237b61f374908c3c4f2b39f66c096864e5293dcfeec711e66afb47
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-cflinuxfs2-989cb1a0.tgz
+  sha256: 989cb1a0973580f5aabb0edc1ca8579ece350c00a44acedc4b95268ad65ee869
   cf_stacks:
   - cflinuxfs2
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.4.4.tar.gz
@@ -38,8 +42,8 @@ dependencies:
       source_sha256: 28b851ae6c196ca845f6e815c1379247595ac123a4faa10a16533d1a9ce0c24f
 - name: r
   version: 3.4.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-cflinuxfs3-bdd95f99.tgz
-  sha256: bdd95f997b6877ddc7eee954f907e4938ba0b4f6a0ecd110d317a802998bc68d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-cflinuxfs3-f40b8c54.tgz
+  sha256: f40b8c541005daa2d9227cd90bfd5c2f1e29d5e0b5cf1c2ab7f97856abcdd1bf
   cf_stacks:
   - cflinuxfs3
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.4.4.tar.gz
