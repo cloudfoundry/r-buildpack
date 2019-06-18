@@ -6,6 +6,10 @@ dependency_deprecation_dates:
   name: r
   date: 2018-04-23
   link: https://developer.r-project.org/
+- version_line: 3.5.x
+  name: r
+  date: 2019-03-11
+  link: https://developer.r-project.org/
 dependencies:
 - name: r
   version: 3.4.3
@@ -83,8 +87,8 @@ dependencies:
   source_sha256: e53d8c3cf20f2b8d7a9c1631b6f6a22874506fb392034758b3bb341c586c5b62
 - name: r
   version: 3.5.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs2-87a24bdc.tgz
-  sha256: 87a24bdcc59229170dbfa4121c3d15a637529c56acf1ea1edfdc80a60f96c1a6
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs2-b3cffece.tgz
+  sha256: b3cffece6fd17a28f08ad2220165bb03e5751735eb7a765731d16f6dcba56ab5
   cf_stacks:
   - cflinuxfs2
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.3.tar.gz
@@ -101,15 +105,15 @@ dependencies:
   - rserve:
       version: 1.7.3.1
       source: https://cran.cnr.berkeley.edu/src/contrib/Rserve_1.7-3.tar.gz
-      source_sha256: 25e2653cdaf76c3bd486fdd1249ecc54399c49770a6f790619c6ea4a7e209a66
+      source_sha256: 23ef72b7ab4f78b7ed1311f9f4d5a961f2fecc7cfc6996473f54e7d6ca7428c8
   - shiny:
       version: 1.3.2
       source: https://cran.cnr.berkeley.edu/src/contrib/shiny_1.3.2.tar.gz
       source_sha256: 28b851ae6c196ca845f6e815c1379247595ac123a4faa10a16533d1a9ce0c24f
 - name: r
   version: 3.5.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-184ca9ea.tgz
-  sha256: 184ca9eaf66e36e3f582f0340e694030c26e10440c4248fd20e8db5a9717492d
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-5bc5394b.tgz
+  sha256: 5bc5394bb5bcf373093cadb460cae22ba49811323858aa3b2cb8c4575ffb19ba
   cf_stacks:
   - cflinuxfs3
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.3.tar.gz
@@ -126,7 +130,7 @@ dependencies:
   - rserve:
       version: 1.7.3.1
       source: https://cran.cnr.berkeley.edu/src/contrib/Rserve_1.7-3.tar.gz
-      source_sha256: 25e2653cdaf76c3bd486fdd1249ecc54399c49770a6f790619c6ea4a7e209a66
+      source_sha256: 23ef72b7ab4f78b7ed1311f9f4d5a961f2fecc7cfc6996473f54e7d6ca7428c8
   - shiny:
       version: 1.3.2
       source: https://cran.cnr.berkeley.edu/src/contrib/shiny_1.3.2.tar.gz
