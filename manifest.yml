@@ -10,6 +10,10 @@ dependency_deprecation_dates:
   name: r
   date: 2019-03-11
   link: https://developer.r-project.org/
+- version_line: 3.6.x
+  name: r
+  date: 2020-03-01
+  link: https://developer.r-project.org/
 dependencies:
 - name: r
   version: 3.4.3
