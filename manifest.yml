@@ -150,13 +150,37 @@ dependencies:
   dependencies: []
 - name: r
   version: 3.6.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.6.0-cflinuxfs3-b2a3abca.tgz
-  sha256: b2a3abcaf8b524408a2f2518301e1ebade58a1255ce4d8ae17eeba87721cbd29
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.6.0-cflinuxfs3-5d41d2a3.tgz
+  sha256: 5d41d2a3c6b12db1de5d4aa482a6c9ffe860fe3a0159ed8898dfcdd9751af0f3
   cf_stacks:
   - cflinuxfs3
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.6.0.tar.gz
   source_sha256: 36fcac3e452666158e62459c6fc810adc247c7109ed71c5b6c3ad5fc2bf57509
-  dependencies: []
+- name: r
+  version: 3.6.1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.6.1-cflinuxfs3-10998089.tgz
+  sha256: 10998089048b5547a51c2f13dbed70990be1be48d449a40f7110d6b0fba6c8ab
+  cf_stacks:
+  - cflinuxfs3
+  source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.6.1.tar.gz
+  source_sha256: 5baa9ebd3e71acecdcc3da31d9042fb174d55a42829f8315f2457080978b1389
+  dependencies:
+  - forecast:
+      version: '8.7'
+      source: https://cran.cnr.berkeley.edu/src/contrib/forecast_8.7.tar.gz
+      source_sha256: 0d3aec2d10e05cb7961695f0639d3c4b848dbfd4f551c7bc699b9f95e06e3a39
+  - plumber:
+      version: 0.4.6
+      source: https://cran.cnr.berkeley.edu/src/contrib/plumber_0.4.6.tar.gz
+      source_sha256: 878417c99f00f0c5e163217714eeb87a2a6bd7561417c3dc5a51784ab5cfb7b0
+  - rserve:
+      version: 1.7.3.1
+      source: https://cran.cnr.berkeley.edu/src/contrib/Rserve_1.7-3.tar.gz
+      source_sha256: 23ef72b7ab4f78b7ed1311f9f4d5a961f2fecc7cfc6996473f54e7d6ca7428c8
+  - shiny:
+      version: 1.3.2
+      source: https://cran.cnr.berkeley.edu/src/contrib/shiny_1.3.2.tar.gz
+      source_sha256: 28b851ae6c196ca845f6e815c1379247595ac123a4faa10a16533d1a9ce0c24f
 pre_package: scripts/build.sh
 include_files:
 - CHANGELOG
