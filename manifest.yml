@@ -25,17 +25,17 @@ dependencies:
   source_sha256: 7a3cb831de5b4151e1f890113ed207527b7d4b16df9ec6b35e0964170007f426
 - name: r
   version: 3.4.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-cflinuxfs2-ad874068.tgz
-  sha256: ad8740682bc1304266baf69ddfe0ab9b60a0b324e2d179db21c0be1a3a8cc4c3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-cflinuxfs2-2ce0fd11.tgz
+  sha256: 2ce0fd11b304f15fa6a8140d8b197f3d49e8538b73eb8be91ec5d4d7eb864904
   cf_stacks:
   - cflinuxfs2
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.4.4.tar.gz
   source_sha256: b3e97d2fab7256d1c655c4075934725ba1cd7cb9237240a11bb22ccdad960337
   dependencies:
   - forecast:
-      version: '8.8'
-      source: https://cran.cnr.berkeley.edu/src/contrib/forecast_8.8.tar.gz
-      source_sha256: d077074d77d3ea00e9215c828b3689a8c841a16af1e6859bb2dfdede081c2c1d
+      version: '8.9'
+      source: https://cran.cnr.berkeley.edu/src/contrib/forecast_8.9.tar.gz
+      source_sha256: ade3ec37f16c374b85f605780337a7a6349bfc8352caef319f927d36e4b57d04
   - plumber:
       version: 0.4.6
       source: https://cran.cnr.berkeley.edu/src/contrib/plumber_0.4.6.tar.gz
@@ -50,17 +50,17 @@ dependencies:
       source_sha256: 28b851ae6c196ca845f6e815c1379247595ac123a4faa10a16533d1a9ce0c24f
 - name: r
   version: 3.4.4
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-cflinuxfs3-8d2416a2.tgz
-  sha256: 8d2416a28c43e4a30e7b7f969c7ebda7b6abceb185b33cd2a4293918c15634b3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.4.4-cflinuxfs3-176240d8.tgz
+  sha256: 176240d8d000dd01e57182d157b8acb096c3057ff5546cca63ebf9b54dfba25c
   cf_stacks:
   - cflinuxfs3
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.4.4.tar.gz
   source_sha256: b3e97d2fab7256d1c655c4075934725ba1cd7cb9237240a11bb22ccdad960337
   dependencies:
   - forecast:
-      version: '8.8'
-      source: https://cran.cnr.berkeley.edu/src/contrib/forecast_8.8.tar.gz
-      source_sha256: d077074d77d3ea00e9215c828b3689a8c841a16af1e6859bb2dfdede081c2c1d
+      version: '8.9'
+      source: https://cran.cnr.berkeley.edu/src/contrib/forecast_8.9.tar.gz
+      source_sha256: ade3ec37f16c374b85f605780337a7a6349bfc8352caef319f927d36e4b57d04
   - plumber:
       version: 0.4.6
       source: https://cran.cnr.berkeley.edu/src/contrib/plumber_0.4.6.tar.gz
