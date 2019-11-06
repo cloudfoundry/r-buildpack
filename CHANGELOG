@@ -1,3 +1,20 @@
+v1.0.14 Nov 06, 2019
+=====================
+
+* Rebuild r 3.5.3
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.9, plumber 0.4.6, rserve 1.7.3.1, shiny 1.4.0
+  (https://www.pivotaltracker.com/story/show/169064705)
+
+* Rebuild r 3.6.1
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.9, plumber 0.4.6, rserve 1.7.3.1, shiny 1.4.0
+  (https://www.pivotaltracker.com/story/show/169064709)
+
+* Remove fs2 deps
+   - Fixes #8
+  (https://www.pivotaltracker.com/story/show/166710437)
+
 v1.0.13 Aug 30, 2019
 =====================
 
