@@ -21,29 +21,29 @@ dependencies:
   source_sha256: e53d8c3cf20f2b8d7a9c1631b6f6a22874506fb392034758b3bb341c586c5b62
 - name: r
   version: 3.5.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-de5a8ce0.tgz
-  sha256: de5a8ce0302d5fec97e86276b7bcf94023accbe1a73a4ff2f9647f31feb4a46b
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-808254c8.tgz
+  sha256: 808254c8e33ccdbdd57996bcfdecfc5c603a38aee9a66fc57b0984b54c0440b8
   cf_stacks:
   - cflinuxfs3
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.3.tar.gz
   source_sha256: 2bfa37b7bd709f003d6b8a172ddfb6d03ddd2d672d6096439523039f7a8e678c
   dependencies:
-  - forecast:
-      version: '8.9'
-      source: https://cran.cnr.berkeley.edu/src/contrib/forecast_8.9.tar.gz
-      source_sha256: ade3ec37f16c374b85f605780337a7a6349bfc8352caef319f927d36e4b57d04
-  - plumber:
-      version: 0.4.6
-      source: https://cran.cnr.berkeley.edu/src/contrib/plumber_0.4.6.tar.gz
-      source_sha256: 878417c99f00f0c5e163217714eeb87a2a6bd7561417c3dc5a51784ab5cfb7b0
-  - rserve:
-      version: 1.7.3.1
-      source: https://cran.cnr.berkeley.edu/src/contrib/Rserve_1.7-3.tar.gz
-      source_sha256: 23ef72b7ab4f78b7ed1311f9f4d5a961f2fecc7cfc6996473f54e7d6ca7428c8
-  - shiny:
-      version: 1.4.0
-      source: https://cran.cnr.berkeley.edu/src/contrib/shiny_1.4.0.tar.gz
-      source_sha256: 0c070459387cea98ca7c6df7318370116df42afb5f76a8625eb4f5b681ee6c4b
+  - name: forecast
+    version: '8.10'
+    source: https://cran.cnr.berkeley.edu/src/contrib/forecast_8.10.tar.gz
+    source_sha256: 798e15d15be9af0b8f505e826db83d5f09d7a7434567ec291a31eaf3b8c88c49
+  - name: plumber
+    version: 0.4.6
+    source: https://cran.cnr.berkeley.edu/src/contrib/plumber_0.4.6.tar.gz
+    source_sha256: 878417c99f00f0c5e163217714eeb87a2a6bd7561417c3dc5a51784ab5cfb7b0
+  - name: rserve
+    version: 1.7.3.1
+    source: https://cran.cnr.berkeley.edu/src/contrib/Rserve_1.7-3.tar.gz
+    source_sha256: 23ef72b7ab4f78b7ed1311f9f4d5a961f2fecc7cfc6996473f54e7d6ca7428c8
+  - name: shiny
+    version: 1.4.0
+    source: https://cran.cnr.berkeley.edu/src/contrib/shiny_1.4.0.tar.gz
+    source_sha256: 0c070459387cea98ca7c6df7318370116df42afb5f76a8625eb4f5b681ee6c4b
 - name: r
   version: 3.6.0
   uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.6.0-cflinuxfs3-5d41d2a3.tgz
