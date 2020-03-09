@@ -18,7 +18,8 @@ dependencies:
   cf_stacks:
   - cflinuxfs3
   source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.2.tar.gz
-  source_sha256: e53d8c3cf20f2b8d7a9c1631b6f6a22874506fb392034758b3bb341c586c5b62
+  source_sha256: 
+  dependencies: []
 - name: r
   version: 3.5.3
   uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-808254c8.tgz
