@@ -38,28 +38,28 @@ dependencies:
     source_sha256: 0c070459387cea98ca7c6df7318370116df42afb5f76a8625eb4f5b681ee6c4b
 - name: r
   version: 3.5.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-808254c8.tgz
-  sha256: 808254c8e33ccdbdd57996bcfdecfc5c603a38aee9a66fc57b0984b54c0440b8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.3-cflinuxfs3-4a64cf9e.tgz
+  sha256: 4a64cf9e5fed48f2d8cb3b4dee659b20e2d999d44b485e6759fb6fcfc71cda8b
   cf_stacks:
   - cflinuxfs3
-  source: https://cran.cnr.berkeley.edu/src/base/R-3/R-3.5.3.tar.gz
+  source: https://cran.r-project.org/src/base/R-3/R-3.5.3.tar.gz
   source_sha256: 2bfa37b7bd709f003d6b8a172ddfb6d03ddd2d672d6096439523039f7a8e678c
   dependencies:
   - name: forecast
-    version: '8.10'
-    source: https://cran.cnr.berkeley.edu/src/contrib/forecast_8.10.tar.gz
-    source_sha256: 798e15d15be9af0b8f505e826db83d5f09d7a7434567ec291a31eaf3b8c88c49
+    version: '8.11'
+    source: https://cran.r-project.org/src/contrib/forecast_8.11.tar.gz
+    source_sha256: a12718b7ac1ab78708ef244e4a1cfd044af128de590e14b1d8aab3342d6cd12b
   - name: plumber
     version: 0.4.6
-    source: https://cran.cnr.berkeley.edu/src/contrib/plumber_0.4.6.tar.gz
+    source: https://cran.r-project.org/src/contrib/plumber_0.4.6.tar.gz
     source_sha256: 878417c99f00f0c5e163217714eeb87a2a6bd7561417c3dc5a51784ab5cfb7b0
   - name: rserve
     version: 1.7.3.1
-    source: https://cran.cnr.berkeley.edu/src/contrib/Rserve_1.7-3.tar.gz
-    source_sha256: 23ef72b7ab4f78b7ed1311f9f4d5a961f2fecc7cfc6996473f54e7d6ca7428c8
+    source: https://cran.r-project.org/src/contrib/Rserve_1.7-3.tar.gz
+    source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
   - name: shiny
-    version: 1.4.0
-    source: https://cran.cnr.berkeley.edu/src/contrib/shiny_1.4.0.tar.gz
+    version: 1.4.0.1
+    source: https://cran.r-project.org/src/contrib/shiny_1.4.0.tar.gz
     source_sha256: 0c070459387cea98ca7c6df7318370116df42afb5f76a8625eb4f5b681ee6c4b
 - name: r
   version: 3.6.2
