@@ -1,3 +1,27 @@
+v1.1.2 Mar 16, 2020
+====================
+
+* Rebuild r 3.6.3
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.11, plumber 0.4.6, rserve 1.7.3.1, shiny 1.4.0.2
+  (https://www.pivotaltracker.com/story/show/171785433)
+
+* Rebuild r 3.5.3
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.11, plumber 0.4.6, rserve 1.7.3.1, shiny 1.4.0.2
+  (https://www.pivotaltracker.com/story/show/171785432)
+
+* Rebuild r 3.5.2
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.11, plumber 0.4.6, rserve 1.7.3.1, shiny 1.4.0
+  (https://www.pivotaltracker.com/story/show/171699091)
+
+* Add r 3.6.3, remove r 3.6.1
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.11, plumber 0.4.6, rserve 1.7.3.1, shiny 1.4.0
+  (https://www.pivotaltracker.com/story/show/171702081)
+
+
 v1.1.1 Dec 16, 2019
 ====================
 
