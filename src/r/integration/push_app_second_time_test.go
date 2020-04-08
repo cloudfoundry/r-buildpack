@@ -27,18 +27,20 @@ var _ = Describe("pushing an app a second time", func() {
 		app.Buildpacks = []string{"r_buildpack"}
 	})
 
-	Regexp := `.*/r\-v[\d\.]+\-(cflinuxfs.*-)?[\da-f]+\.tgz`
+	Regexp := `.*(linux_noarch_cflinuxfs3_.*-)?[\da-f]+\.tgz`
 	DownloadRegexp := "Download " + Regexp
 	CopyRegexp := "Copy " + Regexp
 
 	It("uses the cache for manifest dependencies", func() {
-		Expect(app.Push()).ToNot(Succeed())
+		app.Disk = "2G"
+		app.HealthCheck = "process"
+		Expect(app.Push()).To(Succeed())
 		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 		Expect(app.Stdout.String()).To(MatchRegexp(DownloadRegexp))
 		Expect(app.Stdout.String()).ToNot(MatchRegexp(CopyRegexp))
 
 		app.Stdout.Reset()
-		Expect(app.Push()).ToNot(Succeed())
+		Expect(app.Push()).To(Succeed())
 		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
 		Expect(app.Stdout.String()).To(MatchRegexp(CopyRegexp))
 		Expect(app.Stdout.String()).ToNot(MatchRegexp(DownloadRegexp))
