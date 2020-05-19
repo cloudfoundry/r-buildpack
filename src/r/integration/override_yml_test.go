@@ -36,6 +36,7 @@ var _ = Describe("override yml", func() {
 	})
 
 	It("Forces R from override buildpack", func() {
+		app.Disk = "2G"
 		Expect(app.Push()).ToNot(Succeed())
 		Eventually(app.Stdout.String).Should(ContainSubstring("-----> OverrideYML Buildpack"))
 		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
