@@ -2,13 +2,11 @@ module github.com/cloudfoundry/r-buildpack
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
-	github.com/cloudfoundry/libbuildpack v0.0.0-20200515185320-c6e2c6273a97
-	github.com/fsnotify/fsnotify v1.4.9 // indirect
+	github.com/cloudfoundry/libbuildpack v0.0.0-20200519131953-c980d46f96df
 	github.com/golang/mock v1.4.3
-	github.com/onsi/ginkgo v1.12.1
-	github.com/onsi/gomega v1.10.0
-	golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa
-	golang.org/x/sys v0.0.0-20200519105757-fe76b779f299 // indirect
+	github.com/onsi/ginkgo v1.12.2
+	github.com/onsi/gomega v1.10.1
+	golang.org/x/net v0.0.0-20200520004742-59133d7f0dd7
 	gopkg.in/yaml.v2 v2.3.0
 )
 
