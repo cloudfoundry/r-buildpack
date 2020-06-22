@@ -116,13 +116,13 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/shiny_1.4.0.tar.gz
     source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
 - name: r
-  version: 4.0.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.0.0_linux_noarch_cflinuxfs3_96492815.tgz
-  sha256: 96492815062369e63d782186e46c5482887ff3d2612e8f8e1390a4a4e9b0eec2
+  version: 4.0.1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.0.1_linux_noarch_cflinuxfs3_e2a40c76.tgz
+  sha256: e2a40c7615100f6ac2e9b4ada6bff4bee26973e2270bf9ddd23e897bea5dc3f5
   cf_stacks:
   - cflinuxfs3
-  source: https://cran.r-project.org/src/base/R-4/R-4.0.0.tar.gz
-  source_sha256: 06beb0291b569978484eb0dcb5d2339665ec745737bdfb4e873e7a5a75492940
+  source: https://cran.r-project.org/src/base/R-4/R-4.0.1.tar.gz
+  source_sha256: 95fe24a4d8d8f8f888460c8f5fe4311cec656e7a1722d233218bc03861bc6f32
   dependencies:
   - name: forecast
     version: '8.12'
@@ -141,13 +141,13 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/shiny_1.4.0.tar.gz
     source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
 - name: r
-  version: 4.0.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.0.1_linux_noarch_cflinuxfs3_e2a40c76.tgz
-  sha256: e2a40c7615100f6ac2e9b4ada6bff4bee26973e2270bf9ddd23e897bea5dc3f5
+  version: 4.0.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.0.2_linux_noarch_cflinuxfs3_0a74df91.tgz
+  sha256: 0a74df91f5491e4caed5dfbbc0a61a4a66127b2eb7394f0b37cec83c416fef6b
   cf_stacks:
   - cflinuxfs3
-  source: https://cran.r-project.org/src/base/R-4/R-4.0.1.tar.gz
-  source_sha256: 95fe24a4d8d8f8f888460c8f5fe4311cec656e7a1722d233218bc03861bc6f32
+  source: https://cran.r-project.org/src/base/R-4/R-4.0.2.tar.gz
+  source_sha256: d3bceab364da0876625e4097808b42512395fdf41292f4915ab1fd257c1bbe75
   dependencies:
   - name: forecast
     version: '8.12'
