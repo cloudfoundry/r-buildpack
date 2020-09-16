@@ -142,8 +142,8 @@ dependencies:
     source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
 - name: r
   version: 4.0.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.0.2_linux_noarch_cflinuxfs3_6c3305c6.tgz
-  sha256: 6c3305c6f4678f6c41384709eeb833c5b200b5070258882003fda41c597ed5e0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.0.2_linux_noarch_cflinuxfs3_9a8e3ce6.tgz
+  sha256: 9a8e3ce6ef05924c46a5aa89929fc174eba2ac748df41d59fbc26b80f9307e84
   cf_stacks:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.0.2.tar.gz
@@ -154,9 +154,9 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/forecast_8.13.tar.gz
     source_sha256: 490e3a2beb71c238dd26e7afa0b33394b9906dd0dc54712d4808894d5aa1386f
   - name: plumber
-    version: 0.4.6
-    source: https://cran.r-project.org/src/contrib/plumber_0.4.6.tar.gz
-    source_sha256: 878417c99f00f0c5e163217714eeb87a2a6bd7561417c3dc5a51784ab5cfb7b0
+    version: 1.0.0
+    source: https://cran.r-project.org/src/contrib/plumber_1.0.0.tar.gz
+    source_sha256: 106510e71c0535f194ce018ea0abef69af66d310197752f100c75c722a3e1f1e
   - name: rserve
     version: 1.7.3.1
     source: https://cran.r-project.org/src/contrib/Rserve_1.7-3.tar.gz
