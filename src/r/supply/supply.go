@@ -3,13 +3,14 @@ package supply
 import (
 	"bytes"
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 
 	"github.com/cloudfoundry/libbuildpack"
 )
@@ -145,7 +146,7 @@ func (s *Supplier) RewriteRHome() error {
 func (s *Supplier) InstallR() error {
 
 	config := struct {
-		R struct{
+		R struct {
 			Version string `yaml:"version"`
 		} `yaml:"r"`
 	}{}

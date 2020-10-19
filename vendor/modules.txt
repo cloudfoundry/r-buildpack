@@ -6,11 +6,12 @@ github.com/Masterminds/semver
 github.com/blang/semver
 # github.com/cloudfoundry/libbuildpack v0.0.0-20201001161717-7e873c1fa9b1
 github.com/cloudfoundry/libbuildpack
+github.com/cloudfoundry/libbuildpack/ansicleaner
 github.com/cloudfoundry/libbuildpack/cutlass
 github.com/cloudfoundry/libbuildpack/cutlass/docker
 github.com/cloudfoundry/libbuildpack/cutlass/glow
 github.com/cloudfoundry/libbuildpack/packager
-# github.com/elazarl/goproxy v0.0.0-20190911111923-ecfe977594f1
+# github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484
 github.com/elazarl/goproxy
 # github.com/fsnotify/fsnotify v1.4.9
 github.com/fsnotify/fsnotify
@@ -70,7 +71,7 @@ golang.org/x/net/html
 golang.org/x/net/html/atom
 golang.org/x/net/html/charset
 golang.org/x/net/websocket
-# golang.org/x/sys v0.0.0-20201013132646-2da7054afaeb
+# golang.org/x/sys v0.0.0-20201018230417-eeed37f84f13
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 # golang.org/x/text v0.3.2

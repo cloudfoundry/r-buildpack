@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/cloudfoundry/libbuildpack"
+	_ "github.com/cloudfoundry/r-buildpack/src/r/hooks"
 	"github.com/cloudfoundry/r-buildpack/src/r/supply"
 )
 
@@ -49,6 +50,12 @@ func main() {
 	if err = stager.SetStagingEnvironment(); err != nil {
 		logger.Error("Unable to setup environment variables: %s", err.Error())
 		os.Exit(13)
+	}
+
+	err = libbuildpack.RunBeforeCompile(stager)
+	if err != nil {
+		logger.Error("Before Compile: %s", err.Error())
+		os.Exit(12)
 	}
 
 	command := &libbuildpack.Command{}
