@@ -1,3 +1,16 @@
+v1.1.10 Oct 19, 2020
+=====================
+
+* Adds env sourcing hook
+  Allows users to modify the buildpack environment before the buildpack
+  executes by including an r.env.sh file in their source code.
+
+* Add r 4.0.3, remove r 4.0.1
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.13, plumber 1.0.0, rserve 1.7.3.1, shiny 1.5.0
+  (https://www.pivotaltracker.com/story/show/175214838)
+
+
 v1.1.9 Sep 22, 2020
 ====================
 
