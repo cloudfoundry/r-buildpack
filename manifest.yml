@@ -2,10 +2,6 @@
 language: r
 default_versions: []
 dependency_deprecation_dates:
-- version_line: 3.5.x
-  name: r
-  date: 2019-03-11
-  link: https://developer.r-project.org/
 - version_line: 3.6.x
   name: r
   date: 2020-03-01
@@ -15,56 +11,6 @@ dependency_deprecation_dates:
   date: 2021-03-01
   link: https://developer.r-project.org/
 dependencies:
-- name: r
-  version: 3.5.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.5.2-cflinuxfs3-146d3fc2.tgz
-  sha256: 146d3fc2346b3661dad4e3f6dfd80cb805dc35315832d730b139b39a61fe6df0
-  cf_stacks:
-  - cflinuxfs3
-  source: https://cran.r-project.org/src/base/R-3/R-3.5.2.tar.gz
-  source_sha256: e53d8c3cf20f2b8d7a9c1631b6f6a22874506fb392034758b3bb341c586c5b62
-  dependencies:
-  - name: forecast
-    version: '8.11'
-    source: https://cran.r-project.org/src/contrib/forecast_8.11.tar.gz
-    source_sha256: a12718b7ac1ab78708ef244e4a1cfd044af128de590e14b1d8aab3342d6cd12b
-  - name: plumber
-    version: 0.4.6
-    source: https://cran.r-project.org/src/contrib/plumber_0.4.6.tar.gz
-    source_sha256: 878417c99f00f0c5e163217714eeb87a2a6bd7561417c3dc5a51784ab5cfb7b0
-  - name: rserve
-    version: 1.7.3.1
-    source: https://cran.r-project.org/src/contrib/Rserve_1.7-3.tar.gz
-    source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
-  - name: shiny
-    version: 1.4.0
-    source: https://cran.r-project.org/src/contrib/shiny_1.4.0.tar.gz
-    source_sha256: 0c070459387cea98ca7c6df7318370116df42afb5f76a8625eb4f5b681ee6c4b
-- name: r
-  version: 3.5.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_3.5.3_linux_noarch_cflinuxfs3_e5a52335.tgz
-  sha256: e5a523351c498645e95ad42e61cb8c86c52d0630cb7c8e2de07c25f3c976cb7e
-  cf_stacks:
-  - cflinuxfs3
-  source: https://cran.r-project.org/src/base/R-3/R-3.5.3.tar.gz
-  source_sha256: 2bfa37b7bd709f003d6b8a172ddfb6d03ddd2d672d6096439523039f7a8e678c
-  dependencies:
-  - name: forecast
-    version: '8.13'
-    source: https://cran.r-project.org/src/contrib/forecast_8.13.tar.gz
-    source_sha256: 490e3a2beb71c238dd26e7afa0b33394b9906dd0dc54712d4808894d5aa1386f
-  - name: plumber
-    version: 1.0.0
-    source: https://cran.r-project.org/src/contrib/plumber_1.0.0.tar.gz
-    source_sha256: 106510e71c0535f194ce018ea0abef69af66d310197752f100c75c722a3e1f1e
-  - name: rserve
-    version: 1.7.3.1
-    source: https://cran.r-project.org/src/contrib/Rserve_1.7-3.tar.gz
-    source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
-  - name: shiny
-    version: 1.5.0
-    source: https://cran.r-project.org/src/contrib/shiny_1.5.0.tar.gz
-    source_sha256: 23cb8bfa448389c256efdab75e7e8d3ff90e5de66264c4ab02df322fb4298e9e
 - name: r
   version: 3.6.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/r/r-v3.6.2-cflinuxfs3-31058c5e.tgz

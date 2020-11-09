@@ -42,6 +42,14 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 		packagedBuildpack, err := cutlass.PackageUniquelyVersionedBuildpack(os.Getenv("CF_STACK"), ApiHasStackAssociation())
 		Expect(err).NotTo(HaveOccurred())
 
+		// It is very typical of CF installations to have a limit of 1G
+		// for Cloud Controller max file upload size
+		fileInfo, err := os.Stat(packagedBuildpack.File)
+		Expect(err).NotTo(HaveOccurred())
+		Expect(fileInfo.Size()).
+			Should(BeNumerically("<", (int64)(1024*1024*1024)),
+				"Packaged buildpack exceeds the 1GB limit")
+
 		data, err := json.Marshal(packagedBuildpack)
 		Expect(err).NotTo(HaveOccurred())
 		return data
