@@ -11,7 +11,7 @@ require (
 	github.com/onsi/gomega v1.10.3
 	github.com/paketo-buildpacks/packit v0.3.0
 	golang.org/x/net v0.0.0-20201006153459-a7d1128ccaa0
-	golang.org/x/sys v0.0.0-20201101102859-da207088b7d1 // indirect
+	golang.org/x/sys v0.0.0-20201112073958-5cba982894dd // indirect
 	gopkg.in/yaml.v2 v2.3.0
 )
 
