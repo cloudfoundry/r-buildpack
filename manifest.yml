@@ -88,8 +88,8 @@ dependencies:
     source_sha256: 23cb8bfa448389c256efdab75e7e8d3ff90e5de66264c4ab02df322fb4298e9e
 - name: r
   version: 4.0.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.0.3_linux_noarch_cflinuxfs3_2359441e.tgz
-  sha256: 2359441e49095bcc85596a0863f5ace15b051e4ad04cac9551f06ef7f2629f87
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.0.3_linux_noarch_cflinuxfs3_281941ae.tgz
+  sha256: 281941ae6fc7ac4b8873178a31161e1527aae711aa100e6b3dbf52347baeabfc
   cf_stacks:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.0.3.tar.gz
@@ -108,9 +108,9 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/Rserve_1.7-3.tar.gz
     source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
   - name: shiny
-    version: 1.5.0
-    source: https://cran.r-project.org/src/contrib/shiny_1.5.0.tar.gz
-    source_sha256: 23cb8bfa448389c256efdab75e7e8d3ff90e5de66264c4ab02df322fb4298e9e
+    version: 1.6.0
+    source: https://cran.r-project.org/src/contrib/shiny_1.6.0.tar.gz
+    source_sha256: 8bd7d76d67d610aabdcc1df7c8f6d0f18dd695ace16af29b60982541d784bb99
 pre_package: scripts/build.sh
 include_files:
 - CHANGELOG
