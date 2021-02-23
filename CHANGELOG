@@ -1,3 +1,12 @@
+v1.1.13 Feb 23, 2021
+=====================
+
+* Add r 4.0.4, remove r 4.0.2
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.13, plumber 1.0.0, rserve 1.7.3.1, shiny 1.6.0
+  (https://www.pivotaltracker.com/story/show/176941148)
+
+
 v1.1.12 Feb 01, 2021
 =====================
 
