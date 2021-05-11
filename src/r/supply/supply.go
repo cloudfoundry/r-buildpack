@@ -8,7 +8,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
-	"strings"
 
 	"gopkg.in/yaml.v2"
 
@@ -99,32 +98,21 @@ func (s *Supplier) Run() error {
 func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 	isAlphaOrDot := regexp.MustCompile(`^[A-Za-z0-9.]+$`).MatchString
 	for _, src := range packages_to_install.Packages {
-		packages := []string{}
 		for _, pckg := range src.Packages {
-			if !isAlphaOrDot(pckg.Name) {
-				return fmt.Errorf("Invalid package name (%s). Only letters, numbers, and periods are allowed.", pckg.Name)
+			mirror := "NULL"; 
+			if isAlphaOrDot(pckg.Name) {
+				mirror = "\"" + src.CranMirror + "\""
 			}
-			packages = append(packages, pckg.Name)
-		}
-		packageArg := strings.Join(packages, `", "`)
-		if src.CranMirror == "" {
-			vendorPath := filepath.Join(s.Stager.BuildDir(), "vendor_r")
-			fileExists, fileError := libbuildpack.FileExists(vendorPath)
-			if fileError != nil {
-				return fileError
-			} else if !fileExists {
-				return fmt.Errorf("No source found for installing packages: %s", packageArg)
+			cmd := exec.Command("R", "--vanilla", "-e", 
+					    fmt.Sprintf("install.packages(c(\"%s\"), repos=%s, dependencies=TRUE, Ncpus=%d)\n", pckg.Name, mirror, src.Ncpus))
+			cmd.Stdout = s.Log.Output()
+			cmd.Stderr = s.Log.Output()
+			cmd.Dir = s.Stager.BuildDir()
+			// Set DEPS_DIR because R needs it to know its R_HOME
+			cmd.Env = append(os.Environ(), "DEPS_DIR="+s.Stager.DepsDir(), "RHOME="+s.Stager.DepDir())
+			if err := s.Command.Run(cmd); err != nil {
+				return fmt.Errorf("Error while installing packages: %s", err)
 			}
-			src.CranMirror = fmt.Sprintf("%s/%s", "file://", vendorPath)
-		}
-		cmd := exec.Command("R", "--vanilla", "-e", fmt.Sprintf("install.packages(c(\"%s\"), repos=\"%s\", dependencies=TRUE, Ncpus=%d)\n", packageArg, src.CranMirror, src.Ncpus))
-		cmd.Stdout = s.Log.Output()
-		cmd.Stderr = s.Log.Output()
-		cmd.Dir = s.Stager.BuildDir()
-		// Set DEPS_DIR because R needs it to know its R_HOME
-		cmd.Env = append(os.Environ(), "DEPS_DIR="+s.Stager.DepsDir(), "RHOME="+s.Stager.DepDir())
-		if err := s.Command.Run(cmd); err != nil {
-			return fmt.Errorf("Error while installing packages: %s", err)
 		}
 	}
 	return nil
