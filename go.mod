@@ -2,7 +2,7 @@ module github.com/cloudfoundry/r-buildpack
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
-	github.com/cloudfoundry/libbuildpack v0.0.0-20210608221502-8186642fcbf5
+	github.com/cloudfoundry/libbuildpack v0.0.0-20210608233952-b5d1ff03c407
 	github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484 // indirect
 	github.com/elazarl/goproxy/ext v0.0.0-20191011121108-aa519ddbe484 // indirect
 	github.com/golang/mock v1.5.0
