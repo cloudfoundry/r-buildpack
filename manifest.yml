@@ -10,6 +10,10 @@ dependency_deprecation_dates:
   name: r
   date: 2021-03-01
   link: https://developer.r-project.org/
+- version_line: 4.1.x
+  name: r
+  date: 2021-03-01
+  link: https://developer.r-project.org/
 dependencies:
 - name: r
   version: 3.6.2
@@ -94,6 +98,31 @@ dependencies:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.0.5.tar.gz
   source_sha256: 0a3ee079aa772e131fe5435311ab627fcbccb5a50cabc54292e6f62046f1ffef
+  dependencies:
+  - name: forecast
+    version: '8.15'
+    source: https://cran.r-project.org/src/contrib/forecast_8.15.tar.gz
+    source_sha256: c73aabed083095b457ed875c240716686fbd41d1cbafa116b7b890a54b919174
+  - name: plumber
+    version: 1.1.0
+    source: https://cran.r-project.org/src/contrib/plumber_1.1.0.tar.gz
+    source_sha256: f1a6b3829fcc71823e3681eb4d37f97a029d9e8aa96145fe02c70a0ffa1e9967
+  - name: rserve
+    version: 1.7.3.1
+    source: https://cran.r-project.org/src/contrib/Rserve_1.7-3.tar.gz
+    source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
+  - name: shiny
+    version: 1.6.0
+    source: https://cran.r-project.org/src/contrib/shiny_1.6.0.tar.gz
+    source_sha256: 8bd7d76d67d610aabdcc1df7c8f6d0f18dd695ace16af29b60982541d784bb99
+- name: r
+  version: 4.1.0
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.0_linux_noarch_cflinuxfs3_812dddaa.tgz
+  sha256: 812dddaa1d2039ee96e6939bdd89f99791d8773130a64ec018c4159d43a92db1
+  cf_stacks:
+  - cflinuxfs3
+  source: https://cran.r-project.org/src/base/R-4/R-4.1.0.tar.gz
+  source_sha256: e8e68959d7282ca147360fc9644ada9bd161bab781bab14d33b8999a95182781
   dependencies:
   - name: forecast
     version: '8.15'
