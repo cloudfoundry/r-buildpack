@@ -8,8 +8,8 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/onsi/ginkgo v1.16.4
 	github.com/onsi/gomega v1.13.0
-	github.com/paketo-buildpacks/packit v0.11.0
-	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781
+	github.com/paketo-buildpacks/packit v0.13.0
+	golang.org/x/net v0.0.0-20210505024714-0287a6fb4125
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 	gopkg.in/yaml.v2 v2.4.0
 )
