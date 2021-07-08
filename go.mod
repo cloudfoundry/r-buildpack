@@ -2,7 +2,7 @@ module github.com/cloudfoundry/r-buildpack
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
-	github.com/cloudfoundry/libbuildpack v0.0.0-20210615150252-561bcf1024cf
+	github.com/cloudfoundry/libbuildpack v0.0.0-20210622170028-d2e89e1337a5
 	github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484 // indirect
 	github.com/elazarl/goproxy/ext v0.0.0-20191011121108-aa519ddbe484 // indirect
 	github.com/golang/mock v1.6.0
@@ -10,7 +10,7 @@ require (
 	github.com/onsi/gomega v1.13.0
 	github.com/paketo-buildpacks/packit v0.11.0
 	golang.org/x/net v0.0.0-20210428140749-89ef3d95e781
-	golang.org/x/sys v0.0.0-20210616094352-59db8d763f22 // indirect
+	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 	gopkg.in/yaml.v2 v2.4.0
 )
 
