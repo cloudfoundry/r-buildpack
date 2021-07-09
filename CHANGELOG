@@ -1,3 +1,10 @@
+v1.1.20 Jul 09, 2021
+=====================
+
+* Remove R versions 4.0.x due to End of Support
+  See https://github.com/cloudfoundry/r-buildpack/issues/61
+
+
 v1.1.19 Jun 24, 2021
 =====================
 
