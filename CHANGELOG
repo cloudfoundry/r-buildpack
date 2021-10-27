@@ -1,3 +1,12 @@
+v1.1.24 Oct 27, 2021
+=====================
+
+* Update vendored modules
+
+* Bump github.com/onsi/gomega from 1.14.0 to 1.16.0
+
+* Bump github.com/paketo-buildpacks/packit from 0.14.1 to 0.14.3
+
 v1.1.23 Oct 18, 2021
 =====================
 
