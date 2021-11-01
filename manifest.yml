@@ -62,13 +62,13 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/shiny_1.7.1.tar.gz
     source_sha256: c03b2056fb41430352c7c0e812bcc8632e6ec4caef077d2f7633512d91721d00
 - name: r
-  version: 4.1.0
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.0_linux_noarch_cflinuxfs3_812dddaa.tgz
-  sha256: 812dddaa1d2039ee96e6939bdd89f99791d8773130a64ec018c4159d43a92db1
+  version: 4.1.1
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.1_linux_noarch_cflinuxfs3_3a8158cd.tgz
+  sha256: 3a8158cddd591d6dcae20dc058651d76b7ff011532c45bcacce9bdfcf6a0619b
   cf_stacks:
   - cflinuxfs3
-  source: https://cran.r-project.org/src/base/R-4/R-4.1.0.tar.gz
-  source_sha256: e8e68959d7282ca147360fc9644ada9bd161bab781bab14d33b8999a95182781
+  source: https://cran.r-project.org/src/base/R-4/R-4.1.1.tar.gz
+  source_sha256: 515e03265752257d0b7036f380f82e42b46ed8473f54f25c7b67ed25bbbdd364
   dependencies:
   - name: forecast
     version: '8.15'
@@ -83,17 +83,17 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/Rserve_1.7-3.tar.gz
     source_sha256: 6b008b843616a692e0e3906902fe414ebce338a54b6dad5cd863a5bd2cd03cb2
   - name: shiny
-    version: 1.6.0
-    source: https://cran.r-project.org/src/contrib/shiny_1.6.0.tar.gz
-    source_sha256: 8bd7d76d67d610aabdcc1df7c8f6d0f18dd695ace16af29b60982541d784bb99
+    version: 1.7.1
+    source: https://cran.r-project.org/src/contrib/shiny_1.7.1.tar.gz
+    source_sha256: c03b2056fb41430352c7c0e812bcc8632e6ec4caef077d2f7633512d91721d00
 - name: r
-  version: 4.1.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.1_linux_noarch_cflinuxfs3_3a8158cd.tgz
-  sha256: 3a8158cddd591d6dcae20dc058651d76b7ff011532c45bcacce9bdfcf6a0619b
+  version: 4.1.2
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.2_linux_noarch_cflinuxfs3_43e14af5.tgz
+  sha256: 43e14af55fdc7213058409050d82a0586a3a49ab92ed77bbd2261ff436853e95
   cf_stacks:
   - cflinuxfs3
-  source: https://cran.r-project.org/src/base/R-4/R-4.1.1.tar.gz
-  source_sha256: 515e03265752257d0b7036f380f82e42b46ed8473f54f25c7b67ed25bbbdd364
+  source: https://cran.r-project.org/src/base/R-4/R-4.1.2.tar.gz
+  source_sha256: 2036225e9f7207d4ce097e54972aecdaa8b40d7d9911cd26491fac5a0fab38af
   dependencies:
   - name: forecast
     version: '8.15'
