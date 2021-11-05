@@ -1,1 +1,1 @@
-web: R CMD Rserve --vanilla --RS-conf $HOME/rserv.conf && python use_r_math.py
+web: R CMD Rserve --vanilla --RS-conf $HOME/rserv.conf & python use_r_math.py
