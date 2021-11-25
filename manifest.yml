@@ -88,8 +88,8 @@ dependencies:
     source_sha256: c03b2056fb41430352c7c0e812bcc8632e6ec4caef077d2f7633512d91721d00
 - name: r
   version: 4.1.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.2_linux_noarch_cflinuxfs3_8ef14426.tgz
-  sha256: 8ef144267f3674fbd95e88f5d7635f6c9d4e6bdc2e4d763cdfe4d46108e65402
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.2_linux_noarch_cflinuxfs3_2f7175fe.tgz
+  sha256: 2f7175feba1381b1bd37bc628185392046905105154827f99ded7d3ea53cf52e
   cf_stacks:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.1.2.tar.gz
@@ -104,9 +104,9 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/plumber_1.1.0.tar.gz
     source_sha256: f1a6b3829fcc71823e3681eb4d37f97a029d9e8aa96145fe02c70a0ffa1e9967
   - name: rserve
-    version: 1.8.9
-    source: https://cran.r-project.org/src/contrib/Rserve_1.8-9.tar.gz
-    source_sha256: 7cd55d811aaa2aaa2e63f875654162e46fa7ea6157da02738156f2b85a8e5a80
+    version: 1.8.10
+    source: https://cran.r-project.org/src/contrib/Rserve_1.8-10.tar.gz
+    source_sha256: af63a28a4958dbe82597586494d0277272842bb3869db70c547d0896f1345d2c
   - name: shiny
     version: 1.7.1
     source: https://cran.r-project.org/src/contrib/shiny_1.7.1.tar.gz
