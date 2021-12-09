@@ -1,3 +1,39 @@
+v1.1.25 Dec 09, 2021
+=====================
+
+* Bump github.com/paketo-buildpacks/packit from 0.14.3 to 1.3.1
+  Bumps [github.com/paketo-buildpacks/packit](https://github.com/paketo-buildpacks/packit) from 0.14.3 to 1.3.1.
+  - [Release notes](https://github.com/paketo-buildpacks/packit/releases)
+  - [Commits](https://github.com/paketo-buildpacks/packit/compare/v0.14.3...v1.3.1)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/paketo-buildpacks/packit
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+
+* Bump github.com/onsi/gomega from 1.14.0 to 1.17.0
+  Bumps [github.com/onsi/gomega](https://github.com/onsi/gomega) from 1.14.0 to 1.17.0.
+  - [Release notes](https://github.com/onsi/gomega/releases)
+  - [Changelog](https://github.com/onsi/gomega/blob/master/CHANGELOG.md)
+  - [Commits](https://github.com/onsi/gomega/compare/v1.14.0...v1.17.0)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: github.com/onsi/gomega
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+
+* Update libbuildpack
+
+* Add r 4.1.2, remove r 4.1.0
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.15, plumber 1.1.0, rserve 1.7.3.1, shiny 1.7.1
+  (https://www.pivotaltracker.com/story/show/180146692)
+
+
 v1.1.24 Oct 27, 2021
 =====================
 
