@@ -88,17 +88,17 @@ dependencies:
     source_sha256: c03b2056fb41430352c7c0e812bcc8632e6ec4caef077d2f7633512d91721d00
 - name: r
   version: 4.1.2
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.2_linux_noarch_cflinuxfs3_2f7175fe.tgz
-  sha256: 2f7175feba1381b1bd37bc628185392046905105154827f99ded7d3ea53cf52e
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.1.2_linux_noarch_cflinuxfs3_ca56e6fa.tgz
+  sha256: ca56e6fa3785870b0758b57d9209976e0a5dd1f13a04fac6cb2e8243b8b0fba3
   cf_stacks:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.1.2.tar.gz
   source_sha256: 2036225e9f7207d4ce097e54972aecdaa8b40d7d9911cd26491fac5a0fab38af
   dependencies:
   - name: forecast
-    version: '8.15'
-    source: https://cran.r-project.org/src/contrib/forecast_8.15.tar.gz
-    source_sha256: c73aabed083095b457ed875c240716686fbd41d1cbafa116b7b890a54b919174
+    version: '8.16'
+    source: https://cran.r-project.org/src/contrib/forecast_8.16.tar.gz
+    source_sha256: 9f01eb895a883a7e1e23725b167b46edc1b0b152fd4120278aaa5f7b2621767f
   - name: plumber
     version: 1.1.0
     source: https://cran.r-project.org/src/contrib/plumber_1.1.0.tar.gz
