@@ -1,3 +1,19 @@
+v1.1.26 Feb 10, 2022
+=====================
+
+* Rebuild r 4.1.2
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.16, plumber 1.1.0, rserve 1.8.10, shiny 1.7.1
+  (https://www.pivotaltracker.com/story/show/180851850)
+
+* Rebuild r 3.6.3
+  for stack(s) cflinuxfs3
+  with dependencies for stack cflinuxfs3: forecast 8.16, plumber 1.1.0, rserve 1.8.10, shiny 1.7.1
+  (https://www.pivotaltracker.com/story/show/180851852)
+
+* Update libbuildpack
+
+
 v1.1.25 Dec 09, 2021
 =====================
 
