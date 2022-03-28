@@ -8,10 +8,9 @@ require (
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/golang/mock v1.6.0
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.18.1
+	github.com/onsi/gomega v1.19.0
 	github.com/paketo-buildpacks/packit v1.3.1
-	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/net v0.0.0-20220225172249-27dd8689420f
 	gopkg.in/yaml.v2 v2.4.0
 )
 
