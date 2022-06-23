@@ -2,14 +2,6 @@
 language: r
 default_versions: []
 dependency_deprecation_dates:
-- version_line: 3.6.x
-  name: r
-  date: 2020-03-01
-  link: https://developer.r-project.org/
-- version_line: 4.2.x
-  name: r
-  date: 2023-04-01
-  link: https://developer.r-project.org/
 dependencies:
 - name: r
   version: 3.6.2
