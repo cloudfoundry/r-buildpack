@@ -1,3 +1,11 @@
+v1.1.31 Jul 08, 2022
+=====================
+
+* Remove R dependency deprecation dates
+
+* Add r 4.2.1 for stack(s) cflinuxfs3 with dependencies for stack cflinuxfs3: forecast 8.16, plumber 1.1.0, rserve 1.8.10, shiny 1.7.1
+
+
 v1.1.30 Jun 10, 2022
 =====================
 
