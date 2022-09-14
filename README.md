@@ -2,7 +2,7 @@
 
 [![CF Slack](https://www.google.com/s2/favicons?domain=www.slack.com) Join us on Slack](https://cloudfoundry.slack.com/messages/buildpacks/)
 
-A Cloud Foundry [buildpack](http://docs.cloudfoundry.org/buildpacks/) for apps requiring R.
+A Cloud Foundry [buildpack](http://docs.cloudfoundry.org/buildpacks/) for apps requiring [R](https://www.r-project.org).
 
 
 ### Buildpack User Documentation
