@@ -28,7 +28,7 @@ var _ = Describe("CF R Buildpack", func() {
 			}
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "rserve_supply"))
 			app.Buildpacks = []string{"r_buildpack", "https://github.com/cloudfoundry/python-buildpack#master"}
-			app.Disk = "1G"
+			app.Disk = "2G"
 		})
 
 		It("pythons uses Rserve", func() {
