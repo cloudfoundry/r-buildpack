@@ -79,6 +79,10 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/shiny_1.7.2.tar.gz
     source_sha256: 23b5bfee8d597b4147e07c89391a735361cd9f69abeecfd9bd38a14d35fe6252
 - name: r
+  version: 4.2.1
+  cf_stacks:
+  - cflinuxfs4
+- name: r
   version: 4.2.2
   uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.2_linux_noarch_cflinuxfs3_c217318e.tgz
   sha256: c217318e014dc63049612522b7973d1eeb0098fc983db404ce0994e129274421
