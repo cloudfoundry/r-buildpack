@@ -1,6 +1,8 @@
 package integration_test
 
 import (
+	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack/cutlass"
@@ -27,7 +29,7 @@ var _ = Describe("pushing an app a second time", func() {
 		app.Buildpacks = []string{"r_buildpack"}
 	})
 
-	Regexp := `.*(linux_noarch_cflinuxfs3_.*-)?[\da-f]+\.tgz`
+	Regexp := fmt.Sprintf(`.*(linux_noarch_%s_.*-)?[\da-f]+\.tgz`, os.Getenv("CF_STACK"))
 	DownloadRegexp := "Download " + Regexp
 	CopyRegexp := "Copy " + Regexp
 
