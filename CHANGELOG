@@ -1,3 +1,20 @@
+v1.2.0 Jan 31, 2023
+=====================
+
+* Add cflinuxfs4 stack support for R 4.2.X
+
+* Rebuild r 4.2.1
+  for stack(s) cflinuxfs3, cflinuxfs4
+  with dependencies for stack cflinuxfs3: forecast 8.18, plumber 1.2.1, rserve 1.8.10, shiny 1.7.3
+  with dependencies for stack cflinuxfs4: forecast 8.18, plumber 1.2.1, rserve 1.8.10, shiny 1.7.3
+
+* Rebuild r 4.2.2
+  for stack(s) cflinuxfs4, cflinuxfs3
+  with dependencies for stack cflinuxfs4: forecast 8.20, plumber 1.2.1, rserve 1.8.11, shiny 1.7.4
+  with dependencies for stack cflinuxfs3: forecast 8.20, plumber 1.2.1, rserve 1.8.11, shiny 1.7.4
+  (https://www.pivotaltracker.com/story/show/184170168)
+
+
 v1.1.37 Jan 13, 2023
 =====================
 
