@@ -5,7 +5,7 @@ require (
 	github.com/cloudfoundry/libbuildpack v0.0.0-20230331144814-0b11b8e0551a
 	github.com/golang/mock v1.6.0
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.27.6
+	github.com/onsi/gomega v1.27.8
 	github.com/paketo-buildpacks/packit v1.3.1
 	golang.org/x/net v0.10.0
 	gopkg.in/yaml.v2 v2.4.0
