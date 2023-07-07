@@ -1,3 +1,15 @@
+v1.2.4 Jul 07, 2023
+====================
+
+* Add r 4.3.1 for stack(s) cflinuxfs3, cflinuxfs4
+
+* Update r 4.3.1 dependencies for stack(s) cflinuxfs3, cflinuxfs4:
+  * shiny from 1.7.4 to 1.7.4.1
+
+* Update r 4.2.3 dependencies for stack(s) cflinuxfs3, cflinuxfs4:
+  * shiny from 1.7.4 to 1.7.4.1
+
+
 v1.2.3 Jun 08, 2023
 ====================
 
