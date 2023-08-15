@@ -30,8 +30,8 @@ dependencies:
     source_sha256: c03b2056fb41430352c7c0e812bcc8632e6ec4caef077d2f7633512d91721d00
 - name: r
   version: 4.2.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.3_linux_noarch_cflinuxfs3_45c7e2ae.tgz
-  sha256: 45c7e2ae10d396c1e1d6c17868df8f1a99572cd5834397b0b86fbef703851a99
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.3_linux_noarch_cflinuxfs3_83dcc601.tgz
+  sha256: 83dcc60170a92d6856c77829493ca93295a608574d1689ec1acc687b563f73d1
   cf_stacks:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.2.3.tar.gz
@@ -50,13 +50,13 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/Rserve_1.8-11.tar.gz
     source_sha256: 9dfb1d68493f8cee5d2e12a1bfa604404834e11809f4c908d65b9100a9af1b85
   - name: shiny
-    version: 1.7.4.1
-    source: https://cran.r-project.org/src/contrib/shiny_1.7.4.tar.gz
-    source_sha256: bbfcdd7375013b8f59248b3f3f4e752acd445feb25179f3f7f65cd69614da4b5
+    version: 1.7.5
+    source: https://cran.r-project.org/src/contrib/shiny_1.7.5.tar.gz
+    source_sha256: eddb971b22e634b78ee24829f5fe6d2f7f87ec38538a93fdfedc45a706928a40
 - name: r
   version: 4.2.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.3_linux_noarch_cflinuxfs4_8851c28a.tgz
-  sha256: 8851c28a5c571ea8f0a48ca5dec5f14733ecd4f26be2865fbf6093b38da7e978
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.3_linux_noarch_cflinuxfs4_117712b7.tgz
+  sha256: 117712b7f407887a7032397d5a64447d3027d9924b6b478f4164a3848930d892
   cf_stacks:
   - cflinuxfs4
   source: https://cran.r-project.org/src/base/R-4/R-4.2.3.tar.gz
@@ -75,9 +75,9 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/Rserve_1.8-11.tar.gz
     source_sha256: 9dfb1d68493f8cee5d2e12a1bfa604404834e11809f4c908d65b9100a9af1b85
   - name: shiny
-    version: 1.7.4.1
-    source: https://cran.r-project.org/src/contrib/shiny_1.7.4.tar.gz
-    source_sha256: bbfcdd7375013b8f59248b3f3f4e752acd445feb25179f3f7f65cd69614da4b5
+    version: 1.7.5
+    source: https://cran.r-project.org/src/contrib/shiny_1.7.5.tar.gz
+    source_sha256: eddb971b22e634b78ee24829f5fe6d2f7f87ec38538a93fdfedc45a706928a40
 - name: r
   version: 4.3.1
   uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.1_linux_noarch_cflinuxfs3_51bed50b.tgz
