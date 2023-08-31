@@ -80,17 +80,17 @@ dependencies:
     source_sha256: eddb971b22e634b78ee24829f5fe6d2f7f87ec38538a93fdfedc45a706928a40
 - name: r
   version: 4.3.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.1_linux_noarch_cflinuxfs3_de1da3a4.tgz
-  sha256: de1da3a423c21cdfaa004fa763ee0d43ce707c995da3557144282846ccaf1e47
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.1_linux_noarch_cflinuxfs3_ddda7fbf.tgz
+  sha256: ddda7fbf9121299d95da5a17baf7c4d5bde3363efe89877e2ec6abd8c6c6be3d
   cf_stacks:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.3.1.tar.gz
   source_sha256: 8dd0bf24f1023c6f618c3b317383d291b4a494f40d73b983ac22ffea99e4ba99
   dependencies:
   - name: forecast
-    version: '8.21'
-    source: https://cran.r-project.org/src/contrib/forecast_8.21.tar.gz
-    source_sha256: fdd131795a9d3fb399d76a9aa66a0c276637caaa9ec0c75fbe386189d005c6c2
+    version: 8.21.1
+    source: https://cran.r-project.org/src/contrib/forecast_8.21.1.tar.gz
+    source_sha256: 811eace27c7f6e99e1048b8f2522e67bb3620471c5431e0ef83c396612dc8127
   - name: plumber
     version: 1.2.1
     source: https://cran.r-project.org/src/contrib/plumber_1.2.1.tar.gz
@@ -105,17 +105,17 @@ dependencies:
     source_sha256: eddb971b22e634b78ee24829f5fe6d2f7f87ec38538a93fdfedc45a706928a40
 - name: r
   version: 4.3.1
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.1_linux_noarch_cflinuxfs4_1f1d4f1c.tgz
-  sha256: 1f1d4f1c986daeeae358d49a786d95964c9fcc6ddf245c218a6c82b36994d75a
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.1_linux_noarch_cflinuxfs4_58b762cf.tgz
+  sha256: 58b762cfe6095ffa50d1a67e95b2636aa82b0d401a0b23eb941d457cd05a3e97
   cf_stacks:
   - cflinuxfs4
   source: https://cran.r-project.org/src/base/R-4/R-4.3.1.tar.gz
   source_sha256: 8dd0bf24f1023c6f618c3b317383d291b4a494f40d73b983ac22ffea99e4ba99
   dependencies:
   - name: forecast
-    version: '8.21'
-    source: https://cran.r-project.org/src/contrib/forecast_8.21.tar.gz
-    source_sha256: fdd131795a9d3fb399d76a9aa66a0c276637caaa9ec0c75fbe386189d005c6c2
+    version: 8.21.1
+    source: https://cran.r-project.org/src/contrib/forecast_8.21.1.tar.gz
+    source_sha256: 811eace27c7f6e99e1048b8f2522e67bb3620471c5431e0ef83c396612dc8127
   - name: plumber
     version: 1.2.1
     source: https://cran.r-project.org/src/contrib/plumber_1.2.1.tar.gz
