@@ -1,3 +1,13 @@
+v1.2.6 Sep 07, 2023
+====================
+
+* Update r 4.2.3 dependencies for stack(s) cflinuxfs3, cflinuxfs4:
+  * forecast from 8.21 to 8.21.1
+
+* Update r 4.3.1 dependencies for stack(s) cflinuxfs3, cflinuxfs4:
+  * forecast from 8.21 to 8.21.1
+
+
 v1.2.5 Aug 22, 2023
 ====================
 
