@@ -126,6 +126,28 @@ var _ = Describe("Supply", func() {
 						}})).ToNot(Succeed())
 			})
 		})
+		Context("The dependencies argument is provided", func() {
+			It("Succeeds", func() {
+				mockCommand.EXPECT().Run(gomock.Any()).Do(func(cmd *exec.Cmd) {
+					Expect(cmd.Args).To(Equal([]string{
+						"R",
+						"--vanilla",
+						"-e",
+						"install.packages(c(\"good.PACKAGE.name1\"), repos=\"https://good.cran.mirror\", dependencies=c(\"Depends\", \"Imports\"), Ncpus=0)\n",
+					}))
+				})
+				Expect(supplier.InstallPackages(
+					supply.Packages{
+						[]supply.Source{
+							{
+								CranMirror: "https://good.cran.mirror",
+								Dependencies: []string{"Depends", "Imports"},
+								Packages: []supply.Package{
+									{Name: "good.PACKAGE.name1"},
+								}},
+						}})).To(Succeed())
+			})
+		})
 	})
 	Describe("RewriteRHome", func() {
 		BeforeEach(func() {
