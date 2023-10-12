@@ -128,6 +128,7 @@ var _ = Describe("Supply", func() {
 		})
 		Context("The dependencies argument is provided", func() {
 			It("Succeeds", func() {
+				mockStager.EXPECT().DepsDir().Return("/deps/dir")
 				mockCommand.EXPECT().Run(gomock.Any()).Do(func(cmd *exec.Cmd) {
 					Expect(cmd.Args).To(Equal([]string{
 						"R",
