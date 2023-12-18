@@ -1,3 +1,10 @@
+v1.2.8 Dec 13, 2023
+====================
+
+* Update r 4.2.3 dependencies for stack(s) cflinuxfs3, cflinuxfs4:
+  * rserve from 1.8.11 to 1.8.13
+
+
 v1.2.7 Nov 21, 2023
 ====================
 
