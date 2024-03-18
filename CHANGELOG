@@ -1,3 +1,10 @@
+v1.2.10 Mar 18, 2024
+=====================
+
+* Update r 4.2.3 dependencies for stack(s) cflinuxfs3, cflinuxfs4:
+  * forecast from 8.21.1 to 8.22.0
+
+
 v1.2.9 Mar 01, 2024
 ====================
 
