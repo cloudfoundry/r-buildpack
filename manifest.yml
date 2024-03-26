@@ -30,8 +30,8 @@ dependencies:
     source_sha256: c03b2056fb41430352c7c0e812bcc8632e6ec4caef077d2f7633512d91721d00
 - name: r
   version: 4.2.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.3_linux_noarch_cflinuxfs3_61ff3641.tgz
-  sha256: 61ff36417fd5ae2715c7f5445aea124ec357afc4750c8344d05f6cb4a5368556
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.3_linux_noarch_cflinuxfs3_1266115e.tgz
+  sha256: 1266115eb828306bcc4245fe84f5fc4cde718ac5ccc05bef38eae0a76965f126
   cf_stacks:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.2.3.tar.gz
@@ -42,9 +42,9 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/forecast_8.22.0.tar.gz
     source_sha256: 1c355c032baaa5e6c47613e054fee663ba424dabd2fae31ba2c519f67d734527
   - name: plumber
-    version: 1.2.1
-    source: https://cran.r-project.org/src/contrib/plumber_1.2.1.tar.gz
-    source_sha256: 6ffc13e5ce1ff7ec81f6a4ab04eb1cb9f6da4004cf205ba3098d2ec4a83f1ecc
+    version: 1.2.2
+    source: https://cran.r-project.org/src/contrib/plumber_1.2.2.tar.gz
+    source_sha256: f92e700d0487256291fe8be89e800905642670ddcc96570034a6d33ce51c98f9
   - name: rserve
     version: 1.8.13
     source: https://cran.r-project.org/src/contrib/Rserve_1.8-13.tar.gz
@@ -55,8 +55,8 @@ dependencies:
     source_sha256: f28740ba28707e8b3dabb2ad27b002dae555317010660702163bb0daefe04641
 - name: r
   version: 4.2.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.3_linux_noarch_cflinuxfs4_73f54e52.tgz
-  sha256: 73f54e52de0d2ad6878c82adf1273c7c66dbe71b3864c3ac6b3d7953f4460ad7
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.2.3_linux_noarch_cflinuxfs4_fb5e0b18.tgz
+  sha256: fb5e0b18905105afedcb2e22d816c2892876b13b2e63d2a02fffb6472ef9ca7c
   cf_stacks:
   - cflinuxfs4
   source: https://cran.r-project.org/src/base/R-4/R-4.2.3.tar.gz
@@ -67,9 +67,9 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/forecast_8.22.0.tar.gz
     source_sha256: 1c355c032baaa5e6c47613e054fee663ba424dabd2fae31ba2c519f67d734527
   - name: plumber
-    version: 1.2.1
-    source: https://cran.r-project.org/src/contrib/plumber_1.2.1.tar.gz
-    source_sha256: 6ffc13e5ce1ff7ec81f6a4ab04eb1cb9f6da4004cf205ba3098d2ec4a83f1ecc
+    version: 1.2.2
+    source: https://cran.r-project.org/src/contrib/plumber_1.2.2.tar.gz
+    source_sha256: f92e700d0487256291fe8be89e800905642670ddcc96570034a6d33ce51c98f9
   - name: rserve
     version: 1.8.13
     source: https://cran.r-project.org/src/contrib/Rserve_1.8-13.tar.gz
