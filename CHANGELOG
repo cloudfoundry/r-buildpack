@@ -1,3 +1,13 @@
+v1.2.12 May 08, 2024
+=====================
+
+* Remove R 3.6 (old version)
+
+* Add r 4.4.0 for stack(s) cflinuxfs3, cflinuxfs4
+  with dependencies for stack cflinuxfs3: forecast 8.22.0, plumber 1.2.2, rserve 1.8.13, shiny 1.8.1.1
+  with dependencies for stack cflinuxfs4: forecast 8.22.0, plumber 1.2.2, rserve 1.8.13, shiny 1.8.1.1
+
+
 v1.2.11 Apr 17, 2024
 =====================
 
