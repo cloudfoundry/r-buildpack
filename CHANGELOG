@@ -1,3 +1,24 @@
+v1.2.13 Jul 23, 2024
+=====================
+
+* Add r 4.4.1
+  for stack(s) cflinuxfs3, cflinuxfs4
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.8.1.1
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.8.1.1 [#187828151]
+
+* Rebuild r 4.3.3
+  for stack(s) cflinuxfs4, cflinuxfs3
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.8.1.1
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.8.1.1
+
+* Rebuild r 4.2.3
+  for stack(s) cflinuxfs3, cflinuxfs4
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.8.1.1
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.8.1.1 [#187828149]
+
+* Remove 4.4.0 to keep buildpack under 1GB
+
+
 v1.2.12 May 08, 2024
 =====================
 
