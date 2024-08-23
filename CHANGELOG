@@ -1,3 +1,37 @@
+v1.2.14 Aug 23, 2024
+=====================
+
+* Rebuild r 4.2.3
+  for stack(s) cflinuxfs3, cflinuxfs4
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.1
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.1
+
+* Rebuild r 4.3.3
+  for stack(s) cflinuxfs4, cflinuxfs3
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.1
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.1
+
+* Rebuild r 4.4.1
+  for stack(s) cflinuxfs3, cflinuxfs4
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.1
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.1
+
+* Rebuild r 4.2.3
+  for stack(s) cflinuxfs4, cflinuxfs3
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.0
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.0
+
+* Rebuild r 4.3.3
+  for stack(s) cflinuxfs3, cflinuxfs4
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.0
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.0
+
+* Rebuild r 4.4.1
+  for stack(s) cflinuxfs4, cflinuxfs3
+  with dependencies for stack cflinuxfs4: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.0
+  with dependencies for stack cflinuxfs3: forecast 8.23.0, plumber 1.2.2, rserve 1.8.13, shiny 1.9.0
+
+
 v1.2.13 Jul 23, 2024
 =====================
 
