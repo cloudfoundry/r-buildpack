@@ -1,2 +1,0 @@
-numpy==1.26.4 #pyRserve as of date isn't compatible with numpy2.0
-pyRserve

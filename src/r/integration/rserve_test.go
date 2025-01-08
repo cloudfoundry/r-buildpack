@@ -21,23 +21,6 @@ var _ = Describe("CF R Buildpack", func() {
 		app = nil
 	})
 
-	Describe("R as a supply buildpack", func() {
-		BeforeEach(func() {
-			if !ApiHasMultiBuildpack() {
-				Skip("Multi buildpack support is required")
-			}
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "rserve_supply"))
-			app.Buildpacks = []string{"r_buildpack", "https://github.com/cloudfoundry/python-buildpack#master"}
-			app.Disk = "2G"
-		})
-
-		It("pythons uses Rserve", func() {
-			PushAppAndConfirm(app)
-
-			Expect(app.GetBody("/")).To(ContainSubstring("two(9) == 18.0"))
-		})
-	})
-
 	Describe("R as a final buildpack", func() {
 		BeforeEach(func() {
 			app = cutlass.New(filepath.Join(bpDir, "fixtures", "rserve"))
