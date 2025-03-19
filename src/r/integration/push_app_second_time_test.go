@@ -1,50 +1,61 @@
 package integration_test
 
 import (
-	"fmt"
-	"os"
 	"path/filepath"
+	"testing"
 
-	"github.com/cloudfoundry/libbuildpack/cutlass"
+	"github.com/cloudfoundry/switchblade"
+	"github.com/sclevine/spec"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/cloudfoundry/switchblade/matchers"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("pushing an app a second time", func() {
-	var app *cutlass.App
-	AfterEach(func() {
-		if app != nil {
-			app.Destroy()
-		}
-		app = nil
-	})
+func testPushAppSecondTime(platform switchblade.Platform, fixtures string) func(*testing.T, spec.G, spec.S) {
+	return func(t *testing.T, context spec.G, it spec.S) {
+		var (
+			Expect     = NewWithT(t).Expect
+			Eventually = NewWithT(t).Eventually
 
-	BeforeEach(func() {
-		if cutlass.Cached {
-			Skip("but running cached tests")
-		}
+			name   string
+			source string
+		)
 
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple"))
-		app.Buildpacks = []string{"r_buildpack"}
-	})
+		it.Before(func() {
+			var err error
+			name, err = switchblade.RandomName()
+			Expect(err).NotTo(HaveOccurred())
 
-	Regexp := fmt.Sprintf(`.*(linux_noarch_%s_.*-)?[\da-f]+\.tgz`, os.Getenv("CF_STACK"))
-	DownloadRegexp := "Download " + Regexp
-	CopyRegexp := "Copy " + Regexp
+			source, err = switchblade.Source(filepath.Join(fixtures, "default"))
+			Expect(err).NotTo(HaveOccurred())
+		})
 
-	It("uses the cache for manifest dependencies", func() {
-		app.Disk = "2G"
-		app.HealthCheck = "process"
-		Expect(app.Push()).To(Succeed())
-		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
-		Expect(app.Stdout.String()).To(MatchRegexp(DownloadRegexp))
-		Expect(app.Stdout.String()).ToNot(MatchRegexp(CopyRegexp))
+		it.After(func() {
+			Expect(platform.Delete.Execute(name)).To(Succeed())
+		})
 
-		app.Stdout.Reset()
-		Expect(app.Push()).To(Succeed())
-		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
-		Expect(app.Stdout.String()).To(MatchRegexp(CopyRegexp))
-		Expect(app.Stdout.String()).ToNot(MatchRegexp(DownloadRegexp))
-	})
-})
+		Regexp := `.*(linux_noarch_cflinuxfs4_.*-)?[\da-f]+\.tgz`
+		DownloadRegexp := "Download " + Regexp
+		CopyRegexp := "Copy " + Regexp
+
+		context("push an app twice", func() {
+			it("uses the cache for manifest dependencies", func() {
+				_, logs, err := platform.Deploy.
+					Execute(name, source)
+				Expect(err).NotTo(HaveOccurred())
+				Eventually(logs).Should(SatisfyAll(
+					ContainLines(MatchRegexp(DownloadRegexp)),
+					Not(ContainLines(MatchRegexp(CopyRegexp))),
+				))
+
+				_, logs, err = platform.Deploy.
+					Execute(name, source)
+				Expect(err).NotTo(HaveOccurred())
+				Eventually(logs).Should(SatisfyAll(
+					Not(ContainLines(MatchRegexp(DownloadRegexp))),
+					ContainLines(MatchRegexp(CopyRegexp)),
+				))
+			})
+		})
+	}
+}
