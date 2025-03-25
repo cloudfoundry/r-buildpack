@@ -2,35 +2,44 @@ package integration_test
 
 import (
 	"path/filepath"
+	"testing"
 
-	"github.com/cloudfoundry/libbuildpack/cutlass"
-	. "github.com/onsi/ginkgo"
+	"github.com/cloudfoundry/switchblade"
+	"github.com/sclevine/spec"
+
+	. "github.com/cloudfoundry/switchblade/matchers"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("Env Hook", func() {
-	var app *cutlass.App
+func testEnvHook(platform switchblade.Platform, fixtures string) func(*testing.T, spec.G, spec.S) {
+	return func(t *testing.T, context spec.G, it spec.S) {
+		var (
+			Expect     = NewWithT(t).Expect
+			Eventually = NewWithT(t).Eventually
 
-	AfterEach(func() {
-		if app != nil {
-			app.Destroy()
-		}
-		app = nil
-	})
+			name string
+		)
 
-	Context("with a simple R app", func() {
-		BeforeEach(func() {
-			app = cutlass.New(filepath.Join(bpDir, "fixtures", "env_hook"))
-			app.Disk = "1G"
-			Expect(app.PushNoStart()).To(Succeed())
+		it.Before(func() {
+			var err error
+			name, err = switchblade.RandomName()
+			Expect(err).NotTo(HaveOccurred())
 		})
 
-		It("logs that the env hook is running", func() {
-			RunCF("set-health-check", app.Name, "process")
-			Expect(app.Restart()).To(Succeed())
-			Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
-
-			Eventually(app.Stdout.String).Should(ContainSubstring("-----> Setting up R environment using r.env.sh"))
+		it.After(func() {
+			Expect(platform.Delete.Execute(name)).To(Succeed())
 		})
-	})
-})
+
+		context("R app with an env hook", func() {
+			it("builds and runs the hook", func() {
+				_, logs, err := platform.Deploy.
+					Execute(name, filepath.Join(fixtures, "env_hook"))
+				Expect(err).NotTo(HaveOccurred())
+
+				Eventually(logs).Should(
+					ContainLines(MatchRegexp("-----> Setting up R environment using r.env.sh")), logs.String(),
+				)
+			})
+		})
+	}
+}

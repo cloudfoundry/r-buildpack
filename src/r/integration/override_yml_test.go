@@ -2,47 +2,52 @@ package integration_test
 
 import (
 	"path/filepath"
+	"testing"
 
-	"github.com/cloudfoundry/libbuildpack/cutlass"
+	"github.com/cloudfoundry/switchblade"
+	"github.com/sclevine/spec"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/cloudfoundry/switchblade/matchers"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("override yml", func() {
-	var app *cutlass.App
-	var buildpackName string
-	AfterEach(func() {
-		if buildpackName != "" {
-			cutlass.DeleteBuildpack(buildpackName)
-		}
+func testOverrideYml(platform switchblade.Platform, fixtures string) func(*testing.T, spec.G, spec.S) {
+	return func(t *testing.T, context spec.G, it spec.S) {
+		var (
+			Expect     = NewWithT(t).Expect
+			Eventually = NewWithT(t).Eventually
 
-		if app != nil {
-			app.Destroy()
-		}
-		app = nil
-	})
+			name string
+		)
 
-	BeforeEach(func() {
-		if !ApiHasMultiBuildpack() {
-			Skip("Multi buildpack support is required")
-		}
+		it.Before(func() {
+			var err error
+			name, err = switchblade.RandomName()
+			Expect(err).NotTo(HaveOccurred())
+		})
 
-		buildpackName = "override_yml_" + cutlass.RandStringRunes(5)
-		Expect(cutlass.CreateOrUpdateBuildpack(buildpackName, filepath.Join(bpDir, "fixtures", "overrideyml_bp"), "")).To(Succeed())
+		it.After(func() {
+			Expect(platform.Delete.Execute(name)).To(Succeed())
+		})
 
-		app = cutlass.New(filepath.Join(bpDir, "fixtures", "simple"))
-		app.Buildpacks = []string{buildpackName + "_buildpack", "r_buildpack"}
-	})
+		context("override final buildpack", func() {
+			it("Forces R from override buildpack", func() {
+				_, logs, err := platform.Deploy.
+					WithBuildpacks(
+						"override_buildpack",
+						"r_buildpack",
+					).
+					Execute(name, filepath.Join(fixtures, "default"))
+				Expect(err).To(HaveOccurred())
+				Expect(err).To(MatchError(ContainSubstring("App staging failed")))
 
-	It("Forces R from override buildpack", func() {
-		app.Disk = "2G"
-		Expect(app.Push()).ToNot(Succeed())
-		Eventually(app.Stdout.String).Should(ContainSubstring("-----> OverrideYML Buildpack"))
-		Expect(app.ConfirmBuildpack(buildpackVersion)).To(Succeed())
-
-		Eventually(app.Stdout.String).Should(ContainSubstring("-----> Installing r"))
-		Eventually(app.Stdout.String).Should(MatchRegexp("Copy .*/r.tgz"))
-		Eventually(app.Stdout.String).Should(ContainSubstring("Error installing R: dependency sha256 mismatch: expected sha256 062d906c87839d03b243e2821e10653c89b4c92878bfe2bf995dec231e117bfc, actual sha256 b56b58ac21f9f42d032e1e4b8bf8b8823e69af5411caa15aee2b140bc75696"))
-	})
-})
+				Eventually(logs).Should(SatisfyAll(
+					ContainSubstring("-----> OverrideYML Buildpack"),
+					ContainSubstring("-----> Installing r"),
+					ContainLines(MatchRegexp(`Copy .*/r.tgz`)),
+					ContainSubstring("Error installing R: dependency sha256 mismatch: expected sha256 062d906c87839d03b243e2821e10653c89b4c92878bfe2bf995dec231e117bfc, actual sha256 b56b58ac21f9f42d032e1e4b8bf8b8823e69af5411caa15aee2b140bc75696"),
+				))
+			})
+		})
+	}
+}
