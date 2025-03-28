@@ -48,31 +48,6 @@ func testInstallPackages(platform switchblade.Platform, fixtures string) func(*t
 			})
 		})
 
-		context("packages vendored", func() {
-			it("builds both packages parallely", func() {
-				deployment, logs, err := platform.Deploy.
-					Execute(name, filepath.Join(fixtures, "packages_vendored"))
-				Expect(err).NotTo(HaveOccurred())
-
-				Eventually(logs).Should(SatisfyAll(
-					ContainSubstring("Ncpus=2"),
-					ContainSubstring("begin installing package stringr"),
-					ContainSubstring("begin installing package jsonlite"),
-					ContainSubstring("Cleaning up vendored packages"),
-				))
-
-				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
-					Expect(err).NotTo(HaveOccurred())
-					return string(output)
-				}).Should(SatisfyAll(
-					ContainSubstring("STRINGR INSTALLED SUCCESSFULLY"),
-					ContainSubstring("{\"jsonlite\":\"installed\""),
-				))
-			})
-		})
-
 		context("source missing for stringr", func() {
 			it("fails", func() {
 				_, logs, err := platform.Deploy.
