@@ -69,7 +69,9 @@ func TestIntegration(t *testing.T) {
 	suite("EnvHook", testEnvHook(platform, fixtures))
 	suite("InstallPackages", testInstallPackages(platform, fixtures))
 	suite("OverrideYml", testOverrideYml(platform, fixtures))
-	if !settings.Cached {
+	if settings.Cached {
+		suite("Offline", testOffline(platform, fixtures))
+	} else {
 		suite("PushAppSecondTime", testPushAppSecondTime(platform, fixtures))
 	}
 
