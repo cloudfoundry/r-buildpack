@@ -34,6 +34,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 		context("default simple R app", func() {
 			it("builds and runs the app", func() {
 				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "default"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -57,6 +58,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 		context("app that requires fortran support", func() {
 			it("builds and runs the app", func() {
 				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "fortran_required"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -81,6 +83,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 		context("shiny web app", func() {
 			it("builds and runs the app", func() {
 				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "shiny"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -100,6 +103,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 		context("R app that requires plumber", func() {
 			it("builds and runs the app", func() {
 				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "plumber"))
 				Expect(err).NotTo(HaveOccurred())
 

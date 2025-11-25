@@ -33,6 +33,7 @@ func testInstallPackages(platform switchblade.Platform, fixtures string) func(*t
 		context("stringr package", func() {
 			it("builds and runs", func() {
 				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "simple_package"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -51,6 +52,7 @@ func testInstallPackages(platform switchblade.Platform, fixtures string) func(*t
 		context("source missing for stringr", func() {
 			it("fails", func() {
 				_, logs, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "simple_package_nosource"))
 				Expect(err).To(HaveOccurred())
 				Expect(err).To(MatchError(ContainSubstring("App staging failed")))
@@ -65,6 +67,7 @@ func testInstallPackages(platform switchblade.Platform, fixtures string) func(*t
 		context("R app that needs the Rscript bin for installation", func() {
 			it("builds and runs", func() {
 				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "install_uses_rscript"))
 				Expect(err).NotTo(HaveOccurred())
 

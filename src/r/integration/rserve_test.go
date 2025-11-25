@@ -34,6 +34,7 @@ func testRServe(platform switchblade.Platform, fixtures string) func(*testing.T,
 		context("Rserve TCP server app", func() {
 			it("builds, runs and rserve websocket is reachable", func() {
 				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "rserve"))
 				Expect(err).NotTo(HaveOccurred())
 
