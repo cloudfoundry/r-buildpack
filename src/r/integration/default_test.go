@@ -1,8 +1,10 @@
 package integration_test
 
 import (
+	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -35,7 +37,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 
 		context("default simple R app", func() {
 			it("builds and runs the app", func() {
-				_, logs, err := platform.Deploy.
+				deployment, logs, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
 					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "default"))
@@ -45,35 +47,42 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 					ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
 				)
 
-				// Wait for app to start and logs to be available
-				time.Sleep(10 * time.Second)
-				
-				Eventually(func() string {
-					cmd := exec.Command("cf", "logs", name, "--recent")
-					output, err := cmd.CombinedOutput()
-					if err != nil {
-						return ""
-					}
-					return string(output)
-				}, "120s", "3s").Should(SatisfyAll(
-					ContainSubstring("R program running"),
-					ContainSubstring("[1] 16"),
-				)) // Eventually(func() string {
-				// 	cmd := exec.Command("docker", "container", "logs", deployment.Name)
-				// 	output, err := cmd.CombinedOutput()
-				// 	Expect(err).NotTo(HaveOccurred())
-				// 	return string(output)
-				// }).Should(SatisfyAll(
-				// 	ContainSubstring("R program running"),
-				// 	ContainSubstring("[1] 16"),
-				// ),
-				// )
+				// Verify runtime output - platform-specific approach
+				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
+				if platformType == "docker" {
+					// Docker: check container logs directly
+					Eventually(func() string {
+						cmd := exec.Command("docker", "container", "logs", deployment.Name)
+						output, err := cmd.CombinedOutput()
+						if err != nil {
+							return ""
+						}
+						return string(output)
+					}).Should(SatisfyAll(
+						ContainSubstring("R program running"),
+						ContainSubstring("[1] 16"),
+					))
+				} else if platformType == "cf" {
+					// CF: retry cf logs --recent with delays for log aggregation
+					time.Sleep(5 * time.Second) // Initial delay
+					Eventually(func() string {
+						cmd := exec.Command("cf", "logs", name, "--recent")
+						output, err := cmd.CombinedOutput()
+						if err != nil {
+							return ""
+						}
+						return string(output)
+					}, "120s", "5s").Should(SatisfyAll(
+						ContainSubstring("R program running"),
+						ContainSubstring("[1] 16"),
+					))
+				}
 			})
 		})
 
 		context("app that requires fortran support", func() {
 			it("builds and runs the app", func() {
-				_, logs, err := platform.Deploy.
+				deployment, logs, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
 					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "fortran_required"))
@@ -82,32 +91,41 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 				Eventually(logs).Should(SatisfyAll(
 					ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
 					ContainSubstring("package 'hexbin' successfully unpacked and MD5 sums checked"),
+					Not(MatchRegexp("installation of package .* had non-zero exit status")),
 				))
 
-				// Wait for app to start and logs to be available
-				time.Sleep(10 * time.Second)
-				
-				Eventually(func() string {
-					cmd := exec.Command("cf", "logs", name, "--recent")
-					output, err := cmd.CombinedOutput()
-					if err != nil {
-						return ""
-					}
-					return string(output)
-				}, "120s", "3s").Should(SatisfyAll(
-					ContainSubstring("R program running with fortran"),
-					ContainSubstring("[1] 64"),
-					Not(MatchRegexp("installation of package .* had non-zero exit status")),
-				)) // Eventually(func() string {
-				// 	cmd := exec.Command("docker", "container", "logs", deployment.Name)
-				// 	output, err := cmd.CombinedOutput()
-				// 	Expect(err).NotTo(HaveOccurred())
-				// 	return string(output)
-				// }).Should(SatisfyAll(
-				// 	ContainSubstring("R program running with fortran"),
-				// 	ContainSubstring("[1] 64"),
-				// 	Not(MatchRegexp("installation of package .* had non-zero exit status")),
-				// ))
+				// Verify runtime output - platform-specific approach
+				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
+				if platformType == "docker" {
+					// Docker: check container logs directly
+					Eventually(func() string {
+						cmd := exec.Command("docker", "container", "logs", deployment.Name)
+						output, err := cmd.CombinedOutput()
+						if err != nil {
+							return ""
+						}
+						return string(output)
+					}).Should(SatisfyAll(
+						ContainSubstring("R program running with fortran"),
+						ContainSubstring("[1] 64"),
+						Not(MatchRegexp("installation of package .* had non-zero exit status")),
+					))
+				} else if platformType == "cf" {
+					// CF: retry cf logs --recent with delays for log aggregation
+					time.Sleep(5 * time.Second) // Initial delay
+					Eventually(func() string {
+						cmd := exec.Command("cf", "logs", name, "--recent")
+						output, err := cmd.CombinedOutput()
+						if err != nil {
+							return ""
+						}
+						return string(output)
+					}, "120s", "5s").Should(SatisfyAll(
+						ContainSubstring("R program running with fortran"),
+						ContainSubstring("[1] 64"),
+						Not(MatchRegexp("installation of package .* had non-zero exit status")),
+					))
+				}
 			})
 		})
 
