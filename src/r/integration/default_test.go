@@ -45,15 +45,17 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 					ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
 				)
 
+				// Wait for app to start and logs to be available
+				time.Sleep(10 * time.Second)
+				
 				Eventually(func() string {
-					time.Sleep(2 * time.Second) // Give CF logs time to aggregate
 					cmd := exec.Command("cf", "logs", name, "--recent")
 					output, err := cmd.CombinedOutput()
 					if err != nil {
 						return ""
 					}
 					return string(output)
-				}, "60s", "5s").Should(SatisfyAll(
+				}, "120s", "3s").Should(SatisfyAll(
 					ContainSubstring("R program running"),
 					ContainSubstring("[1] 16"),
 				)) // Eventually(func() string {
@@ -82,15 +84,17 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 					ContainSubstring("package 'hexbin' successfully unpacked and MD5 sums checked"),
 				))
 
+				// Wait for app to start and logs to be available
+				time.Sleep(10 * time.Second)
+				
 				Eventually(func() string {
-					time.Sleep(2 * time.Second) // Give CF logs time to aggregate
 					cmd := exec.Command("cf", "logs", name, "--recent")
 					output, err := cmd.CombinedOutput()
 					if err != nil {
 						return ""
 					}
 					return string(output)
-				}, "60s", "5s").Should(SatisfyAll(
+				}, "120s", "3s").Should(SatisfyAll(
 					ContainSubstring("R program running with fortran"),
 					ContainSubstring("[1] 64"),
 					Not(MatchRegexp("installation of package .* had non-zero exit status")),
