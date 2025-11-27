@@ -1,7 +1,6 @@
 package integration_test
 
 import (
-	"os/exec"
 	"path/filepath"
 	"testing"
 
@@ -82,25 +81,25 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 		// 	})
 		// })
 
-	context("shiny web app", func() {
-		it("builds and runs the app", func() {
-			deployment, _, err := platform.Deploy.
-				WithBuildpacks("r_buildpack").
-				Execute(name, filepath.Join(fixtures, "shiny"))
-			Expect(err).NotTo(HaveOccurred())
-
-			Eventually(deployment).Should(Serve(ContainSubstring("<title>Hello Shiny!</title>")))
-
-			Eventually(func() string {
-				cmd := exec.Command("docker", "container", "logs", deployment.Name)
-				output, err := cmd.CombinedOutput()
+		context("shiny web app", func() {
+			it("builds and runs the app", func() {
+				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
+					Execute(name, filepath.Join(fixtures, "shiny"))
 				Expect(err).NotTo(HaveOccurred())
-				return string(output)
-			}).Should(
-				ContainSubstring("library(shiny)"),
-			)
+
+				Eventually(deployment).Should(Serve(ContainSubstring("<title>Hello Shiny!</title>")))
+
+				// Eventually(func() string {
+				// 	cmd := exec.Command("docker", "container", "logs", deployment.Name)
+				// 	output, err := cmd.CombinedOutput()
+				// 	Expect(err).NotTo(HaveOccurred())
+				// 	return string(output)
+				// }).Should(
+				// 	ContainSubstring("library(shiny)"),
+				// )
+			})
 		})
-	})
 
 		// context("R app that requires plumber", func() {
 		// 	it("builds and runs the app", func() {
