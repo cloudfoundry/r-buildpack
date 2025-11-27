@@ -16,6 +16,13 @@ import (
 	"github.com/paketo-buildpacks/packit/v2/pexec"
 )
 
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 type SetupPhase interface {
 	Run(logs io.Writer, home, name, source string) (url string, err error)
 
@@ -25,19 +32,21 @@ type SetupPhase interface {
 	WithoutInternetAccess() SetupPhase
 	WithServices(services map[string]map[string]interface{}) SetupPhase
 	WithStartCommand(command string) SetupPhase
+	WithHealthCheckType(healthCheckType string) SetupPhase
 }
 
 type Setup struct {
 	cli  Executable
 	home string
 
-	internetAccess bool
-	buildpacks     []string
-	stack          string
-	env            map[string]string
-	services       map[string]map[string]interface{}
-	lookupHost     func(string) ([]string, error)
-	startCommand   string
+	internetAccess  bool
+	buildpacks      []string
+	stack           string
+	env             map[string]string
+	services        map[string]map[string]interface{}
+	lookupHost      func(string) ([]string, error)
+	startCommand    string
+	healthCheckType string
 }
 
 func NewSetup(cli Executable, home, stack string) Setup {
@@ -85,6 +94,11 @@ func (s Setup) WithStartCommand(command string) SetupPhase {
 	return s
 }
 
+func (s Setup) WithHealthCheckType(healthCheckType string) SetupPhase {
+	s.healthCheckType = healthCheckType
+	return s
+}
+
 func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 	err := os.MkdirAll(home, os.ModePerm)
 	if err != nil {
@@ -105,13 +119,15 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 	buffer := bytes.NewBuffer(nil)
 	err = s.cli.Execute(pexec.Execution{
 		Args:   []string{"curl", "/v3/domains"},
-		Stdout: io.MultiWriter(log, buffer),
-		Stderr: io.MultiWriter(log, buffer),
+		Stdout: buffer,
+		Stderr: log,
 		Env:    env,
 	})
 	if err != nil {
-		return "", fmt.Errorf("failed to curl /v3/domains: %w\n\nOutput:\n%s", err, log)
+		return "", fmt.Errorf("failed to curl /v3/domains: %w\n\nOutput:\n%s", err, buffer.String())
 	}
+
+	log.Write(buffer.Bytes())
 
 	var domains struct {
 		Resources []struct {
@@ -119,7 +135,7 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 			Internal bool   `json:"internal"`
 		} `json:"resources"`
 	}
-	err = json.NewDecoder(buffer).Decode(&domains)
+	err = json.Unmarshal(buffer.Bytes(), &domains)
 	if err != nil {
 		return "", fmt.Errorf("failed to parse domains: %w", err)
 	}
@@ -144,19 +160,21 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 		buffer = bytes.NewBuffer(nil)
 		err = s.cli.Execute(pexec.Execution{
 			Args:   []string{"curl", "/routing/v1/router_groups"},
-			Stdout: io.MultiWriter(log, buffer),
-			Stderr: io.MultiWriter(log, buffer),
+			Stdout: buffer,
+			Stderr: log,
 			Env:    env,
 		})
 		if err != nil {
-			return "", fmt.Errorf("failed to curl /routing/v1/router_groups: %w\n\nOutput:\n%s", err, log)
+			return "", fmt.Errorf("failed to curl /routing/v1/router_groups: %w\n\nOutput:\n%s", err, buffer.String())
 		}
+
+		log.Write(buffer.Bytes())
 
 		var routerGroups []struct {
 			Name string `json:"name"`
 			Type string `json:"type"`
 		}
-		err = json.NewDecoder(buffer).Decode(&routerGroups)
+		err = json.Unmarshal(buffer.Bytes(), &routerGroups)
 		if err != nil {
 			return "", fmt.Errorf("failed to parse router groups: %w", err)
 		}
@@ -277,7 +295,7 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 
 	for _, phase := range []string{"staging", "running"} {
 		err = s.cli.Execute(pexec.Execution{
-			Args:   []string{"bind-security-group", name, name, name, "--lifecycle", phase},
+			Args:   []string{"bind-security-group", name, name, "--space", name, "--lifecycle", phase},
 			Stdout: log,
 			Stderr: log,
 			Env:    env,
@@ -289,31 +307,31 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 
 	buffer = bytes.NewBuffer(nil)
 	err = s.cli.Execute(pexec.Execution{
-		Args:   []string{"curl", "/v2/security_groups"},
-		Stdout: io.MultiWriter(log, buffer),
-		Stderr: io.MultiWriter(log, buffer),
+		Args:   []string{"curl", "/v3/security_groups"},
+		Stdout: buffer,
+		Stderr: log,
 		Env:    env,
 	})
 	if err != nil {
-		return "", fmt.Errorf("failed to curl /v2/security_groups: %w\n\nOutput:\n%s", err, log)
+		return "", fmt.Errorf("failed to curl /v3/security_groups: %w\n\nOutput:\n%s", err, buffer.String())
 	}
+
+	log.Write(buffer.Bytes())
 
 	var securityGroups struct {
 		Resources []struct {
-			Entity struct {
-				Name string `json:"name"`
-			} `json:"entity"`
+			Name string `json:"name"`
 		} `json:"resources"`
 	}
-	err = json.NewDecoder(buffer).Decode(&securityGroups)
+	err = json.Unmarshal(buffer.Bytes(), &securityGroups)
 	if err != nil {
 		return "", fmt.Errorf("failed to parse security groups: %w", err)
 	}
 
 	for _, securityGroup := range securityGroups.Resources {
-		if !strings.HasPrefix(securityGroup.Entity.Name, "switchblade") {
+		if !strings.HasPrefix(securityGroup.Name, "switchblade") {
 			err = s.cli.Execute(pexec.Execution{
-				Args:   []string{"update-security-group", securityGroup.Entity.Name, filepath.Join(home, "empty-security-group.json")},
+				Args:   []string{"update-security-group", securityGroup.Name, filepath.Join(home, "empty-security-group.json")},
 				Stdout: log,
 				Stderr: log,
 				Env:    env,
@@ -359,7 +377,7 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 	}
 
 	err = s.cli.Execute(pexec.Execution{
-		Args:   []string{"map-route", name, fmt.Sprintf("tcp.%s", domain), "--random-port"},
+		Args:   []string{"map-route", name, fmt.Sprintf("tcp.%s", domain)},
 		Stdout: log,
 		Stderr: log,
 		Env:    env,
@@ -371,13 +389,15 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 	buffer = bytes.NewBuffer(nil)
 	err = s.cli.Execute(pexec.Execution{
 		Args:   []string{"curl", "/v3/spaces"},
-		Stdout: io.MultiWriter(log, buffer),
-		Stderr: io.MultiWriter(log, buffer),
+		Stdout: buffer,
+		Stderr: log,
 		Env:    env,
 	})
 	if err != nil {
-		return "", fmt.Errorf("failed to curl /v3/spaces: %w\n\nOutput:\n%s", err, log)
+		return "", fmt.Errorf("failed to curl /v3/spaces: %w\n\nOutput:\n%s", err, buffer.String())
 	}
+
+	log.Write(buffer.Bytes())
 
 	var spaces struct {
 		Resources []struct {
@@ -385,9 +405,18 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 			GUID string `json:"guid"`
 		} `json:"resources"`
 	}
-	err = json.NewDecoder(buffer).Decode(&spaces)
+
+	// Debug logging for spaces JSON parsing
+	spacesBytes := buffer.Bytes()
+	fmt.Fprintf(log, "\n=== DEBUG: Spaces JSON Parsing ===\n")
+	fmt.Fprintf(log, "Buffer length: %d bytes\n", len(spacesBytes))
+	fmt.Fprintf(log, "First 200 bytes (hex): % x\n", spacesBytes[:min(200, len(spacesBytes))])
+	fmt.Fprintf(log, "First 200 chars: %q\n", string(spacesBytes[:min(200, len(spacesBytes))]))
+	fmt.Fprintf(log, "=== END DEBUG ===\n\n")
+
+	err = json.Unmarshal(spacesBytes, &spaces)
 	if err != nil {
-		return "", fmt.Errorf("failed to parse spaces: %w", err)
+		return "", fmt.Errorf("failed to parse spaces: %w\n\nOutput:\n%s", err, buffer.String())
 	}
 
 	var spaceGUID string
@@ -401,13 +430,15 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 	buffer = bytes.NewBuffer(nil)
 	err = s.cli.Execute(pexec.Execution{
 		Args:   []string{"curl", fmt.Sprintf("/v3/routes?space_guids=%s", spaceGUID)},
-		Stdout: io.MultiWriter(log, buffer),
-		Stderr: io.MultiWriter(log, buffer),
+		Stdout: buffer,
+		Stderr: log,
 		Env:    env,
 	})
 	if err != nil {
-		return "", fmt.Errorf("failed to curl /v3/routes: %w\n\nOutput:\n%s", err, log)
+		return "", fmt.Errorf("failed to curl /v3/routes: %w\n\nOutput:\n%s", err, buffer.String())
 	}
+
+	log.Write(buffer.Bytes())
 
 	var routes struct {
 		Resources []struct {
@@ -415,9 +446,22 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 			Port     int    `json:"port"`
 		} `json:"resources"`
 	}
-	err = json.NewDecoder(buffer).Decode(&routes)
+
+	// Debug logging for routes JSON parsing
+	routesBytes := buffer.Bytes()
+	fmt.Fprintf(log, "\n=== DEBUG: Routes JSON Parsing ===\n")
+	fmt.Fprintf(log, "Buffer length: %d bytes\n", len(routesBytes))
+	fmt.Fprintf(log, "First 200 bytes (hex): % x\n", routesBytes[:min(200, len(routesBytes))])
+	fmt.Fprintf(log, "First 200 chars: %q\n", string(routesBytes[:min(200, len(routesBytes))]))
+	fmt.Fprintf(log, "=== END DEBUG ===\n\n")
+
+	err = json.Unmarshal(routesBytes, &routes)
 	if err != nil {
-		return "", fmt.Errorf("failed to parse routes: %w", err)
+		debugInfo := fmt.Sprintf("Buffer length: %d bytes\nFirst 200 bytes (hex): % x\nFirst 200 chars: %q",
+			len(routesBytes),
+			routesBytes[:min(200, len(routesBytes))],
+			string(routesBytes[:min(200, len(routesBytes))]))
+		return "", fmt.Errorf("failed to parse routes: %w\n\nDebug Info:\n%s", err, debugInfo)
 	}
 
 	var port int
@@ -443,6 +487,18 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 		})
 		if err != nil {
 			return "", fmt.Errorf("failed to set-env: %w\n\nOutput:\n%s", err, log)
+		}
+	}
+
+	if s.healthCheckType != "" {
+		err = s.cli.Execute(pexec.Execution{
+			Args:   []string{"set-health-check", name, s.healthCheckType},
+			Stdout: log,
+			Stderr: log,
+			Env:    env,
+		})
+		if err != nil {
+			return "", fmt.Errorf("failed to set-health-check: %w\n\nOutput:\n%s", err, log)
 		}
 	}
 
