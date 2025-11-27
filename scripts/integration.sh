@@ -21,11 +21,12 @@ OPTIONS
   --help                  -h  prints the command usage
   --github-token <token>      GitHub token to use when making API requests
   --platform <cf|docker>      Switchblade platform to execute the tests against
+  --focus <pattern>           Ginkgo focus pattern to run specific tests only
 USAGE
 }
 
 function main() {
-  local src stack platform token cached parallel
+  local src stack platform token cached parallel focus
   src="$(find "${ROOTDIR}/src" -mindepth 1 -maxdepth 1 -type d )"
   stack="${CF_STACK:-$(jq -r -S .stack "${ROOTDIR}/config.json")}"
   platform="cf"
@@ -49,6 +50,11 @@ function main() {
 
       --parallel)
         parallel="${2}"
+        shift 2
+        ;;
+
+      --focus)
+        focus="${2}"
         shift 2
         ;;
 
@@ -94,29 +100,35 @@ function main() {
 
     echo "Running integration suite (cached: ${cached}, parallel: ${parallel})"
 
-    specs::run "${cached}" "${parallel}" "${stack}" "${platform}" "${token:-}"
+    specs::run "${cached}" "${parallel}" "${stack}" "${platform}" "${token:-}" "${focus:-}"
   done
 }
 
 function specs::run() {
-  local cached parallel stack platform token
+  local cached parallel stack platform token focus
   cached="${1}"
   parallel="${2}"
   stack="${3}"
   platform="${4}"
   token="${5}"
+  focus="${6}"
 
-  local nodes cached_flag serial_flag platform_flag stack_flag token_flag
+  local nodes cached_flag serial_flag platform_flag stack_flag token_flag focus_flag
   cached_flag="--cached=${cached}"
   serial_flag="--serial=true"
   platform_flag="--platform=${platform}"
   stack_flag="--stack=${stack}"
   token_flag="--github-token=${token}"
+  focus_flag=""
   nodes=1
 
   if [[ "${parallel}" == "true" ]]; then
     nodes=3
     serial_flag=""
+  fi
+
+  if [[ -n "${focus}" ]]; then
+    focus_flag="-ginkgo.focus=${focus}"
   fi
 
   local buildpack_file
@@ -135,7 +147,8 @@ function specs::run() {
          "${platform_flag}" \
          "${token_flag}" \
          "${stack_flag}" \
-         "${serial_flag}"
+         "${serial_flag}" \
+         ${focus_flag}
 }
 
 function buildpack::package() {
