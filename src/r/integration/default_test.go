@@ -35,6 +35,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			it("builds and runs the app", func() {
 				deployment, logs, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "default"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -59,6 +60,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			it("builds and runs the app", func() {
 				deployment, logs, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "fortran_required"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -84,6 +86,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			it("builds and runs the app", func() {
 				deployment, _, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "shiny"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -104,6 +107,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			it("builds and runs the app", func() {
 				deployment, _, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "plumber"))
 				Expect(err).NotTo(HaveOccurred())
 
