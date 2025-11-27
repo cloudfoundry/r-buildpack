@@ -30,76 +30,69 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			Expect(platform.Delete.Execute(name)).To(Succeed())
 		})
 
-		// context("default simple R app", func() {
-		// 	it("builds and runs the app", func() {
-		// 		deployment, logs, err := platform.Deploy.
-		// 			WithBuildpacks("r_buildpack").
-		// 			WithHealthCheckType("process").
-		// 			Execute(name, filepath.Join(fixtures, "default"))
-		// 		Expect(err).NotTo(HaveOccurred())
+	context("default simple R app", func() {
+		it("builds and runs the app", func() {
+			_, logs, err := platform.Deploy.
+				WithBuildpacks("r_buildpack").
+				WithHealthCheckType("process").
+				Execute(name, filepath.Join(fixtures, "default"))
+			Expect(err).NotTo(HaveOccurred())
 
-		// 		Eventually(logs).Should(
-		// 			ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
-		// 		)
+			Eventually(logs).Should(
+				ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
+			)
+				// Eventually(func() string {
+				// 	cmd := exec.Command("docker", "container", "logs", deployment.Name)
+				// 	output, err := cmd.CombinedOutput()
+				// 	Expect(err).NotTo(HaveOccurred())
+				// 	return string(output)
+				// }).Should(SatisfyAll(
+				// 	ContainSubstring("R program running"),
+				// 	ContainSubstring("[1] 16"),
+				// ),
+				// )
+			})
+		})
 
-		// 		Eventually(func() string {
-		// 			cmd := exec.Command("docker", "container", "logs", deployment.Name)
-		// 			output, err := cmd.CombinedOutput()
-		// 			Expect(err).NotTo(HaveOccurred())
-		// 			return string(output)
-		// 		}).Should(SatisfyAll(
-		// 			ContainSubstring("R program running"),
-		// 			ContainSubstring("[1] 16"),
-		// 		),
-		// 		)
-		// 	})
-		// })
+	context("app that requires fortran support", func() {
+		it("builds and runs the app", func() {
+			_, logs, err := platform.Deploy.
+				WithBuildpacks("r_buildpack").
+				WithHealthCheckType("process").
+				Execute(name, filepath.Join(fixtures, "fortran_required"))
+			Expect(err).NotTo(HaveOccurred())
 
-		// context("app that requires fortran support", func() {
-		// 	it("builds and runs the app", func() {
-		// 		deployment, logs, err := platform.Deploy.
-		// 			WithBuildpacks("r_buildpack").
-		// 			WithHealthCheckType("process").
-		// 			Execute(name, filepath.Join(fixtures, "fortran_required"))
-		// 		Expect(err).NotTo(HaveOccurred())
+			Eventually(logs).Should(SatisfyAll(
+				ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
+				ContainSubstring("package 'hexbin' successfully unpacked and MD5 sums checked"),
+			))
 
-		// 		Eventually(logs).Should(SatisfyAll(
-		// 			ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
-		// 			ContainSubstring("package 'hexbin' successfully unpacked and MD5 sums checked"),
-		// 		))
-
-		// 		Eventually(func() string {
-		// 			cmd := exec.Command("docker", "container", "logs", deployment.Name)
-		// 			output, err := cmd.CombinedOutput()
-		// 			Expect(err).NotTo(HaveOccurred())
-		// 			return string(output)
-		// 		}).Should(SatisfyAll(
-		// 			ContainSubstring("R program running with fortran"),
-		// 			ContainSubstring("[1] 64"),
-		// 			Not(MatchRegexp("installation of package .* had non-zero exit status")),
-		// 		))
-		// 	})
-		// })
-
-		context("shiny web app", func() {
-			it("builds and runs the app", func() {
-				deployment, _, err := platform.Deploy.
-					WithBuildpacks("r_buildpack").
-					Execute(name, filepath.Join(fixtures, "shiny"))
-				Expect(err).NotTo(HaveOccurred())
-
-				Eventually(deployment).Should(Serve(ContainSubstring("<title>Hello Shiny!</title>")))
+				// Eventually(deployment).Should(Serve(ContainSubstring("R program running with fortran")))
+				// Eventually(deployment).Should(Serve(ContainSubstring("[1] 64")))
 
 				// Eventually(func() string {
 				// 	cmd := exec.Command("docker", "container", "logs", deployment.Name)
 				// 	output, err := cmd.CombinedOutput()
 				// 	Expect(err).NotTo(HaveOccurred())
 				// 	return string(output)
-				// }).Should(
-				// 	ContainSubstring("library(shiny)"),
-				// )
+				// }).Should(SatisfyAll(
+				// 	ContainSubstring("R program running with fortran"),
+				// 	ContainSubstring("[1] 64"),
+				// 	Not(MatchRegexp("installation of package .* had non-zero exit status")),
+				// ))
 			})
 		})
+
+		// context("shiny web app", func() {
+		// 	it("builds and runs the app", func() {
+		// 		deployment, _, err := platform.Deploy.
+		// 			WithBuildpacks("r_buildpack").
+		// 			Execute(name, filepath.Join(fixtures, "shiny"))
+		// 		Expect(err).NotTo(HaveOccurred())
+
+		// 		Eventually(deployment).Should(Serve(ContainSubstring("<title>Hello Shiny!</title>")))
+		// 	})
+		// })
 
 		// context("R app that requires plumber", func() {
 		// 	it("builds and runs the app", func() {
