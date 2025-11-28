@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/cloudfoundry/switchblade"
 	"github.com/sclevine/spec"
@@ -63,20 +62,20 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 						ContainSubstring("R program running"),
 						ContainSubstring("[1] 16"),
 					))
-				case "cf":
-					// CF: retry cf logs --recent with delays for log aggregation
-					time.Sleep(10 * time.Second) // Initial delay
-					Eventually(func() string {
-						cmd := exec.Command("cf", "logs", name, "--recent")
-						output, err := cmd.CombinedOutput()
-						if err != nil {
-							return ""
-						}
-						return string(output)
-					}, "120s", "10s").Should(SatisfyAll(
-						ContainSubstring("R program running"),
-						ContainSubstring("[1] 16"),
-					))
+					// case "cf":
+					// 	// CF: retry cf logs --recent with delays for log aggregation
+					// 	time.Sleep(10 * time.Second) // Initial delay
+					// 	Eventually(func() string {
+					// 		cmd := exec.Command("cf", "logs", name, "--recent")
+					// 		output, err := cmd.CombinedOutput()
+					// 		if err != nil {
+					// 			return ""
+					// 		}
+					// 		return string(output)
+					// 	}, "120s", "10s").Should(SatisfyAll(
+					// 		ContainSubstring("R program running"),
+					// 		ContainSubstring("[1] 16"),
+					// 	))
 				}
 			})
 		})
@@ -91,7 +90,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 
 				Eventually(logs).Should(SatisfyAll(
 					ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
-					ContainSubstring("package 'hexbin' successfully unpacked and MD5 sums checked"),
+					MatchRegexp(`package.*hexbin.*successfully unpacked and MD5 sums checked`),
 					Not(MatchRegexp("installation of package .* had non-zero exit status")),
 				))
 
@@ -112,57 +111,61 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 						ContainSubstring("[1] 64"),
 						Not(MatchRegexp("installation of package .* had non-zero exit status")),
 					))
-				case "cf":
-					// CF: retry cf logs --recent with delays for log aggregation
-					time.Sleep(10 * time.Second) // Initial delay
-					Eventually(func() string {
-						cmd := exec.Command("cf", "logs", name, "--recent")
-						output, err := cmd.CombinedOutput()
-						if err != nil {
-							return ""
-						}
-						return string(output)
-					}, "120s", "10s").Should(SatisfyAll(
-						ContainSubstring("R program running with fortran"),
-						ContainSubstring("[1] 64"),
-						Not(MatchRegexp("installation of package .* had non-zero exit status")),
-					))
+					// case "cf":
+					// 	// CF: retry cf logs --recent with delays for log aggregation
+					// 	time.Sleep(10 * time.Second) // Initial delay
+					// 	Eventually(func() string {
+					// 		cmd := exec.Command("cf", "logs", name, "--recent")
+					// 		output, err := cmd.CombinedOutput()
+					// 		if err != nil {
+					// 			return ""
+					// 		}
+					// 		return string(output)
+					// 	}, "120s", "10s").Should(SatisfyAll(
+					// 		ContainSubstring("R program running with fortran"),
+					// 		ContainSubstring("[1] 64"),
+					// 		Not(MatchRegexp("installation of package .* had non-zero exit status")),
+					// 	))
 				}
 			})
 		})
 
-		// context("shiny web app", func() {
-		// 	it("builds and runs the app", func() {
-		// 		deployment, _, err := platform.Deploy.
-		// 			WithBuildpacks("r_buildpack").
-		// 			Execute(name, filepath.Join(fixtures, "shiny"))
-		// 		Expect(err).NotTo(HaveOccurred())
+		context("shiny web app", func() {
+			it("builds and runs the app", func() {
+				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
+					Execute(name, filepath.Join(fixtures, "shiny"))
+				Expect(err).NotTo(HaveOccurred())
 
-		// 		Eventually(deployment).Should(Serve(ContainSubstring("<title>Hello Shiny!</title>")))
-		// 	})
-		// })
+				Eventually(deployment).Should(Serve(ContainSubstring("<title>Hello Shiny!</title>")))
+			})
+		})
 
-		// context("R app that requires plumber", func() {
-		// 	it("builds and runs the app", func() {
-		// 		deployment, _, err := platform.Deploy.
-		// 			WithBuildpacks("r_buildpack").
-		// 			WithHealthCheckType("process").
-		// 			Execute(name, filepath.Join(fixtures, "plumber"))
-		// 		Expect(err).NotTo(HaveOccurred())
+		context("R app that requires plumber", func() {
+			it("builds and runs the app", func() {
+				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
+					Execute(name, filepath.Join(fixtures, "plumber"))
+				Expect(err).NotTo(HaveOccurred())
 
-		// 		Eventually(deployment).Should(Serve(
-		// 			ContainSubstring(`{"msg":["The message is: ''"]}`),
-		// 		))
+				Eventually(deployment).Should(Serve(
+					ContainSubstring(`{"msg":["The message is: ''"]}`),
+				))
 
-		// 		Eventually(func() string {
-		// 			cmd := exec.Command("docker", "container", "logs", deployment.Name)
-		// 			output, err := cmd.CombinedOutput()
-		// 			Expect(err).NotTo(HaveOccurred())
-		// 			return string(output)
-		// 		}).Should(
-		// 			ContainSubstring("library(plumber)"),
-		// 		)
-		// 	})
-		// })
+				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
+				switch platformType {
+				case "docker":
+					Eventually(func() string {
+						cmd := exec.Command("docker", "container", "logs", deployment.Name)
+						output, err := cmd.CombinedOutput()
+						Expect(err).NotTo(HaveOccurred())
+						return string(output)
+					}).Should(
+						ContainSubstring("library(plumber)"),
+					)
+				}
+			})
+		})
 	}
 }

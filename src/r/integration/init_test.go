@@ -65,15 +65,15 @@ func TestIntegration(t *testing.T) {
 
 	suite := spec.New("integration", spec.Report(report.Terminal{}), spec.Parallel())
 	suite("Default", testDefault(platform, fixtures))
-	// suite("RServe", testRServe(platform, fixtures))
-	// suite("EnvHook", testEnvHook(platform, fixtures))
-	// suite("InstallPackages", testInstallPackages(platform, fixtures))
-	// suite("OverrideYml", testOverrideYml(platform, fixtures))
-	// if settings.Cached {
-	// 	suite("Offline", testOffline(platform, fixtures))
-	// } else {
-	// 	suite("PushAppSecondTime", testPushAppSecondTime(platform, fixtures))
-	// }
+	suite("RServe", testRServe(platform, fixtures))
+	suite("EnvHook", testEnvHook(platform, fixtures))
+	suite("InstallPackages", testInstallPackages(platform, fixtures))
+	suite("OverrideYml", testOverrideYml(platform, fixtures))
+	if settings.Cached {
+		suite("Offline", testOffline(platform, fixtures))
+	} else {
+		suite("PushAppSecondTime", testPushAppSecondTime(platform, fixtures))
+	}
 
 	suite.Run(t)
 
