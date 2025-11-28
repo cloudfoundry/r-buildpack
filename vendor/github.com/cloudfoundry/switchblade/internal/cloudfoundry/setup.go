@@ -366,8 +366,8 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 		return "", fmt.Errorf("failed to push: %w\n\nOutput:\n%s", err, log)
 	}
 
-	// TCP route creation commented out - port pool exhausted on CF environment
-	// R buildpack apps only need HTTP routes (created by cf push)
+	// TCP route creation - attempt but don't fail if port pool exhausted
+	// Some buildpacks may need TCP routes, but many (like R) only need HTTP routes
 	err = s.cli.Execute(pexec.Execution{
 		Args:   []string{"update-quota", "default", "--reserved-route-ports", "100"},
 		Stdout: log,
@@ -375,17 +375,19 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 		Env:    env,
 	})
 	if err != nil {
-		return "", fmt.Errorf("failed to update-quota: %w\n\nOutput:\n%s", err, log)
-	}
-
-	err = s.cli.Execute(pexec.Execution{
-		Args:   []string{"map-route", name, fmt.Sprintf("tcp.%s", domain)},
-		Stdout: log,
-		Stderr: log,
-		Env:    env,
-	})
-	if err != nil {
-		return "", fmt.Errorf("failed to map-route: %w\n\nOutput:\n%s", err, log)
+		fmt.Fprintf(log, "WARNING: failed to update-quota for TCP routes: %v\n", err)
+		fmt.Fprintf(log, "Continuing without TCP route - HTTP routes will still be available\n")
+	} else {
+		err = s.cli.Execute(pexec.Execution{
+			Args:   []string{"map-route", name, fmt.Sprintf("tcp.%s", domain)},
+			Stdout: log,
+			Stderr: log,
+			Env:    env,
+		})
+		if err != nil {
+			fmt.Fprintf(log, "WARNING: failed to map TCP route: %v\n", err)
+			fmt.Fprintf(log, "Continuing without TCP route - HTTP routes will still be available\n")
+		}
 	}
 
 	buffer = bytes.NewBuffer(nil)
