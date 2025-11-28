@@ -31,9 +31,9 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			println(name)
 		})
 
-		// it.After(func() {
-		// 	Expect(platform.Delete.Execute(name)).To(Succeed())
-		// })
+		it.After(func() {
+			Expect(platform.Delete.Execute(name)).To(Succeed())
+		})
 
 		context("default simple R app", func() {
 			it("builds and runs the app", func() {
@@ -49,7 +49,8 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 
 				// Verify runtime output - platform-specific approach
 				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
-				if platformType == "docker" {
+				switch platformType {
+				case "docker":
 					// Docker: check container logs directly
 					Eventually(func() string {
 						cmd := exec.Command("docker", "container", "logs", deployment.Name)
@@ -62,9 +63,9 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 						ContainSubstring("R program running"),
 						ContainSubstring("[1] 16"),
 					))
-				} else if platformType == "cf" {
+				case "cf":
 					// CF: retry cf logs --recent with delays for log aggregation
-					time.Sleep(5 * time.Second) // Initial delay
+					time.Sleep(10 * time.Second) // Initial delay
 					Eventually(func() string {
 						cmd := exec.Command("cf", "logs", name, "--recent")
 						output, err := cmd.CombinedOutput()
@@ -72,7 +73,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 							return ""
 						}
 						return string(output)
-					}, "120s", "5s").Should(SatisfyAll(
+					}, "120s", "10s").Should(SatisfyAll(
 						ContainSubstring("R program running"),
 						ContainSubstring("[1] 16"),
 					))
@@ -96,7 +97,8 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 
 				// Verify runtime output - platform-specific approach
 				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
-				if platformType == "docker" {
+				switch platformType {
+				case "docker":
 					// Docker: check container logs directly
 					Eventually(func() string {
 						cmd := exec.Command("docker", "container", "logs", deployment.Name)
@@ -110,9 +112,9 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 						ContainSubstring("[1] 64"),
 						Not(MatchRegexp("installation of package .* had non-zero exit status")),
 					))
-				} else if platformType == "cf" {
+				case "cf":
 					// CF: retry cf logs --recent with delays for log aggregation
-					time.Sleep(5 * time.Second) // Initial delay
+					time.Sleep(10 * time.Second) // Initial delay
 					Eventually(func() string {
 						cmd := exec.Command("cf", "logs", name, "--recent")
 						output, err := cmd.CombinedOutput()
@@ -120,7 +122,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 							return ""
 						}
 						return string(output)
-					}, "120s", "5s").Should(SatisfyAll(
+					}, "120s", "10s").Should(SatisfyAll(
 						ContainSubstring("R program running with fortran"),
 						ContainSubstring("[1] 64"),
 						Not(MatchRegexp("installation of package .* had non-zero exit status")),

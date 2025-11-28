@@ -366,25 +366,27 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 		return "", fmt.Errorf("failed to push: %w\n\nOutput:\n%s", err, log)
 	}
 
-	err = s.cli.Execute(pexec.Execution{
-		Args:   []string{"update-quota", "default", "--reserved-route-ports", "100"},
-		Stdout: log,
-		Stderr: log,
-		Env:    env,
-	})
-	if err != nil {
-		return "", fmt.Errorf("failed to update-quota: %w\n\nOutput:\n%s", err, log)
-	}
+	// TCP route creation commented out - port pool exhausted on CF environment
+	// R buildpack apps only need HTTP routes (created by cf push)
+	// err = s.cli.Execute(pexec.Execution{
+	// 	Args:   []string{"update-quota", "default", "--reserved-route-ports", "100"},
+	// 	Stdout: log,
+	// 	Stderr: log,
+	// 	Env:    env,
+	// })
+	// if err != nil {
+	// 	return "", fmt.Errorf("failed to update-quota: %w\n\nOutput:\n%s", err, log)
+	// }
 
-	err = s.cli.Execute(pexec.Execution{
-		Args:   []string{"map-route", name, fmt.Sprintf("tcp.%s", domain)},
-		Stdout: log,
-		Stderr: log,
-		Env:    env,
-	})
-	if err != nil {
-		return "", fmt.Errorf("failed to map-route: %w\n\nOutput:\n%s", err, log)
-	}
+	// err = s.cli.Execute(pexec.Execution{
+	// 	Args:   []string{"map-route", name, fmt.Sprintf("tcp.%s", domain)},
+	// 	Stdout: log,
+	// 	Stderr: log,
+	// 	Env:    env,
+	// })
+	// if err != nil {
+	// 	return "", fmt.Errorf("failed to map-route: %w\n\nOutput:\n%s", err, log)
+	// }
 
 	buffer = bytes.NewBuffer(nil)
 	err = s.cli.Execute(pexec.Execution{
