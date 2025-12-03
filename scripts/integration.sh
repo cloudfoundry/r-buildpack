@@ -99,7 +99,7 @@ function main() {
 }
 
 function specs::run() {
-  local cached parallel stack platform token focus
+  local cached parallel stack platform token
   cached="${1}"
   parallel="${2}"
   stack="${3}"

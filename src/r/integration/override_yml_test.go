@@ -24,11 +24,12 @@ func testOverrideYml(platform switchblade.Platform, fixtures string) func(*testi
 			var err error
 			name, err = switchblade.RandomName()
 			Expect(err).NotTo(HaveOccurred())
+			println(name)
 		})
 
-		// it.After(func() {
-		// 	Expect(platform.Delete.Execute(name)).To(Succeed())
-		// })
+		it.After(func() {
+			Expect(platform.Delete.Execute(name)).To(Succeed())
+		})
 
 		context("override final buildpack", func() {
 			it("Forces R from override buildpack", func() {
