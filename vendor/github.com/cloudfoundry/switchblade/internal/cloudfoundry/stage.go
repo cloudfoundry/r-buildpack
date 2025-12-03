@@ -57,21 +57,18 @@ func (s Stage) Run(logs io.Writer, home, name string) (string, error) {
 		Env:    env,
 	})
 	if err != nil {
-		return "", fmt.Errorf("failed to fetch routes: %w\n\nOutput:\n%s", err, buffer.String())
+		return "", fmt.Errorf("failed to fetch routes: %w\n\nOutput:\n%s", err, buffer)
 	}
 
-	routesBytes := buffer.Bytes()
 	var routes struct {
 		Resources []struct {
-			URL string `json:"url"`
+			URL      string `json:"url"`
+			Protocol string `json:"protocol"`
 		} `json:"resources"`
 	}
-	err = json.Unmarshal(routesBytes, &routes)
+	err = json.NewDecoder(buffer).Decode(&routes)
 	if err != nil {
-		debugInfo := fmt.Sprintf("Buffer length: %d bytes\nFirst 300 chars: %q",
-			len(routesBytes),
-			string(routesBytes[:min(300, len(routesBytes))]))
-		return "", fmt.Errorf("failed to parse routes: %w\n\nDebug Info:\n%s", err, debugInfo)
+		return "", fmt.Errorf("failed to parse routes: %w\n\nOutput:\n%s", err, buffer)
 	}
 
 	var url string
