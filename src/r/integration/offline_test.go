@@ -42,8 +42,9 @@ func testOffline(platform switchblade.Platform, fixtures string) func(*testing.T
 
 				Eventually(logs).Should(SatisfyAll(
 					ContainSubstring("Ncpus=2"),
-					ContainSubstring("begin installing package stringr"),
-					ContainSubstring("begin installing package jsonlite"),
+					ContainSubstring("installing *source* package"),
+					ContainSubstring("DONE (stringr)"),
+					ContainSubstring("DONE (jsonlite)"),
 					ContainSubstring("Cleaning up vendored packages"),
 				))
 

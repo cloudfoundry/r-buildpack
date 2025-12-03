@@ -62,20 +62,6 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 						ContainSubstring("R program running"),
 						ContainSubstring("[1] 16"),
 					))
-					// case "cf":
-					// 	// CF: retry cf logs --recent with delays for log aggregation
-					// 	time.Sleep(10 * time.Second) // Initial delay
-					// 	Eventually(func() string {
-					// 		cmd := exec.Command("cf", "logs", name, "--recent")
-					// 		output, err := cmd.CombinedOutput()
-					// 		if err != nil {
-					// 			return ""
-					// 		}
-					// 		return string(output)
-					// 	}, "120s", "10s").Should(SatisfyAll(
-					// 		ContainSubstring("R program running"),
-					// 		ContainSubstring("[1] 16"),
-					// 	))
 				}
 			})
 		})
@@ -111,21 +97,6 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 						ContainSubstring("[1] 64"),
 						Not(MatchRegexp("installation of package .* had non-zero exit status")),
 					))
-					// case "cf":
-					// 	// CF: retry cf logs --recent with delays for log aggregation
-					// 	time.Sleep(10 * time.Second) // Initial delay
-					// 	Eventually(func() string {
-					// 		cmd := exec.Command("cf", "logs", name, "--recent")
-					// 		output, err := cmd.CombinedOutput()
-					// 		if err != nil {
-					// 			return ""
-					// 		}
-					// 		return string(output)
-					// 	}, "120s", "10s").Should(SatisfyAll(
-					// 		ContainSubstring("R program running with fortran"),
-					// 		ContainSubstring("[1] 64"),
-					// 		Not(MatchRegexp("installation of package .* had non-zero exit status")),
-					// 	))
 				}
 			})
 		})

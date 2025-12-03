@@ -4,7 +4,7 @@ go 1.23.4
 
 require (
 	github.com/cloudfoundry/libbuildpack v0.0.0-20240717165421-f2ae8069fcba
-	github.com/cloudfoundry/switchblade v0.9.1-0.20251125152424-09ba8631bad6
+	github.com/cloudfoundry/switchblade v0.9.1-0.20251201132525-f2d52e76c17d
 	github.com/golang/mock v1.6.0
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.36.2
