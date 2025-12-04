@@ -24,6 +24,7 @@ func testOverrideYml(platform switchblade.Platform, fixtures string) func(*testi
 			var err error
 			name, err = switchblade.RandomName()
 			Expect(err).NotTo(HaveOccurred())
+			println(name)
 		})
 
 		it.After(func() {
@@ -45,7 +46,7 @@ func testOverrideYml(platform switchblade.Platform, fixtures string) func(*testi
 					ContainSubstring("-----> OverrideYML Buildpack"),
 					ContainSubstring("-----> Installing r"),
 					ContainLines(MatchRegexp(`Copy .*/r.tgz`)),
-					ContainSubstring("Error installing R: dependency sha256 mismatch: expected sha256 062d906c87839d03b243e2821e10653c89b4c92878bfe2bf995dec231e117bfc, actual sha256 b56b58ac21f9f42d032e1e4b8bf8b8823e69af5411caa15aee2b140bc75696"),
+					ContainSubstring("Error installing R: dependency sha256 mismatch: expected sha256 062d906c87839d03b243e2821e10653c89b4c92878bfe2bf995dec231e117bfc, actual sha256 b56b58ac21f9f42d032e1e4b8bf8b8823e69af5411caa15aee2b140bc756962f"),
 				))
 			})
 		})
