@@ -16,7 +16,7 @@ github.com/cenkalti/backoff/v4
 ## explicit; go 1.22.5
 github.com/cloudfoundry/libbuildpack
 github.com/cloudfoundry/libbuildpack/ansicleaner
-# github.com/cloudfoundry/switchblade v0.9.1-0.20251201132525-f2d52e76c17d
+# github.com/cloudfoundry/switchblade v0.9.1-0.20251203101833-6df7f4c6c02f
 ## explicit; go 1.23.0
 github.com/cloudfoundry/switchblade
 github.com/cloudfoundry/switchblade/internal/cloudfoundry
