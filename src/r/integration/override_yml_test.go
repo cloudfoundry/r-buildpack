@@ -1,7 +1,6 @@
 package integration_test
 
 import (
-	"bytes"
 	"os/exec"
 	"path/filepath"
 	"testing"
@@ -43,26 +42,19 @@ func testOverrideYml(platform switchblade.Platform, fixtures string) func(*testi
 				Expect(err).To(HaveOccurred())
 				Expect(err).To(MatchError(ContainSubstring("App staging failed")))
 
+				targetCmd := exec.Command("cf", "target", "-o", name, "-s", name)
+				_ = targetCmd.Run()
+
 				// In CF API v3, staging logs are not in the logs buffer when staging fails.
-				// We need to target the app's org/space and fetch them using `cf logs --recent`.
-				// Switchblade creates a new org/space with the same name as the app.
-				var recentLogsStr string
-				for i := 0; i < 3; i++ {
-					targetCmd := exec.Command("cf", "target", "-o", name, "-s", name)
-					_ = targetCmd.Run()
-
-					recentLogs := bytes.NewBuffer(nil)
-					cmd := exec.Command("cf", "logs", name, "--recent")
-					cmd.Stdout = recentLogs
-					cmd.Stderr = recentLogs
-					_ = cmd.Run()
-
-					recentLogsStr = recentLogs.String()
-					if recentLogsStr != "" && !bytes.Contains(recentLogs.Bytes(), []byte("not found")) {
-						break
-					}
-					time.Sleep(100 * time.Millisecond)
+				// Fetch them directly using cf logs --recent
+				recentLogs, err := exec.Command("cf", "logs", name, "--recent").CombinedOutput()
+				if err != nil {
+					// Retry once after brief delay if command fails
+					time.Sleep(200 * time.Millisecond)
+					recentLogs, _ = exec.Command("cf", "logs", name, "--recent").CombinedOutput()
 				}
+
+				recentLogsStr := string(recentLogs)
 
 				// Verify staging logs contain expected strings
 				Expect(recentLogsStr).To(ContainSubstring("-----> OverrideYML Buildpack"))
