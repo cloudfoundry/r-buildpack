@@ -55,18 +55,11 @@ func (i Initialize) Run(buildpacks []Buildpack) error {
 				position = strconv.Itoa(payload.Resources[0].Position)
 			}
 
-			// Delete buildpack regardless of stack
 			err = i.cli.Execute(pexec.Execution{
 				Args:   []string{"delete-buildpack", "-f", buildpack.Name},
 				Stdout: logs,
 				Stderr: logs,
 			})
-			// //Delete with stack flag to remove stack-specific buildpacks
-			// err = i.cli.Execute(pexec.Execution{
-			// 	Args:   []string{"delete-buildpack", "-f", buildpack.Name, "-s", i.stack},
-			// 	Stdout: logs,
-			// 	Stderr: logs,
-			// })
 			if err != nil {
 				return fmt.Errorf("failed to delete buildpack: %s\n\nOutput:\n%s", err, logs)
 			}
