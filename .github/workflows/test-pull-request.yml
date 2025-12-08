@@ -63,7 +63,6 @@ jobs:
       - name: Run Integration Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GOMAXPROCS: "2"
         run: |
           ./scripts/integration.sh \
             --platform docker \
