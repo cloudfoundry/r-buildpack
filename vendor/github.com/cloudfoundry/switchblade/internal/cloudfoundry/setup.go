@@ -176,14 +176,20 @@ func (s Setup) Run(log io.Writer, home, name, source string) (string, error) {
 			}
 		}
 
+		buffer = bytes.NewBuffer(nil)
 		err = s.cli.Execute(pexec.Execution{
 			Args:   []string{"create-shared-domain", fmt.Sprintf("tcp.%s", domain), "--router-group", routerGroup},
-			Stdout: log,
-			Stderr: log,
+			Stdout: io.MultiWriter(log, buffer),
+			Stderr: io.MultiWriter(log, buffer),
 			Env:    env,
 		})
 		if err != nil {
-			return "", fmt.Errorf("failed to create-shared-domain: %w\n\nOutput:\n%s", err, log)
+			// If domain already exists (race condition in parallel tests), treat as success
+			if strings.Contains(buffer.String(), "already in use") {
+				// Domain was created by another parallel test, continue
+			} else {
+				return "", fmt.Errorf("failed to create-shared-domain: %w\n\nOutput:\n%s", err, buffer.String())
+			}
 		}
 	}
 
