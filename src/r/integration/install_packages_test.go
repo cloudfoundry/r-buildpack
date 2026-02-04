@@ -1,8 +1,10 @@
 package integration_test
 
 import (
+	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/cloudfoundry/switchblade"
@@ -34,18 +36,25 @@ func testInstallPackages(platform switchblade.Platform, fixtures string) func(*t
 			it("builds and runs", func() {
 				deployment, _, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "simple_package"))
 				Expect(err).NotTo(HaveOccurred())
 
-				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
-					Expect(err).NotTo(HaveOccurred())
-					return string(output)
-				}).Should(SatisfyAll(
-					ContainSubstring("R program running"),
-					ContainSubstring("HELLO WORLD"),
-				))
+				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
+				switch platformType {
+				case "docker":
+					// Docker: check container logs directly
+					Eventually(func() string {
+						cmd := exec.Command("docker", "container", "logs", deployment.Name)
+						output, err := cmd.CombinedOutput()
+						Expect(err).NotTo(HaveOccurred())
+						return string(output)
+					}).Should(SatisfyAll(
+						ContainSubstring("R program running"),
+						ContainSubstring("HELLO WORLD"),
+					))
+				}
+
 			})
 		})
 
@@ -68,18 +77,23 @@ func testInstallPackages(platform switchblade.Platform, fixtures string) func(*t
 			it("builds and runs", func() {
 				deployment, _, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "install_uses_rscript"))
 				Expect(err).NotTo(HaveOccurred())
 
-				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
-					Expect(err).NotTo(HaveOccurred())
-					return string(output)
-				}).Should(SatisfyAll(
-					ContainSubstring("R program running"),
-					ContainSubstring("HELLO WORLD"),
-				))
+				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
+				switch platformType {
+				case "docker":
+					Eventually(func() string {
+						cmd := exec.Command("docker", "container", "logs", deployment.Name)
+						output, err := cmd.CombinedOutput()
+						Expect(err).NotTo(HaveOccurred())
+						return string(output)
+					}).Should(SatisfyAll(
+						ContainSubstring("R program running"),
+						ContainSubstring("HELLO WORLD"),
+					))
+				}
 			})
 		})
 	}
