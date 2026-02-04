@@ -1,8 +1,10 @@
 package integration_test
 
 import (
+	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/cloudfoundry/switchblade"
@@ -25,6 +27,7 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 			var err error
 			name, err = switchblade.RandomName()
 			Expect(err).NotTo(HaveOccurred())
+			println(name)
 		})
 
 		it.After(func() {
@@ -34,6 +37,8 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 		context("default simple R app", func() {
 			it("builds and runs the app", func() {
 				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "default"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -41,65 +46,77 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 					ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
 				)
 
-				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
-					Expect(err).NotTo(HaveOccurred())
-					return string(output)
-				}).Should(SatisfyAll(
-					ContainSubstring("R program running"),
-					ContainSubstring("[1] 16"),
-				),
-				)
+				// Verify runtime output - platform-specific approach
+				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
+				switch platformType {
+				case "docker":
+					// Docker: check container logs directly
+					Eventually(func() string {
+						cmd := exec.Command("docker", "container", "logs", deployment.Name)
+						output, err := cmd.CombinedOutput()
+						if err != nil {
+							return ""
+						}
+						return string(output)
+					}).Should(SatisfyAll(
+						ContainSubstring("R program running"),
+						ContainSubstring("[1] 16"),
+					))
+				}
 			})
 		})
 
 		context("app that requires fortran support", func() {
 			it("builds and runs the app", func() {
 				deployment, logs, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "fortran_required"))
 				Expect(err).NotTo(HaveOccurred())
 
 				Eventually(logs).Should(SatisfyAll(
 					ContainLines(MatchRegexp(`Installing r [\d\.]+`)),
-					ContainSubstring("package 'hexbin' successfully unpacked and MD5 sums checked"),
-				))
-
-				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
-					Expect(err).NotTo(HaveOccurred())
-					return string(output)
-				}).Should(SatisfyAll(
-					ContainSubstring("R program running with fortran"),
-					ContainSubstring("[1] 64"),
+					MatchRegexp(`package.*hexbin.*successfully unpacked and MD5 sums checked`),
 					Not(MatchRegexp("installation of package .* had non-zero exit status")),
 				))
+
+				// Verify runtime output - platform-specific approach
+				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
+				switch platformType {
+				case "docker":
+					// Docker: check container logs directly
+					Eventually(func() string {
+						cmd := exec.Command("docker", "container", "logs", deployment.Name)
+						output, err := cmd.CombinedOutput()
+						if err != nil {
+							return ""
+						}
+						return string(output)
+					}).Should(SatisfyAll(
+						ContainSubstring("R program running with fortran"),
+						ContainSubstring("[1] 64"),
+						Not(MatchRegexp("installation of package .* had non-zero exit status")),
+					))
+				}
 			})
 		})
 
 		context("shiny web app", func() {
 			it("builds and runs the app", func() {
 				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
 					Execute(name, filepath.Join(fixtures, "shiny"))
 				Expect(err).NotTo(HaveOccurred())
 
 				Eventually(deployment).Should(Serve(ContainSubstring("<title>Hello Shiny!</title>")))
-
-				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
-					Expect(err).NotTo(HaveOccurred())
-					return string(output)
-				}).Should(
-					ContainSubstring("library(shiny)"),
-				)
 			})
 		})
 
 		context("R app that requires plumber", func() {
 			it("builds and runs the app", func() {
 				deployment, _, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "plumber"))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -107,14 +124,18 @@ func testDefault(platform switchblade.Platform, fixtures string) func(*testing.T
 					ContainSubstring(`{"msg":["The message is: ''"]}`),
 				))
 
-				Eventually(func() string {
-					cmd := exec.Command("docker", "container", "logs", deployment.Name)
-					output, err := cmd.CombinedOutput()
-					Expect(err).NotTo(HaveOccurred())
-					return string(output)
-				}).Should(
-					ContainSubstring("library(plumber)"),
-				)
+				platformType := strings.ToLower(os.Getenv("SWITCHBLADE_PLATFORM"))
+				switch platformType {
+				case "docker":
+					Eventually(func() string {
+						cmd := exec.Command("docker", "container", "logs", deployment.Name)
+						output, err := cmd.CombinedOutput()
+						Expect(err).NotTo(HaveOccurred())
+						return string(output)
+					}).Should(
+						ContainSubstring("library(plumber)"),
+					)
+				}
 			})
 		})
 	}

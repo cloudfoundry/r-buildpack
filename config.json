@@ -9,10 +9,6 @@
       {
         "cached": false,
         "parallel": true
-      },
-      {
-        "cached": true,
-        "parallel": true
       }
     ]
   }

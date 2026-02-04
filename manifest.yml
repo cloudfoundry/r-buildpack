@@ -55,54 +55,54 @@ dependencies:
     source_sha256: 6e700a176684b183e5a6ad4f637aaaae97bd58bfc8b3c7ac72c628412a344452
 - name: r
   version: 4.3.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.3_linux_noarch_cflinuxfs3_393a3163.tgz
-  sha256: 393a31637235da2adee7b5fcf10c86c23675510a1a5838870c94915aafcff26f
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.3_linux_noarch_cflinuxfs3_9d9e95ab.tgz
+  sha256: 9d9e95ab73828efe46edc91eaf56ab5ef6f95f9293a4637e55df1c9a9062fdab
   cf_stacks:
   - cflinuxfs3
   source: https://cran.r-project.org/src/base/R-4/R-4.3.3.tar.gz
   source_sha256: 80851231393b85bf3877ee9e39b282e750ed864c5ec60cbd68e6e139f0520330
   dependencies:
   - name: forecast
-    version: 8.24.0
-    source: https://cran.r-project.org/src/contrib/forecast_8.24.0.tar.gz
-    source_sha256: fb0bf1f1bfa3e3df379d6a1ebce9e64d92829eefedde5400d13578f37bd61646
+    version: 9.0.0
+    source: https://cran.r-project.org/src/contrib/forecast_9.0.0.tar.gz
+    source_sha256: cd87ed85a29ddd9e9db53ad8482ef53ead18947c29502ded0c8123f40a538617
   - name: plumber
-    version: 1.3.0
-    source: https://cran.r-project.org/src/contrib/plumber_1.3.0.tar.gz
-    source_sha256: 3ac859f2fc16aed144c578a571f363b47084d49d07a8383d0b162fbd2bfd2d7d
+    version: 1.3.3
+    source: https://cran.r-project.org/src/contrib/plumber_1.3.3.tar.gz
+    source_sha256: e72b43c84c32404f0a75ea1b3b8e3153cc4d4dd9021e90929a882f56da1d9c91
   - name: rserve
-    version: 1.8.15
-    source: https://cran.r-project.org/src/contrib/Rserve_1.8-15.tar.gz
-    source_sha256: 15645f7e3be8239643c6cdb1148648ab0a02cb3a42a2937a97626ed90b9e65b0
+    version: 1.8.17
+    source: https://cran.r-project.org/src/contrib/Rserve_1.8-17.tar.gz
+    source_sha256: 519a5717bb5afba1b7a79270f1c8c3c600ad21f23be163d83e5740f9f9e9be5d
   - name: shiny
-    version: 1.10.0
-    source: https://cran.r-project.org/src/contrib/shiny_1.10.0.tar.gz
-    source_sha256: 6e700a176684b183e5a6ad4f637aaaae97bd58bfc8b3c7ac72c628412a344452
+    version: 1.12.1
+    source: https://cran.r-project.org/src/contrib/shiny_1.12.1.tar.gz
+    source_sha256: b8e6d1641822308453e3d1e511837f67e2213400dacd6370b6846e116b238aa2
 - name: r
   version: 4.3.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.3_linux_noarch_cflinuxfs4_da422b98.tgz
-  sha256: da422b9885f319e42068a598ebf8b3cb2da0cd38f70bd98e45291cb2eba31879
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.3_linux_noarch_cflinuxfs4_0d4dcb23.tgz
+  sha256: 0d4dcb231ffce0ec73d363a1ac94a7f4fa933af14cf16604774d59bd57472f4d
   cf_stacks:
   - cflinuxfs4
   source: https://cran.r-project.org/src/base/R-4/R-4.3.3.tar.gz
   source_sha256: 80851231393b85bf3877ee9e39b282e750ed864c5ec60cbd68e6e139f0520330
   dependencies:
   - name: forecast
-    version: 8.24.0
-    source: https://cran.r-project.org/src/contrib/forecast_8.24.0.tar.gz
-    source_sha256: fb0bf1f1bfa3e3df379d6a1ebce9e64d92829eefedde5400d13578f37bd61646
+    version: 9.0.0
+    source: https://cran.r-project.org/src/contrib/forecast_9.0.0.tar.gz
+    source_sha256: cd87ed85a29ddd9e9db53ad8482ef53ead18947c29502ded0c8123f40a538617
   - name: plumber
-    version: 1.3.0
-    source: https://cran.r-project.org/src/contrib/plumber_1.3.0.tar.gz
-    source_sha256: 3ac859f2fc16aed144c578a571f363b47084d49d07a8383d0b162fbd2bfd2d7d
+    version: 1.3.3
+    source: https://cran.r-project.org/src/contrib/plumber_1.3.3.tar.gz
+    source_sha256: e72b43c84c32404f0a75ea1b3b8e3153cc4d4dd9021e90929a882f56da1d9c91
   - name: rserve
-    version: 1.8.15
-    source: https://cran.r-project.org/src/contrib/Rserve_1.8-15.tar.gz
-    source_sha256: 15645f7e3be8239643c6cdb1148648ab0a02cb3a42a2937a97626ed90b9e65b0
+    version: 1.8.17
+    source: https://cran.r-project.org/src/contrib/Rserve_1.8-17.tar.gz
+    source_sha256: 519a5717bb5afba1b7a79270f1c8c3c600ad21f23be163d83e5740f9f9e9be5d
   - name: shiny
-    version: 1.10.0
-    source: https://cran.r-project.org/src/contrib/shiny_1.10.0.tar.gz
-    source_sha256: 6e700a176684b183e5a6ad4f637aaaae97bd58bfc8b3c7ac72c628412a344452
+    version: 1.12.1
+    source: https://cran.r-project.org/src/contrib/shiny_1.12.1.tar.gz
+    source_sha256: b8e6d1641822308453e3d1e511837f67e2213400dacd6370b6846e116b238aa2
 - name: r
   version: 4.4.1
   uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.4.1_linux_noarch_cflinuxfs3_237e4cf4.tgz
@@ -154,6 +154,31 @@ dependencies:
     source: https://cran.r-project.org/src/contrib/shiny_1.9.1.tar.gz
     source_sha256: 854b6a214f127d652de2e0e02d675fd53209b058c11911f56f8d41382ba654e3
 - name: r
+  version: 4.4.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.4.3_linux_noarch_cflinuxfs4_96a672d1.tgz
+  sha256: 96a672d149639212363323d22cb510fc2e8e4f77f0aa47674ac9adbcea0dd00f
+  cf_stacks:
+  - cflinuxfs4
+  source: https://cran.r-project.org/src/base/R-4/R-4.4.3.tar.gz
+  source_sha256: 0d93d224442dea253c2b086f088db6d0d3cfd9b592cd5496e8cb2143e90fc9e8
+  dependencies:
+  - name: forecast
+    version: 9.0.0
+    source: https://cran.r-project.org/src/contrib/forecast_9.0.0.tar.gz
+    source_sha256: cd87ed85a29ddd9e9db53ad8482ef53ead18947c29502ded0c8123f40a538617
+  - name: plumber
+    version: 1.3.3
+    source: https://cran.r-project.org/src/contrib/plumber_1.3.3.tar.gz
+    source_sha256: e72b43c84c32404f0a75ea1b3b8e3153cc4d4dd9021e90929a882f56da1d9c91
+  - name: rserve
+    version: 1.8.17
+    source: https://cran.r-project.org/src/contrib/Rserve_1.8-17.tar.gz
+    source_sha256: 519a5717bb5afba1b7a79270f1c8c3c600ad21f23be163d83e5740f9f9e9be5d
+  - name: shiny
+    version: 1.12.1
+    source: https://cran.r-project.org/src/contrib/shiny_1.12.1.tar.gz
+    source_sha256: b8e6d1641822308453e3d1e511837f67e2213400dacd6370b6846e116b238aa2
+- name: r
   version: 4.5.1
   uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.5.1_linux_noarch_cflinuxfs3_9334d313.tgz
   sha256: 9334d3138088efa38d647b1f81d730db678f5ffbbf6a01870c42b157c67e75fa
@@ -203,6 +228,30 @@ dependencies:
     version: 1.11.1
     source: https://cran.r-project.org/src/contrib/shiny_1.11.1.tar.gz
     source_sha256: 6f8c0f8618646f6b6d0c2d4ccf8b2430de6b1dc67edec19bb6b88594f4de7129
+  version: 4.4.3
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.4.3_linux_noarch_cflinuxfs3_850f2a70.tgz
+  sha256: 850f2a70a305442870997db169da41bfdf919d2e5c7a2b85c5baada61261e3bc
+  cf_stacks:
+  - cflinuxfs3
+  source: https://cran.r-project.org/src/base/R-4/R-4.4.3.tar.gz
+  source_sha256: 0d93d224442dea253c2b086f088db6d0d3cfd9b592cd5496e8cb2143e90fc9e8
+  dependencies:
+  - name: forecast
+    version: 9.0.0
+    source: https://cran.r-project.org/src/contrib/forecast_9.0.0.tar.gz
+    source_sha256: cd87ed85a29ddd9e9db53ad8482ef53ead18947c29502ded0c8123f40a538617
+  - name: plumber
+    version: 1.3.3
+    source: https://cran.r-project.org/src/contrib/plumber_1.3.3.tar.gz
+    source_sha256: e72b43c84c32404f0a75ea1b3b8e3153cc4d4dd9021e90929a882f56da1d9c91
+  - name: rserve
+    version: 1.8.17
+    source: https://cran.r-project.org/src/contrib/Rserve_1.8-17.tar.gz
+    source_sha256: 519a5717bb5afba1b7a79270f1c8c3c600ad21f23be163d83e5740f9f9e9be5d
+  - name: shiny
+    version: 1.12.1
+    source: https://cran.r-project.org/src/contrib/shiny_1.12.1.tar.gz
+    source_sha256: b8e6d1641822308453e3d1e511837f67e2213400dacd6370b6846e116b238aa2
 pre_package: scripts/build.sh
 include_files:
 - CHANGELOG

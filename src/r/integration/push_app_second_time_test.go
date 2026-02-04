@@ -41,6 +41,8 @@ func testPushAppSecondTime(platform switchblade.Platform, fixtures string) func(
 		context("push an app twice", func() {
 			it("uses the cache for manifest dependencies", func() {
 				_, logs, err := platform.Deploy.
+					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, source)
 				Expect(err).NotTo(HaveOccurred())
 				Eventually(logs).Should(SatisfyAll(
@@ -49,6 +51,8 @@ func testPushAppSecondTime(platform switchblade.Platform, fixtures string) func(
 				))
 
 				_, logs, err = platform.Deploy.
+					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, source)
 				Expect(err).NotTo(HaveOccurred())
 				Eventually(logs).Should(SatisfyAll(
