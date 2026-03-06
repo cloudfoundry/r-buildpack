@@ -3,7 +3,7 @@ module github.com/cloudfoundry/r-buildpack
 go 1.24.0
 
 require (
-	github.com/cloudfoundry/libbuildpack v0.0.0-20251202224209-b07cc3dab65e
+	github.com/cloudfoundry/libbuildpack v0.0.0-20260306121953-8ab9253c8181
 	github.com/cloudfoundry/switchblade v0.9.4
 	github.com/golang/mock v1.6.0
 	github.com/onsi/ginkgo/v2 v2.28.1
@@ -26,7 +26,6 @@ require (
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/fsnotify/fsnotify v1.8.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.6 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -35,7 +34,6 @@ require (
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/pprof v0.0.0-20260115054156-294ebfa9ad83 // indirect
 	github.com/moby/docker-image-spec v1.3.1 // indirect
-	github.com/nxadm/tail v1.4.11 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0 // indirect
 	github.com/paketo-buildpacks/packit/v2 v2.16.0 // indirect
