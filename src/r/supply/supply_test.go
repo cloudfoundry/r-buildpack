@@ -11,7 +11,7 @@ import (
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/r-buildpack/src/r/supply"
 	"github.com/golang/mock/gomock"
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
@@ -44,6 +44,7 @@ var _ = Describe("Supply", func() {
 
 		depDir, err = ioutil.TempDir("", "r.depdir")
 		Expect(err).ToNot(HaveOccurred())
+		DeferCleanup(os.RemoveAll, depDir)
 
 		buildDir, err = ioutil.TempDir("", "r.builddir")
 		Expect(err).ToNot(HaveOccurred())
@@ -52,11 +53,6 @@ var _ = Describe("Supply", func() {
 		mockStager.EXPECT().BuildDir().AnyTimes().Return(buildDir)
 
 		supplier = supply.New(mockStager, mockCommand, mockManifest, mockInstaller, logger)
-	})
-
-	AfterEach(func() {
-		mockCtrl.Finish()
-		os.RemoveAll(depDir)
 	})
 
 	Describe("InstallR", func() {
@@ -141,7 +137,7 @@ var _ = Describe("Supply", func() {
 					supply.Packages{
 						[]supply.Source{
 							{
-								CranMirror: "https://good.cran.mirror",
+								CranMirror:   "https://good.cran.mirror",
 								Dependencies: []string{"Depends", "Imports"},
 								Packages: []supply.Package{
 									{Name: "good.PACKAGE.name1"},
