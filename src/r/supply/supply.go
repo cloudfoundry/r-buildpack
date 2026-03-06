@@ -3,7 +3,6 @@ package supply
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -138,14 +137,14 @@ func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 // R> .libPaths()
 func (s *Supplier) RewriteRHome() error {
 	path := filepath.Join(s.Stager.DepDir(), "r", "bin", "R")
-	body, err := ioutil.ReadFile(path)
+	body, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
 
 	body = bytes.Replace(body, []byte("/usr/local/lib/R"), []byte(filepath.Join("$DEPS_DIR", s.Stager.DepsIdx(), "r")), -1)
 
-	return ioutil.WriteFile(path, body, 0755)
+	return os.WriteFile(path, body, 0755)
 }
 
 func (s *Supplier) InstallR() error {
@@ -164,7 +163,7 @@ func (s *Supplier) InstallR() error {
 
 	constraint := "x"
 	if exists {
-		buf, err := ioutil.ReadFile(buildpackYAMLPath)
+		buf, err := os.ReadFile(buildpackYAMLPath)
 		if err != nil {
 			return err
 		}

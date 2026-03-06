@@ -2,7 +2,6 @@ package hooks_test
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -24,7 +23,7 @@ var _ = Describe("EnvHook", func() {
 	)
 
 	BeforeEach(func() {
-		buildDir, err = ioutil.TempDir("", "r-buildpack.build.")
+		buildDir, err = os.MkdirTemp("", "r-buildpack.build.")
 		Expect(err).To(BeNil())
 		DeferCleanup(os.RemoveAll, buildDir)
 
@@ -42,7 +41,7 @@ var _ = Describe("EnvHook", func() {
 			Expect(os.Unsetenv("SOME_VAR")).To(Succeed())
 			DeferCleanup(os.Unsetenv, "SOME_VAR")
 
-			Expect(ioutil.WriteFile(filepath.Join(buildDir, "r.env.sh"), []byte(`#!/bin/bash
+			Expect(os.WriteFile(filepath.Join(buildDir, "r.env.sh"), []byte(`#!/bin/bash
 export SOME_VAR=some-value
 `), 0755)).To(Succeed())
 		})
@@ -55,7 +54,7 @@ export SOME_VAR=some-value
 		Context("failures cases", func() {
 			Context("when the script execution fails", func() {
 				BeforeEach(func() {
-					Expect(ioutil.WriteFile(filepath.Join(buildDir, "r.env.sh"), []byte(`#!/bin/bash
+					Expect(os.WriteFile(filepath.Join(buildDir, "r.env.sh"), []byte(`#!/bin/bash
 echo "oh no"
 exit 1
 `), 0755)).To(Succeed())
