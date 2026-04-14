@@ -7,15 +7,13 @@ import (
 	"github.com/cloudfoundry/switchblade"
 	"github.com/sclevine/spec"
 
-	. "github.com/cloudfoundry/switchblade/matchers"
 	. "github.com/onsi/gomega"
 )
 
 func testOverrideYml(platform switchblade.Platform, fixtures string) func(*testing.T, spec.G, spec.S) {
 	return func(t *testing.T, context spec.G, it spec.S) {
 		var (
-			Expect     = NewWithT(t).Expect
-			Eventually = NewWithT(t).Eventually
+			Expect = NewWithT(t).Expect
 
 			name string
 		)
@@ -24,6 +22,7 @@ func testOverrideYml(platform switchblade.Platform, fixtures string) func(*testi
 			var err error
 			name, err = switchblade.RandomName()
 			Expect(err).NotTo(HaveOccurred())
+			println(name)
 		})
 
 		it.After(func() {
@@ -41,12 +40,13 @@ func testOverrideYml(platform switchblade.Platform, fixtures string) func(*testi
 				Expect(err).To(HaveOccurred())
 				Expect(err).To(MatchError(ContainSubstring("App staging failed")))
 
-				Eventually(logs).Should(SatisfyAll(
-					ContainSubstring("-----> OverrideYML Buildpack"),
-					ContainSubstring("-----> Installing r"),
-					ContainLines(MatchRegexp(`Copy .*/r.tgz`)),
-					ContainSubstring("Error installing R: dependency sha256 mismatch: expected sha256 062d906c87839d03b243e2821e10653c89b4c92878bfe2bf995dec231e117bfc, actual sha256 b56b58ac21f9f42d032e1e4b8bf8b8823e69af5411caa15aee2b140bc75696"),
-				))
+				// Switchblade now automatically captures staging logs in CF API v3
+				// by fetching them using 'cf logs --recent' when staging fails
+				logsStr := logs.String()
+				Expect(logsStr).To(ContainSubstring("-----> OverrideYML Buildpack"))
+				Expect(logsStr).To(ContainSubstring("-----> Installing r"))
+				Expect(logsStr).To(MatchRegexp(`Copy .*/r.tgz`))
+				Expect(logsStr).To(ContainSubstring("Error installing R: dependency sha256 mismatch: expected sha256 062d906c87839d03b243e2821e10653c89b4c92878bfe2bf995dec231e117bfc, actual sha256 b56b58ac21f9f42d032e1e4b8bf8b8823e69af5411caa15aee2b140bc756962f"))
 			})
 		})
 	}

@@ -3,7 +3,6 @@ package supply_test
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -11,7 +10,7 @@ import (
 	"github.com/cloudfoundry/libbuildpack"
 	"github.com/cloudfoundry/r-buildpack/src/r/supply"
 	"github.com/golang/mock/gomock"
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
@@ -42,10 +41,11 @@ var _ = Describe("Supply", func() {
 		mockInstaller = NewMockInstaller(mockCtrl)
 		mockCommand = NewMockCommand(mockCtrl)
 
-		depDir, err = ioutil.TempDir("", "r.depdir")
+		depDir, err = os.MkdirTemp("", "r.depdir")
 		Expect(err).ToNot(HaveOccurred())
+		DeferCleanup(os.RemoveAll, depDir)
 
-		buildDir, err = ioutil.TempDir("", "r.builddir")
+		buildDir, err = os.MkdirTemp("", "r.builddir")
 		Expect(err).ToNot(HaveOccurred())
 
 		mockStager.EXPECT().DepDir().AnyTimes().Return(depDir)
@@ -54,18 +54,13 @@ var _ = Describe("Supply", func() {
 		supplier = supply.New(mockStager, mockCommand, mockManifest, mockInstaller, logger)
 	})
 
-	AfterEach(func() {
-		mockCtrl.Finish()
-		os.RemoveAll(depDir)
-	})
-
 	Describe("InstallR", func() {
 		Context("A version of R is specified in buildpacks.yml", func() {
 			const version string = "1.2.3"
 
 			It("Installs that version of R", func() {
 				buildpackYAMLString := fmt.Sprintf("r:\n  version: %s", version)
-				Expect(ioutil.WriteFile(filepath.Join(buildDir, "buildpack.yml"), []byte(buildpackYAMLString), 0666)).To(Succeed())
+				Expect(os.WriteFile(filepath.Join(buildDir, "buildpack.yml"), []byte(buildpackYAMLString), 0666)).To(Succeed())
 
 				mockManifest.EXPECT().AllDependencyVersions("r").Return([]string{version, "3.4.3"})
 				mockInstaller.EXPECT().InstallDependency(libbuildpack.Dependency{Name: "r", Version: version}, filepath.Join(depDir, "r"))
@@ -141,7 +136,7 @@ var _ = Describe("Supply", func() {
 					supply.Packages{
 						[]supply.Source{
 							{
-								CranMirror: "https://good.cran.mirror",
+								CranMirror:   "https://good.cran.mirror",
 								Dependencies: []string{"Depends", "Imports"},
 								Packages: []supply.Package{
 									{Name: "good.PACKAGE.name1"},
@@ -153,7 +148,7 @@ var _ = Describe("Supply", func() {
 	Describe("RewriteRHome", func() {
 		BeforeEach(func() {
 			Expect(os.MkdirAll(filepath.Join(depDir, "r", "bin"), 0755)).To(Succeed())
-			Expect(ioutil.WriteFile(filepath.Join(depDir, "r", "bin", "R"), []byte(`#!/bin/bash
+			Expect(os.WriteFile(filepath.Join(depDir, "r", "bin", "R"), []byte(`#!/bin/bash
 # Shell wrapper for R executable.
 
 export R_HOME_DIR=/usr/local/lib/R
@@ -167,7 +162,7 @@ export R_INCLUDE_DIR=/usr/local/lib/R/include
 		It("replaces compiled prefix dir with runtime installed dir", func() {
 			Expect(supplier.RewriteRHome()).To(Succeed())
 
-			body, err := ioutil.ReadFile(filepath.Join(depDir, "r", "bin", "R"))
+			body, err := os.ReadFile(filepath.Join(depDir, "r", "bin", "R"))
 			Expect(err).ToNot(HaveOccurred())
 			Expect(string(body)).To(Equal(`#!/bin/bash
 # Shell wrapper for R executable.

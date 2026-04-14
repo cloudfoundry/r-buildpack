@@ -1,21 +1,22 @@
 module github.com/cloudfoundry/r-buildpack
 
-go 1.23.4
+go 1.24.0
 
 require (
 	github.com/cloudfoundry/libbuildpack v0.0.0-20240717165421-f2ae8069fcba
 	github.com/cloudfoundry/switchblade v0.9.5
 	github.com/golang/mock v1.6.0
-	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.36.2
+	github.com/onsi/ginkgo/v2 v2.28.1
+	github.com/onsi/gomega v1.39.0
 	github.com/paketo-buildpacks/packit v1.3.1
 	github.com/sclevine/spec v1.4.0
-	golang.org/x/net v0.34.0
+	golang.org/x/net v0.49.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (
 	github.com/Masterminds/semver v1.5.0 // indirect
+	github.com/Masterminds/semver/v3 v3.4.0 // indirect
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect

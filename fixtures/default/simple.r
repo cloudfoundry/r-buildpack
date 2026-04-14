@@ -5,6 +5,4 @@ Square <- function(x) {
 cat("R program running")
 print(Square(4))
 
-while (TRUE) {
-    Sys.sleep(3)
-}
+Sys.sleep(3600)

@@ -34,6 +34,7 @@ func testEnvHook(platform switchblade.Platform, fixtures string) func(*testing.T
 			it("builds and runs the hook", func() {
 				_, logs, err := platform.Deploy.
 					WithBuildpacks("r_buildpack").
+					WithHealthCheckType("process").
 					Execute(name, filepath.Join(fixtures, "env_hook"))
 				Expect(err).NotTo(HaveOccurred())
 
