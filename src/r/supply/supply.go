@@ -127,15 +127,17 @@ func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 		cmd.Stderr = s.Log.Output()
 		cmd.Dir = s.Stager.BuildDir()
 		// Set DEPS_DIR because R needs it to know its R_HOME.
-		// Set GCC_EXEC_PREFIX so the bundled gfortran can locate the f951
+		// Set COMPILER_PATH so the bundled gfortran can locate the f951
 		// compiler frontend in the R binary's bin directory. Without this,
 		// gfortran fails with "cannot execute 'f951'" on stacks where the
 		// system libexec path does not contain f951 (e.g. cflinuxfs5).
+		// COMPILER_PATH adds extra search directories without overriding the
+		// default paths, so gcc/g++ can still find cc1/cc1plus in /usr/libexec.
 		rBinDir := filepath.Join(s.Stager.DepDir(), "r", "bin")
 		cmd.Env = append(os.Environ(),
 			"DEPS_DIR="+s.Stager.DepsDir(),
 			"RHOME="+s.Stager.DepDir(),
-			"GCC_EXEC_PREFIX="+rBinDir+string(os.PathSeparator),
+			"COMPILER_PATH="+rBinDir,
 		)
 		if err := s.Command.Run(cmd); err != nil {
 			return fmt.Errorf("Error while installing packages: %s", err)

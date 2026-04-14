@@ -101,7 +101,7 @@ var _ = Describe("Supply", func() {
 					}))
 					Expect(cmd.Dir).To(Equal(buildDir))
 					Expect(cmd.Env).To(ContainElement("DEPS_DIR=/deps/dir"))
-					Expect(cmd.Env).To(ContainElement(HavePrefix("GCC_EXEC_PREFIX=")))
+					Expect(cmd.Env).To(ContainElement(HavePrefix("COMPILER_PATH=")))
 				})
 				Expect(supplier.InstallPackages(
 					supply.Packages{
