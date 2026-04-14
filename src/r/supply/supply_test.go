@@ -101,6 +101,7 @@ var _ = Describe("Supply", func() {
 					}))
 					Expect(cmd.Dir).To(Equal(buildDir))
 					Expect(cmd.Env).To(ContainElement("DEPS_DIR=/deps/dir"))
+					Expect(cmd.Env).To(ContainElement(HavePrefix("GCC_EXEC_PREFIX=")))
 				})
 				Expect(supplier.InstallPackages(
 					supply.Packages{
@@ -141,7 +142,7 @@ var _ = Describe("Supply", func() {
 					supply.Packages{
 						[]supply.Source{
 							{
-								CranMirror: "https://good.cran.mirror",
+								CranMirror:   "https://good.cran.mirror",
 								Dependencies: []string{"Depends", "Imports"},
 								Packages: []supply.Package{
 									{Name: "good.PACKAGE.name1"},

@@ -48,9 +48,9 @@ type Packages struct {
 }
 
 type Source struct {
-	CranMirror string    `yaml:"cran_mirror"`
-	Packages   []Package `yaml:"packages"`
-	Ncpus      int       `yaml:"num_threads"`
+	CranMirror   string    `yaml:"cran_mirror"`
+	Packages     []Package `yaml:"packages"`
+	Ncpus        int       `yaml:"num_threads"`
 	Dependencies []string  `yaml:"dependencies"`
 }
 
@@ -120,14 +120,23 @@ func (s *Supplier) InstallPackages(packages_to_install Packages) error {
 		}
 		dependenciesArg := "TRUE"
 		if len(src.Dependencies) > 0 {
-		    dependenciesArg = "c(\"" + strings.Join(src.Dependencies, "\", \"") + "\")"
-        }
+			dependenciesArg = "c(\"" + strings.Join(src.Dependencies, "\", \"") + "\")"
+		}
 		cmd := exec.Command("R", "--vanilla", "-e", fmt.Sprintf("install.packages(c(\"%s\"), repos=\"%s\", dependencies=%s, Ncpus=%d)\n", packageArg, src.CranMirror, dependenciesArg, src.Ncpus))
 		cmd.Stdout = s.Log.Output()
 		cmd.Stderr = s.Log.Output()
 		cmd.Dir = s.Stager.BuildDir()
-		// Set DEPS_DIR because R needs it to know its R_HOME
-		cmd.Env = append(os.Environ(), "DEPS_DIR="+s.Stager.DepsDir(), "RHOME="+s.Stager.DepDir())
+		// Set DEPS_DIR because R needs it to know its R_HOME.
+		// Set GCC_EXEC_PREFIX so the bundled gfortran can locate the f951
+		// compiler frontend in the R binary's bin directory. Without this,
+		// gfortran fails with "cannot execute 'f951'" on stacks where the
+		// system libexec path does not contain f951 (e.g. cflinuxfs5).
+		rBinDir := filepath.Join(s.Stager.DepDir(), "r", "bin")
+		cmd.Env = append(os.Environ(),
+			"DEPS_DIR="+s.Stager.DepsDir(),
+			"RHOME="+s.Stager.DepDir(),
+			"GCC_EXEC_PREFIX="+rBinDir+string(os.PathSeparator),
+		)
 		if err := s.Command.Run(cmd); err != nil {
 			return fmt.Errorf("Error while installing packages: %s", err)
 		}
