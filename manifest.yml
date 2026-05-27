@@ -80,8 +80,8 @@ dependencies:
     source_sha256: ff1e2ec23b39a5b9ac7eebdef541f3832f6de07256f6ddb11562daba7ba51951
 - name: r
   version: 4.3.3
-  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.3_linux_noarch_cflinuxfs4_24cd5ca1.tgz
-  sha256: 24cd5ca17218000f47a86cb3dfce42ed0269986f8c5c85888d27634cc86ff5b8
+  uri: https://buildpacks.cloudfoundry.org/dependencies/r/r_4.3.3_linux_noarch_cflinuxfs4_cb37bc2c.tgz
+  sha256: cb37bc2c7657dcae19b503b1a763d549d79002323748a20d172d05390b5ed164
   cf_stacks:
   - cflinuxfs4
   source: https://cran.r-project.org/src/base/R-4/R-4.3.3.tar.gz
